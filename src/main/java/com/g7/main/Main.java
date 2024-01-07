@@ -7,6 +7,7 @@ package com.g7.main;
 
 import com.g7.swing.EventMenuSelected;
 import com.g7.view.BanHangJPanel;
+import com.g7.view.NhanVienJPanel;
 import com.g7.view.HoaDonJPanel;
 import com.g7.view.SanPhamJPanel;
 import com.g7.view.Form_Home;
