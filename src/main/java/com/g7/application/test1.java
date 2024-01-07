@@ -9,6 +9,5 @@ package com.g7.application;
  * @author Ddawng
  */
 public class test1 {
-    //càdfasdfa
-    //hdahddh
+    
 }
