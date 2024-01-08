@@ -14,7 +14,9 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
      * Creates new form viewCRUDThuocTinh
      */
     public viewCRUDThuocTinh() {
+        setUndecorated(true);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -129,7 +131,6 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         dispose();
-        
         //aaaa
     }//GEN-LAST:event_jButton5ActionPerformed
 
