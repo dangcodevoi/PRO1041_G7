@@ -17,6 +17,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
+        lol.setVisible(false);
     }
 
     /**
@@ -33,7 +34,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lol = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -60,7 +61,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
 
         jButton1.setText("Thêm");
 
-        jButton2.setText("Xóa");
+        lol.setText("Xóa");
 
         jButton3.setText("Thôi");
 
@@ -87,7 +88,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(lol)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4))
                             .addGroup(layout.createSequentialGroup()
@@ -117,7 +118,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton4)
-                            .addComponent(jButton2))
+                            .addComponent(lol))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -171,7 +172,6 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -179,5 +179,6 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton lol;
     // End of variables declaration//GEN-END:variables
 }
