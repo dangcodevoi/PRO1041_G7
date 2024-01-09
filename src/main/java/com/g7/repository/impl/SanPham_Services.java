@@ -1,7 +1,7 @@
-package com.g7.crud;
+package com.g7.repository.impl;
 
 import com.g7.entity.SanPham;
-import com.g7.interfacee.SanPham_Interface;
+import com.g7.repository.SanPham_Interface;
 import java.util.ArrayList;
 import java.sql.*;
 
