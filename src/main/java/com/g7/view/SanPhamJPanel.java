@@ -1,8 +1,20 @@
 package com.g7.view;
+
+import com.g7.entity.SanPham;
+import com.g7.entity.SanPhamChiTiet;
+import javax.swing.table.DefaultTableModel;
+
 public class SanPhamJPanel extends javax.swing.JPanel {
+
     public SanPhamJPanel() {
         initComponents();
     }
+
+    DefaultTableModel Model = new DefaultTableModel();
+    
+    int indexSP=-1;
+    int indexSPCT=-1;
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -694,19 +706,20 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_ThemKichThuocActionPerformed
 
     private void tbl_DanhSachSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DanhSachSPMouseClicked
-        
+        indexSP=tbl_DanhSachSP.getSelectedRow();
+        showData(null);
     }//GEN-LAST:event_tbl_DanhSachSPMouseClicked
 
     private void btn_ThemSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemSpActionPerformed
-        
+
     }//GEN-LAST:event_btn_ThemSpActionPerformed
 
     private void btn_SuaSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaSpActionPerformed
-        
+
     }//GEN-LAST:event_btn_SuaSpActionPerformed
 
     private void btn_XoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaActionPerformed
-        
+
     }//GEN-LAST:event_btn_XoaActionPerformed
 
     private void btn_MoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MoiActionPerformed
@@ -714,23 +727,23 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btn_MoiActionPerformed
 
     private void btn_VeDauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeDauActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeDauActionPerformed
 
     private void btn_VeTruocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeTruocActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeTruocActionPerformed
 
     private void btn_VeSauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeSauActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeSauActionPerformed
 
     private void btn_VeCuoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeCuoiActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeCuoiActionPerformed
 
     private void btn_XemCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XemCTSPActionPerformed
-        
+
     }//GEN-LAST:event_btn_XemCTSPActionPerformed
 
     private void newForm() {
@@ -741,65 +754,111 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         txt_TenSanPham.setText("");
         txt_GhiChu.setText("");
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    private SanPham getInputFromSP() {
+        return new SanPham(
+                0,
+                cbo_NSX.getSelectedIndex(),
+                cbo_DanhMuc.getSelectedIndex(),
+                cbo_ChatLieu.getSelectedIndex(),
+                txt_TenSanPham.getText(),
+                null,
+                null,
+                null,
+                txt_GhiChu.getText());
+    }
+
+    private void showData(SanPham o) {
+        txt_TenSanPham.setText(o.getTenSanPham());
+        lbl_IDSanPham.setText(String.valueOf(o.getIdSanPham()));
+        txt_GhiChu.setText(o.getGhiChu());
+        cbo_ChatLieu.setSelectedIndex(o.getIdChatLieu());
+        cbo_DanhMuc.setSelectedIndex(o.getIdDanhMuc());
+        cbo_NSX.setSelectedIndex(o.getIdNhaSX());
+    }
+
     //====================================SẢN PHẨM CHI TIẾT===================================================
-    
-    
-    
+
     private void btn_ThemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_ThemCTActionPerformed
 
     private void btn_SuaCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_SuaCTActionPerformed
 
     private void btn_XoaCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_XoaCTActionPerformed
 
     private void btn_MoiCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MoiCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_MoiCTActionPerformed
 
     private void btn_VeDau1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeDau1ActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeDau1ActionPerformed
 
     private void btn_VeTruoc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeTruoc1ActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeTruoc1ActionPerformed
 
     private void btn_VeSauCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeSauCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeSauCTActionPerformed
 
     private void btn_VeCuoiCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeCuoiCTActionPerformed
-        
+
     }//GEN-LAST:event_btn_VeCuoiCTActionPerformed
 
     private void tbl_DanhSachSPCTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DanhSachSPCTMouseClicked
-        
+        indexSPCT=tbl_DanhSachSPCT.getSelectedRow();
+        showDataCT(null);
     }//GEN-LAST:event_tbl_DanhSachSPCTMouseClicked
 
     private void btn_AnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AnhActionPerformed
-        
+
     }//GEN-LAST:event_btn_AnhActionPerformed
 
-    
-    
+    private void newFormCT() {
+        lbl_IDSPCT.setText("Không Cần Nhập.");
+        cbo_SanPham.setSelectedIndex(0);
+        cbo_KichThuoc.setSelectedIndex(0);
+        cbo_Mau.setSelectedIndex(0);
+        txt_GhiChuCT.setText("");
+        txt_SoLuongCT.setText("");
+        txt_GiaBanCT.setText("");
+        lbl_TenSPCT.setText("");
+    }
+
+    private SanPhamChiTiet getInputFromSPCT() {
+        return new SanPhamChiTiet(
+                cbo_SanPham.getSelectedIndex(),
+                0,
+                cbo_Mau.getSelectedIndex(),
+                cbo_KichThuoc.getSelectedIndex(),
+                Integer.parseInt(txt_GiaBanCT.getText()),
+                Integer.parseInt(txt_SoLuongCT.getText()),
+                null,
+                txt_GhiChuCT.getText());
+    }
+
+    private void showDataCT(SanPhamChiTiet o) {
+        lbl_IDSPCT.setText(String.valueOf(o.getIdSanPhamCT()));
+        cbo_SanPham.setSelectedIndex(o.getIdSanPham());
+        cbo_Mau.setSelectedIndex(o.getIdMau());
+        cbo_KichThuoc.setSelectedIndex(o.getIdKichThuoc());
+        txt_GiaBanCT.setText(String.valueOf(o.getGiaBan()));
+        txt_SoLuongCT.setText(String.valueOf(o.getGiaBan()));
+        txt_GhiChuCT.setText(o.getGhiChu());
+        lbl_TenSPCT.setText(
+                cbo_SanPham.getSelectedItem().toString() + " - "
+                + cbo_Mau.getSelectedItem().toString() + " - "
+                + cbo_KichThuoc.getSelectedItem().toString() + " - "
+                + txt_GhiChuCT.getText());
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fame_SanPham;
     private javax.swing.JPanel Fame_SanPhamCT;
