@@ -1,5 +1,6 @@
-package com.g7.interfacee;
+package com.g7.repository;
 
+import com.g7.interfacee.*;
 import com.g7.entity.SanPham;
 import java.util.ArrayList;
 

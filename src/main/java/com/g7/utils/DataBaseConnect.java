@@ -1,4 +1,4 @@
-package com.g7.connection;
+package com.g7.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
