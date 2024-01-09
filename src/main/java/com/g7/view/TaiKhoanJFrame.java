@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.g7.view;
 
@@ -8,13 +8,15 @@ package com.g7.view;
  *
  * @author acer
  */
-public class TaiKhoanJPanel extends javax.swing.JPanel {
+public class TaiKhoanJFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form FormTaoTaiKhoan
+     * Creates new form TaiKhoan
      */
-    public TaiKhoanJPanel() {
+    public TaiKhoanJFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -26,7 +28,7 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        jLabel7 = new javax.swing.JLabel();
         tabTaiKhoan = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         bntSua = new javax.swing.JButton();
@@ -56,7 +58,11 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
         bntNextPage = new javax.swing.JButton();
         bntLastPage = new javax.swing.JButton();
         txtPageNumber = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setText("TẠO TÀI KHOẢN");
 
         bntSua.setText("Sửa");
 
@@ -70,10 +76,8 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
         lbTrangThai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbTrangThai.setText("Trạng thái:");
 
-        buttonGroup1.add(ckbDangHD);
         ckbDangHD.setText("Đang hoạt động");
 
-        buttonGroup1.add(ckbDungHoatDong);
         ckbDungHoatDong.setText("Dừng hoạt động");
 
         lbMatKau.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -260,11 +264,8 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
 
         tabTaiKhoan.addTab("DANH SÁCH", pnlDanhSachTK);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setText("TẠO TÀI KHOẢN");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabTaiKhoan)
@@ -281,12 +282,49 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(tabTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bntTimKiemActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(TaiKhoanJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(TaiKhoanJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(TaiKhoanJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TaiKhoanJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TaiKhoanJFrame().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntFirstPage;
@@ -298,7 +336,6 @@ public class TaiKhoanJPanel extends javax.swing.JPanel {
     private javax.swing.JButton bntTaiKhoan;
     private javax.swing.JButton bntThem;
     private javax.swing.JButton bntTimKiem;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox ckbDangHD;
     private javax.swing.JCheckBox ckbDungHoatDong;
     private com.toedter.calendar.JDateChooser dateChooser;

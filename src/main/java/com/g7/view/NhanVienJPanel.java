@@ -6,7 +6,7 @@ public class NhanVienJPanel extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
     }
-    TaiKhoanJPanel taoTK = new TaiKhoanJPanel();
+    TaiKhoanJFrame taoTK = new TaiKhoanJFrame();
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -345,7 +345,7 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
     private void bntTaoTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTaoTKActionPerformed
         // TODO add your handling code here:
-        new TaiKhoanJPanel().setVisible(true);
+        new TaiKhoanJFrame().setVisible(true);
     }//GEN-LAST:event_bntTaoTKActionPerformed
 
     private void bntSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSuaActionPerformed
