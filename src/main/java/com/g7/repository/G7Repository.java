@@ -1,4 +1,3 @@
-
 package com.g7.repository;
 
 import java.util.List;
