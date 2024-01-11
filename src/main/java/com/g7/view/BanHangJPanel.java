@@ -7,6 +7,9 @@ package com.g7.view;
 
 import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
+import com.g7.viewmodel.GioHangViewModel;
+import com.g7.viewmodel.HoaDonViewModel;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +23,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
      * Creates new form Form_1
      */
     private BanHangRepository BHrepo = new BanHangRepository();
-    private DefaultTableModel defaultTableModel = new DefaultTableModel();
+    private DefaultTableModel defaultTableModelSPBH = new DefaultTableModel();
+    private DefaultTableModel defaultTableModelHDC = new DefaultTableModel();
+    private DefaultTableModel defaultTableModelGH = new DefaultTableModel();
+
+    private List<HoaDonViewModel> listHD = new ArrayList<>();
 
     private int ht = 1;
     private int size = 100;
@@ -29,25 +36,38 @@ public class BanHangJPanel extends javax.swing.JPanel {
         initComponents();
         updatePageInfo();
         findWithPaginationSPBH(0, size);
+        findWithPaginationHDC(0, 100);
     }
 
-//    public void findAllSPBH() {
-//        List<CTSPBanHangViewModel> list = BHrepo.getAllSP();
-//        defaultTableModel.setRowCount(0);
-//        defaultTableModel = (DefaultTableModel) tbSPBH.getModel();
-//        for (CTSPBanHangViewModel x : list) {
-//            defaultTableModel.addRow(new Object[]{
-//                x.getId(), x.getMasp(), x.getTensp(), x.getKichco(), x.getMausac(), x.getDanhmuc(), x.getNsx(), x.getSoluong(), x.getGiaban()
-//            });
-//        }
-//    }
     public void findWithPaginationSPBH(int ht, int c) {
         List<CTSPBanHangViewModel> list = BHrepo.selectWithPagination(ht, c);
-        defaultTableModel.setRowCount(0);
-        defaultTableModel = (DefaultTableModel) tbSPBH.getModel();
+        defaultTableModelSPBH.setRowCount(0);
+        defaultTableModelSPBH = (DefaultTableModel) tbSPBH.getModel();
         for (CTSPBanHangViewModel x : list) {
-            defaultTableModel.addRow(new Object[]{
+            defaultTableModelSPBH.addRow(new Object[]{
                 x.getId(), x.getMasp(), x.getTensp(), x.getKichco(), x.getMausac(), x.getDanhmuc(), x.getNsx(), x.getSoluong(), x.getGiaban()
+            });
+        }
+    }
+
+    public void findWithPaginationHDC(int ht2, int c2) {
+        List<HoaDonViewModel> list = BHrepo.selectWithPaginationHDC(ht2, c2);
+        defaultTableModelHDC.setRowCount(0);
+        defaultTableModelHDC = (DefaultTableModel) tbHDC.getModel();
+        for (HoaDonViewModel x : list) {
+            defaultTableModelHDC.addRow(new Object[]{
+                x.getMahd(), x.getTenNV(), x.getNgayTao(), x.getTenNV(), x.getTrangThai()
+            });
+        }
+    }
+    
+    public void findWithPaginationGH(int id, int ht2, int c2) {
+        List<GioHangViewModel> list = BHrepo.selectWithPaginationGH(id, ht2, c2);
+        defaultTableModelGH.setRowCount(0);
+        defaultTableModelGH = (DefaultTableModel) tbGH.getModel();
+        for (GioHangViewModel x : list) {
+            defaultTableModelGH.addRow(new Object[]{
+                x.getMasp(), x.getTensp(), x.getSoluong(), x.getDongia()
             });
         }
     }
@@ -74,12 +94,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbHDC = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tbGH = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbSPBH = new javax.swing.JTable();
@@ -121,18 +141,20 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Hóa đơn chờ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbHDC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã hóa đơn", "Nhân viên tạo", "Ngày tạo", "Khách hàng", "Trạng thái"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        tbHDC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbHDCMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbHDC);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,18 +181,15 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton7.setText("Cập nhật");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tbGH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã Sản phẩm", "Tên sản phẩm", "Số lượng", "Đơn giá"
             }
         ));
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(tbGH);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -183,7 +202,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +268,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,7 +336,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         jLabel18.setText("0");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---------", "%", "VNĐ" }));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -429,21 +448,21 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(40, 40, 40)
-                        .addComponent(jButton4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53))))
-            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(42, 42, 42)
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29))))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addGap(20, 20, 20)
@@ -461,7 +480,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,12 +503,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
-                .addGap(47, 47, 47))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4)
+                        .addComponent(jButton3))
+                    .addComponent(jButton2))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -564,13 +584,22 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-         int totalItems = BHrepo.getTotalItems();
+        int totalItems = BHrepo.getTotalItems();
         int lastPage = (int) Math.ceil((double) totalItems / size);
         ht = lastPage;
         int page = (ht - 1) * size;
         findWithPaginationSPBH(page, size);
         updatePageInfo();
     }//GEN-LAST:event_btnLastActionPerformed
+
+    private void tbHDCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHDCMouseClicked
+        int index = tbHDC.getSelectedRow();
+        String maHD = tbHDC.getValueAt(index, 0).toString();
+        System.out.println(maHD);
+        int id = BHrepo.selectByMa(maHD);
+        findWithPaginationGH(id, 0, size);
+        
+    }//GEN-LAST:event_tbHDCMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -614,11 +643,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblPageSP;
+    private javax.swing.JTable tbGH;
+    private javax.swing.JTable tbHDC;
     private javax.swing.JTable tbSPBH;
     // End of variables declaration//GEN-END:variables
 }

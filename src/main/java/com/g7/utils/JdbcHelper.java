@@ -45,7 +45,11 @@ public class JdbcHelper {//Lớp này giải quyết kết nối xử lý truy v
     //3. Trả lại 1 tập đối tượng
     public static ResultSet query(String sql, Object... args) throws SQLException {
         PreparedStatement pstm = getStmt(sql, args);
-        return pstm.executeQuery();
+        if (pstm != null) {
+            return pstm.executeQuery();
+        } else {
+            throw new SQLException("PreparedStatement is null");
+        }
     }
 
     public static Object value(String sql, Object... args) {
@@ -79,4 +83,5 @@ public class JdbcHelper {//Lớp này giải quyết kết nối xử lý truy v
     public static void main(String[] args) {
         System.out.println(openDbConnection());
     }
+
 }
