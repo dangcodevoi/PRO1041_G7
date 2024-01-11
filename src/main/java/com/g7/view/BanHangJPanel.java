@@ -85,8 +85,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
         tbSPBH = new javax.swing.JTable();
         btnPre = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
         lblPageSP = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -207,7 +207,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Mã Sản phẩm", "Tên Sản Phẩm", "Kích cỡ", "Màu sắc", "Danh mục", "NSX", "Giá bán", "Số lượng"
+                "ID", "Mã Sản phẩm", "Tên Sản Phẩm", "Kích cỡ", "Màu sắc", "Danh mục", "NSX", "Số lượng", "Giá bán"
             }
         ));
         jScrollPane1.setViewportView(tbSPBH);
@@ -226,9 +226,19 @@ public class BanHangJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton10.setText(">>");
+        btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
-        jButton11.setText("<<");
+        btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         lblPageSP.setText("?");
 
@@ -242,7 +252,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -250,7 +260,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNext)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -263,8 +273,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPre)
                     .addComponent(btnNext)
-                    .addComponent(jButton10)
-                    .addComponent(jButton11)
+                    .addComponent(btnLast)
+                    .addComponent(btnFirst)
                     .addComponent(lblPageSP)))
         );
 
@@ -520,7 +530,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         int TotalItime = BHrepo.getTotalItems();
-        int TotalPage = TotalItime/size;
+        int TotalPage = TotalItime / size;
         System.out.println(TotalItime);
         System.out.println(TotalPage);
         if (ht < TotalPage) {
@@ -530,7 +540,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             updatePageInfo();
 
         } else {
-            ht = 0;
+            ht = 1;
             findWithPaginationSPBH(0, size);
             updatePageInfo();
         }
@@ -547,13 +557,28 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnPreActionPerformed
 
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        ht = 1;
+        findWithPaginationSPBH(0, size);
+        updatePageInfo();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+         int totalItems = BHrepo.getTotalItems();
+        int lastPage = (int) Math.ceil((double) totalItems / size);
+        ht = lastPage;
+        int page = (ht - 1) * size;
+        findWithPaginationSPBH(page, size);
+        updatePageInfo();
+    }//GEN-LAST:event_btnLastActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPre;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
