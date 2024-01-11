@@ -4,10 +4,83 @@
  */
 package com.g7.entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Ddawng
  */
-public class KhachHang {
-    
+public class KhachHang implements Serializable {
+
+    private int IDKhachHang;
+    private String MaKhachHang;
+    private String TenKhachHang;
+    private String SDT;
+    private String NgayTao;
+    private int TrangThai;
+
+    @Override
+    public String toString() {
+        return this.TenKhachHang;
+    }
+
+    public KhachHang() {
+    }
+
+    public KhachHang(int IDKhachHang, String maKH, String TenKhachHang, String SDT, String NgayTao, int TrangThai) {
+        this.IDKhachHang = IDKhachHang;
+        this.MaKhachHang = MaKhachHang;
+        this.TenKhachHang = TenKhachHang;
+        this.SDT = SDT;
+        this.NgayTao = NgayTao;
+        this.TrangThai = TrangThai;
+    }
+
+    public void setIDKhachHang(int IDKhachHang) {
+        this.IDKhachHang = IDKhachHang;
+    }
+
+    public void setMaKhachHang(String MaKhachHang) {
+        this.MaKhachHang = MaKhachHang;
+    }
+
+    public void setTenKhachHang(String TenKhachHang) {
+        this.TenKhachHang = TenKhachHang;
+    }
+
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
+    }
+
+    public void setNgayTao(String NgayTao) {
+        this.NgayTao = NgayTao;
+    }
+
+    public void setTrangThai(int TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+
+    public int getIDKhachHang() {
+        return IDKhachHang;
+    }
+
+    public String getMaKhachHang() {
+        return MaKhachHang;
+    }
+
+    public String getTenKhachHang() {
+        return TenKhachHang;
+    }
+
+    public String getSDT() {
+        return SDT;
+    }
+
+    public String getNgayTao() {
+        return NgayTao;
+    }
+
+    public int getTrangThai() {
+        return TrangThai;
+    }
 }
