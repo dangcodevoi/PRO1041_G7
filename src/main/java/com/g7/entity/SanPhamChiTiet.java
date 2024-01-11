@@ -3,7 +3,7 @@ package com.g7.entity;
 public class SanPhamChiTiet {
 
     private int idSanPham, idSanPhamCT, idMau, idKichThuoc, giaBan, soLuong;
-    private String tenSanPhamCT, ghiChu;
+    private String tenSanPhamCT, ghiChu, trangThai;
 
     public SanPhamChiTiet() {
     }
@@ -83,4 +83,13 @@ public class SanPhamChiTiet {
         this.ghiChu = ghiChu;
     }
 
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    
 }
