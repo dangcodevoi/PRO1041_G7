@@ -69,8 +69,8 @@
                               <Component id="lbHoTen" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
                               <Component id="jLabel5" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
                               <Component id="lbTrangThai" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
-                              <Component id="lbIDKhachHang1" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
-                              <Component id="lbIDKhachHang" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbIDKhachHang" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
+                              <Component id="lbMaKhachHang" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -101,12 +101,12 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lbIDKhachHang1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbIDKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtIDKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lbIDKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbMaKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtMaKhachHang" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -136,7 +136,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lbIDKhachHang">
+        <Component class="javax.swing.JLabel" name="lbMaKhachHang">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
@@ -212,7 +212,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntLamMoiActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lbIDKhachHang1">
+        <Component class="javax.swing.JLabel" name="lbIDKhachHang">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="0"/>
@@ -236,23 +236,23 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="bntXoa" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="txtTimKiem" min="-2" pref="155" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="bntTimKiem" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="bntFirstPage" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="bntPrevPage" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="txtPageNumber" min="-2" pref="21" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lbPresentPage" min="-2" pref="43" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="bntNextPage" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="bntLastPage" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="txtTimKiem" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="bntTimKiem" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -278,7 +278,7 @@
                       <Component id="bntFirstPage" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bntPrevPage" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bntNextPage" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtPageNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbPresentPage" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -292,6 +292,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntTimKiemActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bntXoa">
           <Properties>
@@ -302,27 +305,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="|&lt;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntFirstPageActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bntPrevPage">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtPageNumber">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="1"/>
-          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntPrevPageActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bntNextPage">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntNextPageActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="bntLastPage">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;|"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntLastPageActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
           <AuxValues>
@@ -331,19 +340,25 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="tbKhachHang">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="20">
+                  <Table columnCount="6" rowCount="0">
                     <Column editable="false" title="ID KH&#xc1;CH H&#xc0;NG" type="java.lang.Object"/>
                     <Column editable="false" title="M&#xc3; KH&#xc1;CH H&#xc0;NG" type="java.lang.Object"/>
                     <Column editable="false" title="H&#x1ecc; V&#xc0; T&#xca;N" type="java.lang.Object"/>
                     <Column editable="false" title="S&#x1ed0; &#x110;I&#x1ec6;N THO&#x1ea0;I" type="java.lang.Object"/>
+                    <Column editable="false" title="NG&#xc0;Y T&#x1ea0;O" type="java.lang.Object"/>
                     <Column editable="false" title="TR&#x1ea0;NG TH&#xc1;I" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -378,6 +393,12 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="lbPresentPage">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="?"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="lbQuanLyKhachHang">
