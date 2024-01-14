@@ -1,10 +1,48 @@
 package com.g7.view;
 
+import com.g7.entity.KhachHang;
+import com.g7.repository.impl.KhachHangRepository;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class KhachHangJPanel extends javax.swing.JPanel {
+
+    private KhachHangRepository KHrepo = new KhachHangRepository();
+    private DefaultTableModel defaultTableModelKH = new DefaultTableModel();
+
+    private List<KhachHang> listHD = new ArrayList<>();
+
+    private int ht = 1;
+    private int size = 100;
 
     public KhachHangJPanel() {
         initComponents();
         setOpaque(false);
+        updatePageInfo();
+        findWithPaginationKH(0, size);
+    }
+
+    public void findWithPaginationKH(int ht, int c) {
+        List<KhachHang> list = KHrepo.selectWithPagination(ht, c);
+        defaultTableModelKH.setRowCount(0);
+        defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
+        for (KhachHang x : list) {
+            defaultTableModelKH.addRow(new Object[]{
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), x.getNgayTao(), x.getTrangThai()
+            });
+        }
+    }
+
+    private void updatePageInfo() {
+        int totalItems = KHrepo.getTotalItems();
+        int maxPage = (int) Math.ceil((double) totalItems / size);
+
+        if (ht > maxPage) {
+            ht = (maxPage == 0) ? 1 : maxPage;
+        }
+
+        lbPresentPage.setText(ht + " / " + maxPage);
     }
 
     @SuppressWarnings("unchecked")
@@ -13,7 +51,7 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        lbIDKhachHang = new javax.swing.JLabel();
+        lbMaKhachHang = new javax.swing.JLabel();
         txtIDKhachHang = new javax.swing.JTextField();
         lbHoTen = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
@@ -24,7 +62,7 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         bntThem = new javax.swing.JButton();
         bntSua = new javax.swing.JButton();
         bntLamMoi = new javax.swing.JButton();
-        lbIDKhachHang1 = new javax.swing.JLabel();
+        lbIDKhachHang = new javax.swing.JLabel();
         txtMaKhachHang = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         txtTimKiem = new javax.swing.JTextField();
@@ -32,17 +70,17 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         bntXoa = new javax.swing.JButton();
         bntFirstPage = new javax.swing.JButton();
         bntPrevPage = new javax.swing.JButton();
-        txtPageNumber = new javax.swing.JTextField();
         bntNextPage = new javax.swing.JButton();
         bntLastPage = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbKhachHang = new javax.swing.JTable();
+        lbPresentPage = new javax.swing.JLabel();
         lbQuanLyKhachHang = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(1083, 643));
 
-        lbIDKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbIDKhachHang.setText("Mã Khách Hàng:");
+        lbMaKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbMaKhachHang.setText("Mã Khách Hàng:");
 
         lbHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen.setText("Họ và tên:");
@@ -76,8 +114,8 @@ public class KhachHangJPanel extends javax.swing.JPanel {
             }
         });
 
-        lbIDKhachHang1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbIDKhachHang1.setText("ID Khách Hàng:");
+        lbIDKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbIDKhachHang.setText("ID Khách Hàng:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,8 +129,8 @@ public class KhachHangJPanel extends javax.swing.JPanel {
                             .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbIDKhachHang1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbIDKhachHang))
+                            .addComponent(lbIDKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbMaKhachHang))
                         .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -115,11 +153,11 @@ public class KhachHangJPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(139, 139, 139)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbIDKhachHang1)
+                    .addComponent(lbIDKhachHang)
                     .addComponent(txtIDKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbIDKhachHang)
+                    .addComponent(lbMaKhachHang)
                     .addComponent(txtMaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -142,56 +180,62 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         );
 
         bntTimKiem.setText("Tìm kiếm");
+        bntTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntTimKiemActionPerformed(evt);
+            }
+        });
 
         bntXoa.setText("Xóa Khách Hàng");
 
         bntFirstPage.setText("|<");
+        bntFirstPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntFirstPageActionPerformed(evt);
+            }
+        });
 
         bntPrevPage.setText("<<");
-
-        txtPageNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtPageNumber.setText("1");
+        bntPrevPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntPrevPageActionPerformed(evt);
+            }
+        });
 
         bntNextPage.setText(">>");
+        bntNextPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntNextPageActionPerformed(evt);
+            }
+        });
 
         bntLastPage.setText(">|");
+        bntLastPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntLastPageActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "ID KHÁCH HÀNG", "MÃ KHÁCH HÀNG", "HỌ VÀ TÊN", "SỐ ĐIỆN THOẠI", "TRẠNG THÁI"
+                "ID KHÁCH HÀNG", "MÃ KHÁCH HÀNG", "HỌ VÀ TÊN", "SỐ ĐIỆN THOẠI", "NGÀY TẠO", "TRẠNG THÁI"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbKhachHang);
+
+        lbPresentPage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbPresentPage.setText("?");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -204,22 +248,22 @@ public class KhachHangJPanel extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bntXoa)
-                        .addGap(36, 36, 36)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bntTimKiem))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(bntFirstPage)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bntPrevPage)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbPresentPage, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bntNextPage)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bntLastPage))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtTimKiem)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bntTimKiem)))))
+                                .addComponent(bntLastPage)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -238,7 +282,7 @@ public class KhachHangJPanel extends javax.swing.JPanel {
                     .addComponent(bntFirstPage)
                     .addComponent(bntPrevPage)
                     .addComponent(bntNextPage)
-                    .addComponent(txtPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbPresentPage, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -284,6 +328,56 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_bntThemActionPerformed
 
+    private void bntFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntFirstPageActionPerformed
+        // TODO add your handling code here:
+        ht = 1;
+        findWithPaginationKH(0, size);
+        updatePageInfo();
+    }//GEN-LAST:event_bntFirstPageActionPerformed
+
+    private void bntPrevPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntPrevPageActionPerformed
+        // TODO add your handling code here:
+        if (ht > 1) {
+            ht--;
+        }
+        int page = (ht - 1) * size;
+        findWithPaginationKH(page, size);
+        updatePageInfo();
+    }//GEN-LAST:event_bntPrevPageActionPerformed
+
+    private void bntNextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntNextPageActionPerformed
+        // TODO add your handling code here:
+        int TotalItime = KHrepo.getTotalItems();
+        int TotalPage = TotalItime / size;
+        System.out.println(TotalItime);
+        System.out.println(TotalPage);
+        if (ht < TotalPage) {
+            ht++;
+            int page = (ht - 1) * size;
+            findWithPaginationKH(page, size);
+            updatePageInfo();
+
+        } else {
+            ht = 1;
+            findWithPaginationKH(0, size);
+            updatePageInfo();
+        }
+    }//GEN-LAST:event_bntNextPageActionPerformed
+
+    private void bntLastPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntLastPageActionPerformed
+        // TODO add your handling code here:
+        int totalItems = KHrepo.getTotalItems();
+        int lastPage = (int) Math.ceil((double) totalItems / size);
+        ht = lastPage;
+        int page = (ht - 1) * size;
+        findWithPaginationKH(page, size);
+        updatePageInfo();
+    }//GEN-LAST:event_bntLastPageActionPerformed
+
+    private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bntTimKiemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntFirstPage;
     private javax.swing.JButton bntLamMoi;
@@ -300,16 +394,16 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbHoTen;
     private javax.swing.JLabel lbIDKhachHang;
-    private javax.swing.JLabel lbIDKhachHang1;
+    private javax.swing.JLabel lbMaKhachHang;
+    private javax.swing.JLabel lbPresentPage;
     private javax.swing.JLabel lbQuanLyKhachHang;
     private javax.swing.JLabel lbTrangThai;
+    private javax.swing.JTable tbKhachHang;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtIDKhachHang;
     private javax.swing.JTextField txtMaKhachHang;
-    private javax.swing.JTextField txtPageNumber;
     private javax.swing.JTextField txtSoDT;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables

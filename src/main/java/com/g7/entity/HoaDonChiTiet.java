@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+     
 package com.g7.entity;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 /**
  *
  * @author Ddawng
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class HoaDonChiTiet {
+    private int idHoaDon;
+    private int idCtSanPham;
+    private int soLuong;
+    private int donGia;
+    private int trangThai;
     
 }

@@ -1,13 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.g7.entity;
+
+import java.sql.Date;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author Ddawng
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class HoaDon {
+    private String idHoaDon;
+    private Date ngayTao;
+    private Date ngayThanhToan;
+    private int tongTien;
+    private int soTienGiam;
+    private String ghiChu;
+    private int trangThai;
     
+    
+        public String trangThai(int trangthai){
+        if(trangthai == 1){
+            return "Chưa thanh toán";
+        }else{
+            return "Đã thanh toán";
+        }
+    }
 }
