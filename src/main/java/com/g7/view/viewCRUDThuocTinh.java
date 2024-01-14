@@ -1,17 +1,37 @@
 package com.g7.view;
 
+import com.g7.entity.ThuocTinh;
+import com.g7.repository.impl.ThuocTinhRepository;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class viewCRUDThuocTinh extends javax.swing.JFrame {
 
-    public viewCRUDThuocTinh() {
+    public viewCRUDThuocTinh(int indexThuocTinh) {
         setUndecorated(true);
         initComponents();
         setLocationRelativeTo(null);
+        this.indexThuocTinh = indexThuocTinh;
+        loadData();
     }
 
-    DefaultTableModel Model= new DefaultTableModel();
-    
+    int indexThuocTinh;
+    int index = 0;
+
+    DefaultTableModel Model = new DefaultTableModel();
+    ThuocTinhRepository Service = new ThuocTinhRepository();
+
+    private void loadData() {
+        Model = (DefaultTableModel) tblThuocTinh.getModel();
+        Model.setRowCount(0);
+        for (Object o : Service.selectOffset(index, indexThuocTinh)) {
+            ThuocTinh tt= (ThuocTinh) o;
+            Model.addRow(new Object[]{
+                tt.getId(),
+                tt.getTenThuocTinh()});
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -39,6 +59,11 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
                 "ID", "Thuộc Tính"
             }
         ));
+        tblThuocTinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblThuocTinhMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblThuocTinh);
         if (tblThuocTinh.getColumnModel().getColumnCount() > 0) {
             tblThuocTinh.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -47,10 +72,25 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
         jLabel1.setText("Thuộc Tính");
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnDong.setText("X");
         btnDong.addActionListener(new java.awt.event.ActionListener() {
@@ -114,8 +154,29 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
     private void btnDongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDongActionPerformed
         dispose();
     }//GEN-LAST:event_btnDongActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        Service.create(new ThuocTinh(0, txtThuocTinh.getText()), indexThuocTinh);
+        loadData();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int id = Integer.parseInt(tblThuocTinh.getValueAt(index, 0).toString());
+        Service.update(new ThuocTinh(id, txtThuocTinh.getText()), indexThuocTinh);
+        loadData();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        int id = Integer.parseInt(tblThuocTinh.getValueAt(index, 0).toString());
+        Service.remove(id, indexThuocTinh);
+        loadData();
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void tblThuocTinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThuocTinhMouseClicked
+        index = tblThuocTinh.getSelectedRow();
+    }//GEN-LAST:event_tblThuocTinhMouseClicked
     public static void main(String args[]) {
-        new viewCRUDThuocTinh().setVisible(true);
+        new viewCRUDThuocTinh(1).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
