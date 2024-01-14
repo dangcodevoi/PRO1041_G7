@@ -3,12 +3,12 @@ package com.g7.entity;
 public class SanPham {
 
     private int idSanPham, idNhaSX, idDanhMuc, idChatLieu;
-    private String tenSanPham, tenNhaSX, tenChatLieu, tenDanhMuc, GhiChu;
+    private String tenSanPham, tenNhaSX, tenChatLieu, tenDanhMuc;
 
     public SanPham() {
     }
 
-    public SanPham(int idSanPham, int idNhaSX, int idDanhMuc, int idChatLieu, String tenSanPham, String tenNhaSX, String tenChatLieu, String tenDanhMuc, String GhiChu) {
+    public SanPham(int idSanPham, int idNhaSX, int idDanhMuc, int idChatLieu, String tenSanPham, String tenNhaSX, String tenChatLieu, String tenDanhMuc) {
         this.idSanPham = idSanPham;
         this.idNhaSX = idNhaSX;
         this.idDanhMuc = idDanhMuc;
@@ -17,7 +17,6 @@ public class SanPham {
         this.tenNhaSX = tenNhaSX;
         this.tenChatLieu = tenChatLieu;
         this.tenDanhMuc = tenDanhMuc;
-        this.GhiChu = GhiChu;
     }
 
     public int getIdSanPham() {
@@ -82,14 +81,6 @@ public class SanPham {
 
     public void setTenDanhMuc(String tenDanhMuc) {
         this.tenDanhMuc = tenDanhMuc;
-    }
-
-    public String getGhiChu() {
-        return GhiChu;
-    }
-
-    public void setGhiChu(String GhiChu) {
-        this.GhiChu = GhiChu;
     }
 
 }
