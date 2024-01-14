@@ -58,7 +58,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         defaultTableModelHDC = (DefaultTableModel) tbHDC.getModel();
         for (HoaDonViewModel x : list) {
             defaultTableModelHDC.addRow(new Object[]{
-                x.getMahd(), x.getTenNV(), x.getNgayTao(), x.getTenNV(), x.getTrangThai()
+                x.getMahd(), x.getTenNV(), x.getNgayTao(), x.getTenNV(), x.trangThai(x.getTrangThai())
             });
         }
     }
@@ -376,11 +376,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(208, 208, 208)
+                .addGap(202, 202, 202)
                 .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPre, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(lblPageSP, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNext)
@@ -584,13 +584,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
                                 .addComponent(jLabel5)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
                                     .addComponent(lblMaKH)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                                     .addComponent(jButton1)
                                     .addGap(27, 27, 27))))
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -661,8 +661,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         int TotalItime = BHrepo.getTotalItems();
         int TotalPage = TotalItime / size;
-        System.out.println(TotalItime);
-        System.out.println(TotalPage);
+//        System.out.println(TotalItime);
+//        System.out.println(TotalPage);
         if (ht < TotalPage) {
             ht++;
             int page = (ht - 1) * size;

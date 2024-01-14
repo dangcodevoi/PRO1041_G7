@@ -375,11 +375,11 @@
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
                   <Component id="btnFirst" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnPre" min="-2" pref="23" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="lblPageSP" min="-2" pref="41" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnNext" min="-2" max="-2" attributes="0"/>
@@ -570,7 +570,7 @@
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblMaKH" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="101" max="32767" attributes="0"/>
+                                      <EmptySpace pref="100" max="32767" attributes="0"/>
                                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   </Group>
@@ -582,7 +582,7 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="54" max="32767" attributes="0"/>
+                  <EmptySpace pref="55" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
