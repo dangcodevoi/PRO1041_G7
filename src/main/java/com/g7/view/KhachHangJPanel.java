@@ -2,16 +2,17 @@ package com.g7.view;
 
 import com.g7.entity.KhachHang;
 import com.g7.repository.impl.KhachHangRepository;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class KhachHangJPanel extends javax.swing.JPanel {
 
     private KhachHangRepository KHrepo = new KhachHangRepository();
     private DefaultTableModel defaultTableModelKH = new DefaultTableModel();
-
-    private List<KhachHang> listHD = new ArrayList<>();
 
     private int ht = 1;
     private int size = 100;
@@ -24,18 +25,50 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     }
 
     public void findWithPaginationKH(int ht, int c) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<KhachHang> list = KHrepo.selectWithPagination(ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), x.getNgayTao(), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
             });
         }
     }
 
     private void updatePageInfo() {
         int totalItems = KHrepo.getTotalItems();
+        int maxPage = (int) Math.ceil((double) totalItems / size);
+
+        if (ht > maxPage) {
+            ht = (maxPage == 0) ? 1 : maxPage;
+        }
+
+        lbPresentPage.setText(ht + " / " + maxPage);
+    }
+
+    public boolean vaildatedTimKiem() {
+        if (txtTimKiem.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập từ khóa \n VD :Mã KH: KH0001,\nTên KH: Irene Cline", "Error", 1);
+            txtTimKiem.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    public void findWithKeywordMaKH(String keyword, int ht, int c) {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        DecimalFormat f = new DecimalFormat("#,##0.##");
+        List<KhachHang> list = KHrepo.findWithPaginationbyMaKH(keyword, ht, c);
+        defaultTableModelKH.setRowCount(0);
+        defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
+        for (KhachHang x : list) {
+            defaultTableModelKH.addRow(new Object[]{
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+            });
+        }
+        int totalItems = KHrepo.getTotalSearchItemsMaKH();
         int maxPage = (int) Math.ceil((double) totalItems / size);
 
         if (ht > maxPage) {
@@ -376,6 +409,10 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
     private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
         // TODO add your handling code here:
+        if (vaildatedTimKiem()) {
+            String keyword = txtTimKiem.getText();
+            findWithKeywordMaKH(keyword, 0, 100);
+        }
     }//GEN-LAST:event_bntTimKiemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,7 @@
 package com.g7.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -16,7 +17,7 @@ public class KhachHang implements Serializable {
     private String MaKhachHang;
     private String TenKhachHang;
     private String SDT;
-    private String NgayTao;
+    private Date NgayTao;
     private int TrangThai;
 
     @Override
@@ -27,7 +28,7 @@ public class KhachHang implements Serializable {
     public KhachHang() {
     }
 
-    public KhachHang(int IDKhachHang, String maKH, String TenKhachHang, String SDT, String NgayTao, int TrangThai) {
+    public KhachHang(int IDKhachHang, String maKH, String TenKhachHang, String SDT, Date NgayTao, int TrangThai) {
         this.IDKhachHang = IDKhachHang;
         this.MaKhachHang = MaKhachHang;
         this.TenKhachHang = TenKhachHang;
@@ -52,7 +53,7 @@ public class KhachHang implements Serializable {
         this.SDT = SDT;
     }
 
-    public void setNgayTao(String NgayTao) {
+    public void setNgayTao(Date NgayTao) {
         this.NgayTao = NgayTao;
     }
 
@@ -76,7 +77,7 @@ public class KhachHang implements Serializable {
         return SDT;
     }
 
-    public String getNgayTao() {
+    public Date getNgayTao() {
         return NgayTao;
     }
 
