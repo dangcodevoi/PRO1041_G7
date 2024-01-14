@@ -15,11 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoaDon {
-<<<<<<< HEAD
     private int idHoaDon;
-=======
     private String MaHoaDon;
->>>>>>> 5b9b17e85a82bd44a752415918c69d55b5b4cd37
     private Date ngayTao;
     private Date ngayThanhToan;
     private String idKhachHang;

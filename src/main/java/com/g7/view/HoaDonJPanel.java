@@ -14,25 +14,25 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
     public HoaDonJPanel() {
         initComponents();
-        loadDataHd();
+//        loadDataHd();
     }
 
-    public void loadDataHd() {
-        dtm = (DefaultTableModel) tblhoaDon.getModel();
-        List<HoaDon> dshd = hdsv.getListHoaDon();
-        dtm.setRowCount(0);
-        for (HoaDon hd : dshd) {
-            dtm.addRow(new Object[]{
-                hd.getMaHoaDon(),
-                hd.getNgayTao(),
-                hd.getNgayThanhToan(),
-                hd.getTongTien(),
-                hd.getSoTienGiam(),
-                hd.getGhiChu(),
-                hd.getTrangThai()
-            });
-        }
-    }
+//    public void loadDataHd() {
+//        dtm = (DefaultTableModel) tblhoaDon.getModel();
+//        List<HoaDon> dshd = hdsv.getListHoaDon();
+//        dtm.setRowCount(0);
+//        for (HoaDon hd : dshd) {
+//            dtm.addRow(new Object[]{
+//                hd.getMaHoaDon(),
+//                hd.getNgayTao(),
+//                hd.getNgayThanhToan(),
+//                hd.getTongTien(),
+//                hd.getSoTienGiam(),
+//                hd.getGhiChu(),
+//                hd.getTrangThai()
+//            });
+//        }
+//    }
 
 
     @SuppressWarnings("unchecked")
