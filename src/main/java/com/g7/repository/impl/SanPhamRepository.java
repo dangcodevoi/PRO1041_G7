@@ -35,8 +35,10 @@ public class SanPhamRepository implements SP_SPCT_Repository {
                 + "                     WHERE\n"
                 + "                         SP.TrangThai = 1\n"
                 + "                     ORDER BY\n"
-                + "                         SP.Id\n"
-                + "                     OFFSET "+indexOffset*5+"0 ROWS FETCH NEXT 50 ROWS ONLY";
+                + "                         SP.Id\n";
+        if (indexOffset != -1) {
+            sql += " OFFSET " + indexOffset * 5 + "0 ROWS FETCH NEXT 50 ROWS ONLY";
+        }
         try {
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
