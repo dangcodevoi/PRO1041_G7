@@ -1,4 +1,3 @@
-
 package com.g7.entity;
 
 import java.sql.Date;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoaDon {
-    private String idHoaDon;
+    private String MaHoaDon;
     private Date ngayTao;
     private Date ngayThanhToan;
     private int tongTien;
@@ -24,11 +23,10 @@ public class HoaDon {
     private String ghiChu;
     private int trangThai;
     
-    
-        public String trangThai(int trangthai){
-        if(trangthai == 1){
+    public String getTrangThaiLabel() {
+        if (trangThai == 1) {
             return "Chưa thanh toán";
-        }else{
+        } else {
             return "Đã thanh toán";
         }
     }
