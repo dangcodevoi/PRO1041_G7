@@ -12,19 +12,23 @@ public class HoaDonSv {
     public ArrayList<HoaDon> getlistHoaDon(){
         listHoaDon = new ArrayList();
         try {
-            String sql = "select MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai from HoaDon";
+            String sql = "SELECT Id, MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai, IdNhanVien, IdKhachHang from HoaDon";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {                
-                String idHoaDon = rs.getString(1);
-                Date ngayTao = rs.getDate(2);
-                Date ngayThanhToan = rs.getDate(3);
-                int tongTien = rs.getInt(4);
-                int soTienGiam = rs.getInt(5);
-                String ghiChu = rs.getString(6);
-                int trangThai = rs.getInt(7);
-                HoaDon hd = new HoaDon(idHoaDon, ngayTao, ngayThanhToan, tongTien, soTienGiam, ghiChu, trangThai);
-                listHoaDon.add(hd);
+                int idHoaDon = rs.getInt(1);
+                String maHD = rs.getString(2);
+                Date ngayTao = rs.getDate(3);
+                Date ngayThanhToan = rs.getDate(4);
+                int tongTien = rs.getInt(5);
+                int soTienGiam = rs.getInt(6);
+                String ghiChu = rs.getString(7);
+                int trangThai = rs.getInt(8);
+                String idnv = rs.getString(9);
+                String idkh = rs.getString(10);
+//                HoaDon hd = new HoaDon(idHoaDon, ngayTao, ngayThanhToan, tongTien, soTienGiam, ghiChu, trangThai, idnv, idkh);
+                HoaDon hd = new HoaDon(idHoaDon, ngayTao, ngayThanhToan, idkh, idnv, maHD, tongTien, soTienGiam, ghiChu, trangThai);
+//                listHoaDon.add(hd);
             }
         } catch (Exception e) {
             e.printStackTrace();

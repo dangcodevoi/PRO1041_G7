@@ -5,12 +5,14 @@
  */
 package com.g7.view;
 
+import com.g7.entity.HoaDon;
 import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -60,7 +62,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             });
         }
     }
-    
+
     public void findWithPaginationGH(int id, int ht2, int c2) {
         List<GioHangViewModel> list = BHrepo.selectWithPaginationGH(id, ht2, c2);
         defaultTableModelGH.setRowCount(0);
@@ -82,11 +84,33 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         lblPageSP.setText(ht + " / " + maxPage);
     }
-    
-    public void insertHoaDon(){
-//        HoaDonViewModel hdvm = new HoaDonViewModel();
-//        String idNV = "1";
-//        hdvm.
+
+    public void insertHoaDon() {
+        HoaDon hdvm = new HoaDon();
+        String idNV = "1";
+        String makh = lblMaKH.getText();
+        String idkh = String.valueOf(BHrepo.selectIdByMaNV(makh));
+        System.out.println(idkh);
+        String maHd = "HD";
+        Random r = new Random();
+        int min = 10000;
+        int max = 100000;
+        int randomNumber = r.nextInt(max - min + 1) + min;
+        String maHDC = maHd + randomNumber;
+        hdvm.setMaHD(maHDC);
+        hdvm.setIdNhanVien(idNV);
+        hdvm.setIdKhachHang(idkh);
+        BHrepo.addHoaDon(hdvm);
+//        PageLastSP();
+    }
+
+    public void PageLastSP() {
+        int totalItems = BHrepo.getTotalItems();
+        int lastPage = (int) Math.ceil((double) totalItems / size);
+        ht = lastPage;
+        int page = (ht - 1) * size;
+        findWithPaginationSPBH(page, size);
+        updatePageInfo();
     }
 
     /**
@@ -145,7 +169,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblMaKH = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -501,7 +525,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Mã khách hàng");
 
-        jLabel4.setText("KH001");
+        lblMaKH.setText("KH001");
 
         jLabel5.setText("Khách vãng lai");
 
@@ -559,8 +583,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel5)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                                    .addComponent(lblMaKH)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                                     .addComponent(jButton1)
                                     .addGap(27, 27, 27))))
                         .addGroup(jPanel4Layout.createSequentialGroup()
@@ -581,7 +605,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         .addGap(19, 19, 19)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMaKH, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -670,12 +694,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        int totalItems = BHrepo.getTotalItems();
-        int lastPage = (int) Math.ceil((double) totalItems / size);
-        ht = lastPage;
-        int page = (ht - 1) * size;
-        findWithPaginationSPBH(page, size);
-        updatePageInfo();
+        PageLastSP();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void tbHDCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHDCMouseClicked
@@ -684,7 +703,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         System.out.println(maHD);
         int id = BHrepo.selectByMa(maHD);
         findWithPaginationGH(id, 0, size);
-        
+
     }//GEN-LAST:event_tbHDCMouseClicked
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -696,7 +715,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
-        
+        insertHoaDon();
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
 
 
@@ -736,7 +755,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -753,6 +771,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblMaKH;
     private javax.swing.JLabel lblPageSP;
     private javax.swing.JTable tbGH;
     private javax.swing.JTable tbHDC;

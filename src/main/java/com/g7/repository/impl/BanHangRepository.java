@@ -4,12 +4,16 @@
  */
 package com.g7.repository.impl;
 
+import com.g7.entity.HoaDon;
 import com.g7.utils.JdbcHelper;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +60,8 @@ public class BanHangRepository {
             + "				  FETCH NEXT ? ROWS ONLY";
     
     String select_byMaHd = "SELECT Id FROM dbo.HoaDon WHERE MaHD = ?";
+    String Insert_hd = "INSERT INTO hoadon (IdNhanVien, IdKhachHang, MaHD) VALUES (?,?,?)";
+    String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
 
     public List<GioHangViewModel> selectWithPaginationGH(int id, int offset, int fetchSize) {
         String sql = select_Pagination_gh;
@@ -169,6 +175,95 @@ public class BanHangRepository {
         } catch (Exception e) {
         }
         return list;
+    }
+    
+    public int selectMaxIDHD() {
+       int id = 0;
+        String QuerymaxID = "SELECT MAX(id) FROM HoaDon";
+        try {
+            ResultSet rs = JdbcHelper.query(QuerymaxID);
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+    
+      
+    public String selectByIdHD(int id) {
+       String ma = null;
+       
+       String select_ByIDHD = "SELECT MaHD FROM dbo.HoaDon WHERE Id = ?";
+        try {
+            ResultSet rs = JdbcHelper.query(select_byKH, id);
+
+            if (rs.next()) {
+                ma = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ma;
+    }
+    
+    public String addHoaDon(HoaDon hd) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(Insert_hd)) {
+            
+//            String query = "SELECT MAX(MaHD) FROM HoaDon";
+//            Statement statement = con.createStatement();
+//            ResultSet resultSet = statement.executeQuery(query);
+//            if (resultSet.next()) {
+//                int maxID = resultSet.getInt(1);
+//                if (maxID != null) {
+//                    int maxMaHDNumber = Integer.parseInt(maxMaHD.replace("HD", ""));
+//                    int nextMaHDNumber = maxMaHDNumber + 1;
+//                    String nextMaHD = "HD" + String.format("%05d", nextMaHDNumber);
+//                    hd.setMaHD(nextMaHD);
+//                }
+//            }
+
+//            int idmax = selectMaxIDHD();
+//            String maHD =  selectByIdHD(idmax);
+//            if(maHD != null){
+//                int maxMaHDNumber = Integer.parseInt(maHD.replace("HD", ""));
+//                int nextMaHDNumber = maxMaHDNumber + 1;
+//                String nextMaHD = "HD" + String.format("%03d", nextMaHDNumber);
+//                System.out.println(nextMaHD);
+//                hd.setMaHD(nextMaHD);
+//            }
+
+            ps.setObject(1, hd.getIdNhanVien());
+            ps.setObject(2, hd.getIdKhachHang());
+            ps.setObject(3, hd.getMaHD());
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn thành công";
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Thêm hóa đơn thất bại";
+    }
+    
+    
+    public int selectIdByMaNV(String makh) {
+       int id = 0;
+
+        try {
+            ResultSet rs = JdbcHelper.query(select_byKH, makh);
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
     }
 
 }

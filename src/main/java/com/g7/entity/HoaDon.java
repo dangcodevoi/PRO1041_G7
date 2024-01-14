@@ -16,9 +16,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoaDon {
-    private String idHoaDon;
+    private int idHoaDon;
     private Date ngayTao;
     private Date ngayThanhToan;
+    private String idKhachHang;
+    private String idNhanVien;
+    private String maHD;
     private int tongTien;
     private int soTienGiam;
     private String ghiChu;
