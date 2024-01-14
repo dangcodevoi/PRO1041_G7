@@ -1,7 +1,7 @@
 package com.g7.view;
 
 import com.g7.entity.HoaDon;
-import com.g7.repository.impl.HoaDonSv;
+import com.g7.repository.impl.HoaDonRepository;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -9,30 +9,30 @@ import javax.swing.table.DefaultTableModel;
 
 public class HoaDonJPanel extends javax.swing.JPanel {
     private ArrayList<HoaDon> listHoaDon = new ArrayList<>();
-    private HoaDonSv hdsv = new HoaDonSv();
+    private HoaDonRepository hdsv = new HoaDonRepository();
     DefaultTableModel dtm = new DefaultTableModel();
 
     public HoaDonJPanel() {
         initComponents();
-//        loadDataHd();
+       loadDataHd();
     }
 
-//    public void loadDataHd() {
-//        dtm = (DefaultTableModel) tblhoaDon.getModel();
-//        List<HoaDon> dshd = hdsv.getListHoaDon();
-//        dtm.setRowCount(0);
-//        for (HoaDon hd : dshd) {
-//            dtm.addRow(new Object[]{
-//                hd.getMaHoaDon(),
-//                hd.getNgayTao(),
-//                hd.getNgayThanhToan(),
-//                hd.getTongTien(),
-//                hd.getSoTienGiam(),
-//                hd.getGhiChu(),
-//                hd.getTrangThai()
-//            });
-//        }
-//    }
+    public void loadDataHd() {
+        dtm = (DefaultTableModel) tblhoaDon.getModel();
+        List<HoaDon> dshd = hdsv.getlistHoaDon();
+        dtm.setRowCount(0);
+        for (HoaDon hd : dshd) {
+            dtm.addRow(new Object[]{
+                hd.getMaHoaDon(),
+                hd.getNgayTao(),
+                hd.getNgayThanhToan(),
+                hd.getTongTien(),
+                hd.getSoTienGiam(),
+                hd.getGhiChu(),
+                hd.getTrangThai()
+            });
+        }
+    }
 
 
     @SuppressWarnings("unchecked")
