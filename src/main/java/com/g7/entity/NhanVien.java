@@ -5,6 +5,7 @@
 package com.g7.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -15,13 +16,13 @@ public class NhanVien implements Serializable {
     private int IDNhanVien;
     private String TenNhanVien;
     private int GioiTinh;
-    private String NgaySinh;
+    private Date NgaySinh;
     private String SDT;
     private String DiaChi;
     private String Email;
-    private String NgayTao;
+    private Date NgayTao;
     private String MatKhau;
-    private int IDChucVu;
+    private String ChucVu;
     private int TrangThai;
 
     @Override
@@ -33,7 +34,7 @@ public class NhanVien implements Serializable {
     public NhanVien() {
     }
 
-    public NhanVien(int IDNhanVien, String TenNhanVien, int GioiTinh, String NgaySinh, String SDT, String DiaChi, String Email, String NgayTao, String MatKhau, int IDChucVu, int TrangThai) {
+    public NhanVien(int IDNhanVien, String TenNhanVien, int GioiTinh, Date NgaySinh, String SDT, String DiaChi, String Email, Date NgayTao, String MatKhau, String ChucVu, int TrangThai) {
         this.IDNhanVien = IDNhanVien;
         this.TenNhanVien = TenNhanVien;
         this.GioiTinh = GioiTinh;
@@ -43,7 +44,7 @@ public class NhanVien implements Serializable {
         this.Email = Email;
         this.NgayTao = NgayTao;
         this.MatKhau = MatKhau;
-        this.IDChucVu = IDChucVu;
+        this.ChucVu = ChucVu;
         this.TrangThai = TrangThai;
     }
 
@@ -59,7 +60,7 @@ public class NhanVien implements Serializable {
         return GioiTinh;
     }
 
-    public String getNgaySinh() {
+    public Date getNgaySinh() {
         return NgaySinh;
     }
 
@@ -75,7 +76,7 @@ public class NhanVien implements Serializable {
         return Email;
     }
 
-    public String getNgayTao() {
+    public Date getNgayTao() {
         return NgayTao;
     }
 
@@ -83,8 +84,8 @@ public class NhanVien implements Serializable {
         return MatKhau;
     }
 
-    public int getIDChucVu() {
-        return IDChucVu;
+    public String getChucVu() {
+        return ChucVu;
     }
 
     public int getTrangThai() {
@@ -103,7 +104,7 @@ public class NhanVien implements Serializable {
         this.GioiTinh = GioiTinh;
     }
 
-    public void setNgaySinh(String NgaySinh) {
+    public void setNgaySinh(Date NgaySinh) {
         this.NgaySinh = NgaySinh;
     }
 
@@ -119,7 +120,7 @@ public class NhanVien implements Serializable {
         this.Email = Email;
     }
 
-    public void setNgayTao(String NgayTao) {
+    public void setNgayTao(Date NgayTao) {
         this.NgayTao = NgayTao;
     }
 
@@ -127,8 +128,8 @@ public class NhanVien implements Serializable {
         this.MatKhau = MatKhau;
     }
 
-    public void setIDChucVu(int IDChucVu) {
-        this.IDChucVu = IDChucVu;
+    public void setChucVu(String IDChucVu) {
+        this.ChucVu = ChucVu;
     }
 
     public void setTrangThai(int TrangThai) {
