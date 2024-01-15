@@ -60,7 +60,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         defaultTableModelHDC = (DefaultTableModel) tbHDC.getModel();
         for (HoaDonViewModel x : list) {
             defaultTableModelHDC.addRow(new Object[]{
-                x.getMahd(), x.getTenNV(), x.getNgayTao(), x.getTenNV(), x.trangThai(x.getTrangThai())
+                x.getMahd(), x.getTenNV(), x.getNgayTao(), x.getTenKH(), x.trangThai(x.getTrangThai())
             });
         }
     }
@@ -108,7 +108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     public void PageLastSP() {
         int totalItems = BHrepo.getTotalItems();
-        int lastPage = (int) Math.ceil((double) totalItems / size);
+        int lastPage = (int) Math.ceil((double) totalItems / size) ;
         ht = lastPage;
         int page = (ht - 1) * size;
         findWithPaginationSPBH(page, size);
@@ -117,7 +117,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     
     public void PageLastHDC() {
         int totalItemsHDC = BHrepo.getTotalItemsHDC();
-        int lastPageHDC = (int) Math.ceil((double) totalItemsHDC / size);
+        int lastPageHDC = (int) Math.ceil((double) totalItemsHDC / size) - 1;
         htHDC = lastPageHDC;
         int page = (htHDC - 1) * size;
         findWithPaginationHDC(page, size);
@@ -126,7 +126,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     
      private void updatePageInfoHDC() {
         int totalItems = BHrepo.getTotalItemsHDC();
-        int maxPageHDC = (int) Math.ceil((double) totalItems / size);
+        int maxPageHDC = (int) Math.ceil((double) totalItems / size) - 1 ;
 
         if (htHDC > maxPageHDC) {
             htHDC = (maxPageHDC == 0) ? 1 : maxPageHDC;
@@ -226,6 +226,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
         });
 
         jButton12.setText("<<");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         btnNextHDC.setText(">");
         btnNextHDC.addActionListener(new java.awt.event.ActionListener() {
@@ -741,7 +746,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void btnPreHDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreHDCActionPerformed
-        // TODO add your handling code here:
+         if (htHDC > 1) {
+            htHDC--;
+        }
+        int page = (htHDC - 1) * size;
+        findWithPaginationHDC(page, size);
+        updatePageInfoHDC();
     }//GEN-LAST:event_btnPreHDCActionPerformed
 
     private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
@@ -749,12 +759,30 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
 
     private void btnNextHDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextHDCActionPerformed
-        // TODO add your handling code here:
+         int TotalItime = BHrepo.getTotalItemsHDC();
+        int TotalPage = TotalItime / size;
+        if (htHDC < TotalPage) {
+            htHDC++;
+            int page = (htHDC - 1) * size;
+            findWithPaginationHDC(page, size);
+            updatePageInfoHDC();
+
+        } else {
+            htHDC = 1;
+            findWithPaginationHDC(0, size);
+            updatePageInfoHDC();
+        }
     }//GEN-LAST:event_btnNextHDCActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
        PageLastHDC();
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+         htHDC = 1;
+        findWithPaginationHDC(0, size);
+        updatePageInfoHDC();
+    }//GEN-LAST:event_jButton12ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
