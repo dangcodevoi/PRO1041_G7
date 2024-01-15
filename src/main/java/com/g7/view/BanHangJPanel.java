@@ -99,7 +99,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         int max = 100000;
         int randomNumber = r.nextInt(max - min + 1) + min;
         String maHDC = maHd + randomNumber;
-        hdvm.setMaHD(maHDC);
+        hdvm.setMaHoaDon(maHDC);
         hdvm.setIdNhanVien(idNV);
         hdvm.setIdKhachHang(idkh);
         BHrepo.addHoaDon(hdvm);
