@@ -63,17 +63,63 @@ public class SanPhamRepository implements SP_SPCT_Repository {
 
     @Override
     public int create(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "insert into "
+                + "sanpham(tensanpham,idnsx,iddanhmuc,idchatlieu,trangthai)"
+                + " values(?,?,?,?,1)";
+        try {
+            SanPham sp = (SanPham) o;
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setString(1, sp.getTenSanPham());
+            preparedStatement.setInt(2, sp.getIdNhaSX());
+            preparedStatement.setInt(3, sp.getIdDanhMuc());
+            preparedStatement.setInt(4, sp.getIdChatLieu());
+
+            preparedStatement.executeUpdate();
+
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi A-02 " + e.getMessage());
+            return 1;
+        }
     }
 
     @Override
     public int update(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update sanpham set tensanpham=?, idnsx=?, iddanhmuc=?,idchatlieu=? where id=?";
+        try {
+            SanPham sp = (SanPham) o;
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setString(1, sp.getTenSanPham());
+            preparedStatement.setInt(2, sp.getIdNhaSX());
+            preparedStatement.setInt(3, sp.getIdDanhMuc());
+            preparedStatement.setInt(4, sp.getIdChatLieu());
+            preparedStatement.setInt(5, sp.getIdSanPham());
+
+            preparedStatement.executeUpdate();
+
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi A-03 " + e.getMessage());
+            return 1;
+        }
     }
 
     @Override
     public int remove(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update sanpham set trangthai=0 where id=" + id;
+        try {
+            connect = JdbcHelper.openDbConnection();
+
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi A-04 " + e.getMessage());
+            return 1;
+        }
     }
 
 }

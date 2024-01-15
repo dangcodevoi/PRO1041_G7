@@ -47,7 +47,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                         CTS.TrangThai = 1\n"
                 + "                     ORDER BY\n"
                 + "                         CTS.Id\n"
-                + "                     OFFSET "+(indexOffset*5)+"0 ROWS\n"
+                + "                     OFFSET " + (indexOffset * 5) + "0 ROWS\n"
                 + "                     FETCH NEXT 50 ROWS ONLY;";
         try {
             connect = JdbcHelper.openDbConnection();
@@ -70,24 +70,83 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
             }
             return list;
         } catch (SQLException e) {
-            System.out.println("Lỗi B-01: "+e.getMessage());
+            System.out.println("Lỗi B-01: " + e.getMessage());
             return null;
         }
     }
 
     @Override
     public int create(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "INSERT INTO [dbo].[ChiTietSanPham]\n"
+                + "           ([IdSanPham]\n"
+                + "           ,[IdKichCo]\n"
+                + "           ,[IdMauSac]\n"
+                + "           ,[IdHinhAnh]\n"
+                + "           ,[GiaBan]\n"
+                + "           ,[SoLuong]\n"
+                + "           ,[MoTa])\n"
+                + "     VALUES "
+                + "  (?,?,?,?,?,?,?)";
+        try {
+            SanPhamChiTiet sp = (SanPhamChiTiet) o;
+
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setInt(1, sp.getIdSanPham());
+            preparedStatement.setInt(2, sp.getIdKichThuoc());
+            preparedStatement.setInt(3, sp.getIdMau());
+            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(5, sp.getGiaBan());
+            preparedStatement.setInt(6, sp.getSoLuong());
+            preparedStatement.setString(7, sp.getGhiChu());
+
+            preparedStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-02: " + e.getMessage());
+            return 1;
+        }
     }
 
     @Override
     public int update(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update chitietsanpham set idsanpham=?,idkichco=?,idmausac=?,idhinhanh=?,giaban=?,soluong=?,mota=? where id=?";
+        try {
+            SanPhamChiTiet sp = (SanPhamChiTiet) o;
+
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setInt(1, sp.getIdSanPham());
+            preparedStatement.setInt(2, sp.getIdKichThuoc());
+            preparedStatement.setInt(3, sp.getIdMau());
+            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(5, sp.getGiaBan());
+            preparedStatement.setInt(6, sp.getSoLuong());
+            preparedStatement.setString(7, sp.getGhiChu());
+            preparedStatement.setInt(8, sp.getIdSanPhamCT());
+
+            preparedStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-03:" + e.getMessage());
+            return 1;
+        }
     }
 
     @Override
     public int remove(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update chitietsanpham set trangthai=0 where id=" + id;
+        try {
+
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+
+            preparedStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-04:" + e.getMessage());
+            return 1;
+        }
     }
 
 }
