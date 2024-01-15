@@ -7,6 +7,7 @@ import com.g7.repository.impl.SanPhamCTRepository;
 import com.g7.repository.impl.SanPhamRepository;
 import com.g7.repository.impl.ThuocTinhRepository;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SanPhamJPanel extends javax.swing.JPanel {
@@ -47,6 +48,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     ThuocTinh sp = (ThuocTinh) o;
                     cbo_NSX.addItem(sp.getTenThuocTinh());
                 }
+                break;
             }
             case 1 -> {
                 cbo_DanhMuc.removeAllItems();;
@@ -55,6 +57,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     ThuocTinh sp = (ThuocTinh) o;
                     cbo_DanhMuc.addItem(sp.getTenThuocTinh());
                 }
+                break;
             }
             case 2 -> {
                 cbo_ChatLieu.removeAllItems();;
@@ -63,6 +66,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     ThuocTinh sp = (ThuocTinh) o;
                     cbo_ChatLieu.addItem(sp.getTenThuocTinh());
                 }
+                break;
             }
             case 3 -> {
                 cbo_Mau.removeAllItems();;
@@ -71,6 +75,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     ThuocTinh sp = (ThuocTinh) o;
                     cbo_Mau.addItem(sp.getTenThuocTinh());
                 }
+                break;
             }
             case 4 -> {
                 cbo_KichThuoc.removeAllItems();;
@@ -79,6 +84,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     ThuocTinh sp = (ThuocTinh) o;
                     cbo_KichThuoc.addItem(sp.getTenThuocTinh());
                 }
+                break;
             }
             case 5 -> {
                 cbo_SanPham.removeAllItems();;
@@ -86,6 +92,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 for (SanPham o : Service_SanPham.selectOffset(-1)) {
                     cbo_SanPham.addItem(o.getTenSanPham());
                 }
+                break;
             }
         }
 
@@ -266,23 +273,23 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         });
 
         cbo_ChatLieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_ChatLieu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_ChatLieuMouseClicked(evt);
+        cbo_ChatLieu.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_ChatLieuFocusGained(evt);
             }
         });
 
         cbo_NSX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_NSX.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_NSXMouseClicked(evt);
+        cbo_NSX.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_NSXFocusGained(evt);
             }
         });
 
         cbo_DanhMuc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_DanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_DanhMucMouseClicked(evt);
+        cbo_DanhMuc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_DanhMucFocusGained(evt);
             }
         });
 
@@ -530,23 +537,23 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         });
 
         cbo_KichThuoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_KichThuoc.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_KichThuocMouseClicked(evt);
+        cbo_KichThuoc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_KichThuocFocusGained(evt);
             }
         });
 
         cbo_SanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_SanPham.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_SanPhamMouseClicked(evt);
+        cbo_SanPham.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_SanPhamFocusGained(evt);
             }
         });
 
         cbo_Mau.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn" }));
-        cbo_Mau.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbo_MauMouseClicked(evt);
+        cbo_Mau.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cbo_MauFocusGained(evt);
             }
         });
 
@@ -798,19 +805,34 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     private void tbl_DanhSachSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_DanhSachSPMouseClicked
         indexSP = tbl_DanhSachSP.getSelectedRow();
-        showData(null);
+//        showData(null);
     }//GEN-LAST:event_tbl_DanhSachSPMouseClicked
 
     private void btn_ThemSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemSpActionPerformed
-
+        if (Service_SanPham.create(getInputFromSP()) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công.");
+            loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_ThemSpActionPerformed
 
     private void btn_SuaSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaSpActionPerformed
-
+        if (Service_SanPham.update(getInputFromSP()) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công.");
+            loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_SuaSpActionPerformed
 
     private void btn_XoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaActionPerformed
-
+        if (Service_SanPham.remove(Integer.parseInt(tbl_DanhSachSP.getValueAt(indexSP, 0).toString())) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công.");
+            loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_XoaActionPerformed
 
     private void btn_MoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MoiActionPerformed
@@ -869,11 +891,11 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     private SanPham getInputFromSP() {
         return new SanPham(
-                cbo_SanPham.getSelectedIndex(),
+                Integer.parseInt(tbl_DanhSachSP.getValueAt(indexSP, 0).toString()),
                 cbo_NSX.getSelectedIndex(),
                 cbo_DanhMuc.getSelectedIndex(),
                 cbo_ChatLieu.getSelectedIndex(),
-                null,
+                txt_TenSanPham.getText(),
                 null,
                 null,
                 null);
@@ -890,15 +912,30 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     //====================================SẢN PHẨM CHI TIẾT===================================================
 
     private void btn_ThemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemCTActionPerformed
-
+        if (Service_SanPhamCT.create(getInputFromSPCT()) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công");
+            loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_ThemCTActionPerformed
 
     private void btn_SuaCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaCTActionPerformed
-
+        if (Service_SanPhamCT.update(getInputFromSPCT()) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công");
+            loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_SuaCTActionPerformed
 
     private void btn_XoaCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XoaCTActionPerformed
-
+        if (Service_SanPhamCT.remove(Integer.parseInt(tbl_DanhSachSPCT.getValueAt(indexSPCT, 0).toString())) == 0) {
+            JOptionPane.showMessageDialog(this, "Thành Công");
+            loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
+        } else {
+            JOptionPane.showMessageDialog(this, "Thất Bại");
+        }
     }//GEN-LAST:event_btn_XoaCTActionPerformed
 
     private void btn_MoiCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MoiCTActionPerformed
@@ -939,24 +976,30 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_AnhActionPerformed
 
-    private void cbo_NSXMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_NSXMouseClicked
+    private void cbo_NSXFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_NSXFocusGained
         loadDataCbo(0);
-    }//GEN-LAST:event_cbo_NSXMouseClicked
+    }//GEN-LAST:event_cbo_NSXFocusGained
 
-    private void cbo_DanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_DanhMucMouseClicked
-        loadDataCbo(1);    }//GEN-LAST:event_cbo_DanhMucMouseClicked
+    private void cbo_DanhMucFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_DanhMucFocusGained
+        loadDataCbo(1);
 
-    private void cbo_ChatLieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_ChatLieuMouseClicked
-        loadDataCbo(2);    }//GEN-LAST:event_cbo_ChatLieuMouseClicked
+    }//GEN-LAST:event_cbo_DanhMucFocusGained
 
-    private void cbo_SanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_SanPhamMouseClicked
-        loadDataCbo(3);    }//GEN-LAST:event_cbo_SanPhamMouseClicked
+    private void cbo_ChatLieuFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_ChatLieuFocusGained
+        loadDataCbo(2);
+    }//GEN-LAST:event_cbo_ChatLieuFocusGained
 
-    private void cbo_MauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_MauMouseClicked
-        loadDataCbo(4);    }//GEN-LAST:event_cbo_MauMouseClicked
+    private void cbo_MauFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_MauFocusGained
+        loadDataCbo(3);
+    }//GEN-LAST:event_cbo_MauFocusGained
 
-    private void cbo_KichThuocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbo_KichThuocMouseClicked
-        loadDataCbo(5);    }//GEN-LAST:event_cbo_KichThuocMouseClicked
+    private void cbo_KichThuocFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_KichThuocFocusGained
+        loadDataCbo(4);
+    }//GEN-LAST:event_cbo_KichThuocFocusGained
+
+    private void cbo_SanPhamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_SanPhamFocusGained
+        loadDataCbo(5);
+    }//GEN-LAST:event_cbo_SanPhamFocusGained
 
     private void loadDataSanPhamCT(ArrayList<SanPhamChiTiet> list) {
         Model = (DefaultTableModel) tbl_DanhSachSPCT.getModel();
@@ -986,7 +1029,19 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     }
 
     private SanPhamChiTiet getInputFromSPCT() {
-        return new SanPhamChiTiet();
+        return new SanPhamChiTiet(
+                cbo_SanPham.getSelectedIndex(),
+                0,
+                cbo_Mau.getSelectedIndex(),
+                cbo_KichThuoc.getSelectedIndex(),
+                null,
+                Integer.parseInt(txt_GiaBanCT.getText()),
+                Integer.parseInt(txt_SoLuongCT.getText()),
+                null,
+                null,
+                null,
+                txt_GhiChuCT.getText(),
+                true);
     }
 
     private void showDataCT(SanPhamChiTiet o) {

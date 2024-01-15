@@ -45,7 +45,7 @@ public class BanHangRepository {
             + "                  dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id INNER JOIN\n"
             + "                  dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
             + "				  WHERE HoaDonChiTiet.TrangThai = 1		  \n"
-            + "				  ORDER BY MaHD \n"
+            + "				  ORDER BY HoaDon.Id \n"
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
 
@@ -59,6 +59,7 @@ public class BanHangRepository {
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
     
+    String TotalItimeHDC = "SELECT COUNT(*) FROM dbo.HoaDon";
     String select_byMaHd = "SELECT Id FROM dbo.HoaDon WHERE MaHD = ?";
     String Insert_hd = "INSERT INTO hoadon (IdNhanVien, IdKhachHang, MaHD) VALUES (?,?,?)";
     String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
@@ -147,6 +148,22 @@ public class BanHangRepository {
         return totalItems;
     }
     
+    
+    public int getTotalItemsHDC() {
+        int totalItems = 0;
+
+        try {
+            ResultSet rs = JdbcHelper.query(TotalItimeHDC);
+
+            if (rs.next()) {
+                totalItems = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalItems;
+    }
      public int selectByMa(String maHd) {
        int id = 0;
 
