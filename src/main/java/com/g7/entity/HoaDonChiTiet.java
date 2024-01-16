@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoaDonChiTiet {
+    private int id;
     private int idHoaDon;
     private int idCtSanPham;
     private int soLuong;

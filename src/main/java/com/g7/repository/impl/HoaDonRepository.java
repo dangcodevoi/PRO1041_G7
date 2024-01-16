@@ -2,6 +2,7 @@ package com.g7.repository.impl;
 
 import com.g7.entity.HoaDon;
 import com.g7.utils.JdbcHelper;
+import java.math.BigDecimal;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,22 +15,22 @@ public class HoaDonRepository {
     public ArrayList<HoaDon> getlistHoaDon() {
         listHoaDon = new ArrayList();
         try {
-             String sql = "SELECT Id, MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai, IdNhanVien, IdKhachHang from HoaDon";
+            String sql = "SELECT Id, MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai, IdNhanVien, IdKhachHang from HoaDon";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-                int idHoaDon = rs.getInt(1);
+            while (rs.next()) {
+                int id = rs.getInt(1);
                 String maHD = rs.getString(2);
                 Date ngayTao = rs.getDate(3);
                 Date ngayThanhToan = rs.getDate(4);
-                int tongTien = rs.getInt(5);
-                int soTienGiam = rs.getInt(6);
+                BigDecimal tongTien = rs.getBigDecimal(5);
+                BigDecimal soTienGiam = rs.getBigDecimal(6);
                 String ghiChu = rs.getString(7);
                 int trangThai = rs.getInt(8);
                 String idnv = rs.getString(9);
                 String idkh = rs.getString(10);
-                HoaDon hd = new HoaDon(idHoaDon, maHD, ngayTao, ngayThanhToan, idkh, idnv, maHD, tongTien, soTienGiam, ghiChu, trangThai);
-               listHoaDon.add(hd);
+                HoaDon hd = new HoaDon(id, maHD, ngayTao, ngayThanhToan, tongTien, soTienGiam, ghiChu, trangThai, idkh, idnv);
+                listHoaDon.add(hd);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,39 +38,35 @@ public class HoaDonRepository {
         return listHoaDon;
     }
 
-//    public ArrayList<HoaDon> getHoaDon() {
-//    String SQL_SELECTALL = " SELECT [MaHD] ,[NgayTao], [NgayThanhToan]\n"
-//            + "                           ,[TongTien]\n"
-//            + "                           ,[SoTienDuocGiam]\n"
-//            + "                           ,[GhiChu]\n"
-//            + "                           ,[TrangThai]\n"
-//            + "                       FROM [dbo].[HoaDon]";
-//
-//    
-//        listHoaDon = new ArrayList<>();
-//        String sql = SQL_SELECTALL;
-//        try ( Connection con = JdbcHelper.openDbConnection();  PreparedStatement ps = con.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
-//
-//            while (rs.next()) {
-//                String maHoaDon = rs.getString(1);
-//                Date ngayTao = rs.getDate(2);
-//                Date ngayThanhToan = rs.getDate(3);
-//                int tongTien = rs.getInt(4);
-//                int soTienGiam = rs.getInt(5);
-//                String ghiChu = rs.getString(6);
-//                int trangThai = rs.getInt(7);
-//                HoaDon hd = new HoaDon(maHoaDon, ngayTao, ngayThanhToan, tongTien, soTienGiam, ghiChu, trangThai);
-//                listHoaDon.add(hd);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return listHoaDon;
-//    }
+    public ArrayList<HoaDon> searchById(int id) {
+    this.listHoaDon = new ArrayList<>();
+    try {
+        String sql = "SELECT Id, MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai, IdNhanVien, IdKhachHang FROM HoaDon WHERE Id = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            this.listHoaDon.add(new HoaDon(
+                    rs.getInt(1),
+                    rs.getString(2), 
+                    rs.getDate(3), 
+                    rs.getDate(4), 
+                    rs.getBigDecimal(5), 
+                    rs.getBigDecimal(6),
+                    rs.getString(7),
+                    rs.getInt(8),
+                    rs.getString(9),
+                    rs.getString(10)));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return listHoaDon;
+}
+    
 
     public static void main(String[] args) {
         HoaDonRepository hdsv = new HoaDonRepository();
         System.out.println(hdsv.getlistHoaDon());
     }
 }
-

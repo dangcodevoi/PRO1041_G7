@@ -39,12 +39,11 @@ public class BanHangRepository {
 
     String TotalItems_sp = "SELECT COUNT(*) FROM dbo.ChiTietSanPham WHERE ChiTietSanPham.TrangThai = 1";
 
-    String select_Pagination_hdc = "SELECT dbo.HoaDon.MaHD, dbo.NhanVien.TenNhanVien, dbo.HoaDon.NgayTao, dbo.KhachHang.TenKhachHang, HoaDon.TrangThai, HoaDon.Id\n"
+    String select_Pagination_hdc = " SELECT dbo.HoaDon.MaHD, dbo.NhanVien.TenNhanVien, dbo.HoaDon.NgayTao, dbo.KhachHang.TenKhachHang, dbo.HoaDon.TrangThai, dbo.HoaDon.Id\n"
             + "FROM     dbo.HoaDon INNER JOIN\n"
-            + "                  dbo.HoaDonChiTiet ON dbo.HoaDon.Id = dbo.HoaDonChiTiet.IdHoaDon INNER JOIN\n"
             + "                  dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id INNER JOIN\n"
             + "                  dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
-            + "				  WHERE HoaDonChiTiet.TrangThai = 1		  \n"
+            + "				  WHERE HoaDon.TrangThai = 1\n"
             + "				  ORDER BY HoaDon.Id \n"
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
@@ -58,8 +57,8 @@ public class BanHangRepository {
             + "				  ORDER BY MaHD \n"
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
-    
-    String TotalItimeHDC = "SELECT COUNT(*) FROM dbo.HoaDon";
+
+    String TotalItimeHDC = " SELECT COUNT(*) FROM dbo.HoaDon WHERE TrangThai =1";
     String select_byMaHd = "SELECT Id FROM dbo.HoaDon WHERE MaHD = ?";
     String Insert_hd = "INSERT INTO hoadon (IdNhanVien, IdKhachHang, MaHD) VALUES (?,?,?)";
     String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
@@ -147,8 +146,7 @@ public class BanHangRepository {
 
         return totalItems;
     }
-    
-    
+
     public int getTotalItemsHDC() {
         int totalItems = 0;
 
@@ -164,8 +162,9 @@ public class BanHangRepository {
 
         return totalItems;
     }
-     public int selectByMa(String maHd) {
-       int id = 0;
+
+    public int selectByMa(String maHd) {
+        int id = 0;
 
         try {
             ResultSet rs = JdbcHelper.query(select_byMaHd, maHd);
@@ -179,7 +178,7 @@ public class BanHangRepository {
 
         return id;
     }
-    
+
     public List<HoaDonViewModel> selectBySql(String sql, Object... args) {
         List<HoaDonViewModel> list = new ArrayList<>();
         try {
@@ -193,9 +192,9 @@ public class BanHangRepository {
         }
         return list;
     }
-    
+
     public int selectMaxIDHD() {
-       int id = 0;
+        int id = 0;
         String QuerymaxID = "SELECT MAX(id) FROM HoaDon";
         try {
             ResultSet rs = JdbcHelper.query(QuerymaxID);
@@ -209,12 +208,11 @@ public class BanHangRepository {
 
         return id;
     }
-    
-      
+
     public String selectByIdHD(int id) {
-       String ma = null;
-       
-       String select_ByIDHD = "SELECT MaHD FROM dbo.HoaDon WHERE Id = ?";
+        String ma = null;
+
+        String select_ByIDHD = "SELECT MaHD FROM dbo.HoaDon WHERE Id = ?";
         try {
             ResultSet rs = JdbcHelper.query(select_byKH, id);
 
@@ -227,10 +225,10 @@ public class BanHangRepository {
 
         return ma;
     }
-    
+
     public String addHoaDon(HoaDon hd) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(Insert_hd)) {
-            
+
 //            String query = "SELECT MAX(MaHD) FROM HoaDon";
 //            Statement statement = con.createStatement();
 //            ResultSet resultSet = statement.executeQuery(query);
@@ -243,7 +241,6 @@ public class BanHangRepository {
 //                    hd.setMaHD(nextMaHD);
 //                }
 //            }
-
 //            int idmax = selectMaxIDHD();
 //            String maHD =  selectByIdHD(idmax);
 //            if(maHD != null){
@@ -253,7 +250,6 @@ public class BanHangRepository {
 //                System.out.println(nextMaHD);
 //                hd.setMaHD(nextMaHD);
 //            }
-
             ps.setObject(1, hd.getIdNhanVien());
             ps.setObject(2, hd.getIdKhachHang());
             ps.setObject(3, hd.getMaHD());
@@ -265,10 +261,9 @@ public class BanHangRepository {
         }
         return "Thêm hóa đơn thất bại";
     }
-    
-    
+
     public int selectIdByMaNV(String makh) {
-       int id = 0;
+        int id = 0;
 
         try {
             ResultSet rs = JdbcHelper.query(select_byKH, makh);

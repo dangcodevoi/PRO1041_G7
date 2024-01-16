@@ -1,5 +1,6 @@
 package com.g7.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,17 +16,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HoaDon {
-    private int idHoaDon;
+
+    private int id;
     private String MaHoaDon;
     private Date ngayTao;
     private Date ngayThanhToan;
-    private String idKhachHang;
-    private String idNhanVien;
-    private String maHD;
-    private int tongTien;
-    private int soTienGiam;
+    private BigDecimal tongTien;
+    private BigDecimal soTienGiam;
     private String ghiChu;
     private int trangThai;
+    private String idKhachHang;
+    private String idNhanVien;
+
+
+
     
     public String getTrangThaiLabel() {
         if (trangThai == 1) {
