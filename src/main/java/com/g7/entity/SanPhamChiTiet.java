@@ -3,26 +3,29 @@ package com.g7.entity;
 public class SanPhamChiTiet {
 
     private int idSanPham, idSanPhamCT, idMau, idKichThuoc, giaBan, soLuong;
-    private String tenSanPham, hinhAnh, mau, ghiChu, kichThuoc;
-    private boolean trangThai;
+    private String tenSanPham, hinhAnh, mau, ghiChu, kichThuoc,maSanPham;
 
     public SanPhamChiTiet() {
     }
 
-    public SanPhamChiTiet(int idSanPham, int idSanPhamCT, int idMau, int idKichThuoc, String kichThuoc, int giaBan, int soLuong, String tenSanPham, String hinhAnh, String mau, String ghiChu, boolean trangThai) {
+    public SanPhamChiTiet(int idSanPham, int idSanPhamCT, int idMau, int idKichThuoc, int giaBan, int soLuong, String tenSanPham, String hinhAnh, String mau, String ghiChu, String kichThuoc, String maSanPham) {
         this.idSanPham = idSanPham;
         this.idSanPhamCT = idSanPhamCT;
         this.idMau = idMau;
         this.idKichThuoc = idKichThuoc;
-        this.kichThuoc = kichThuoc;
         this.giaBan = giaBan;
         this.soLuong = soLuong;
         this.tenSanPham = tenSanPham;
         this.hinhAnh = hinhAnh;
         this.mau = mau;
         this.ghiChu = ghiChu;
-        this.trangThai = trangThai;
+        this.kichThuoc = kichThuoc;
+        this.maSanPham = maSanPham;
     }
+
+   
+
+   
 
     public int getIdSanPham() {
         return idSanPham;
@@ -114,6 +117,14 @@ public class SanPhamChiTiet {
 
     public void setMau(String mau) {
         this.mau = mau;
+    }
+
+    public String getMaSanPham() {
+        return maSanPham;
+    }
+
+    public void setMaSanPham(String maSanPham) {
+        this.maSanPham = maSanPham;
     }
 
 }

@@ -3,6 +3,7 @@ package com.g7.view;
 import com.g7.entity.ThuocTinh;
 import com.g7.repository.impl.ThuocTinhRepository;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class viewCRUDThuocTinh extends javax.swing.JFrame {
@@ -16,7 +17,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
     }
 
     int indexThuocTinh;
-    int index = 0;
+    int index = -1;
 
     DefaultTableModel Model = new DefaultTableModel();
     ThuocTinhRepository Service = new ThuocTinhRepository();
@@ -25,7 +26,7 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
         Model = (DefaultTableModel) tblThuocTinh.getModel();
         Model.setRowCount(0);
         for (Object o : Service.selectOffset(index, indexThuocTinh)) {
-            ThuocTinh tt= (ThuocTinh) o;
+            ThuocTinh tt = (ThuocTinh) o;
             Model.addRow(new Object[]{
                 tt.getId(),
                 tt.getTenThuocTinh()});
@@ -156,24 +157,64 @@ public class viewCRUDThuocTinh extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDongActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        Service.create(new ThuocTinh(0, txtThuocTinh.getText()), indexThuocTinh);
+        if (txtThuocTinh.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn Chưa Nhập Thuộc Tính");
+        } else {
+            int checktontaiTT = Service.ktrTonTaiTT(indexThuocTinh, txtThuocTinh.getText());
+            if (checktontaiTT == -1) {
+                if (Service.create(new ThuocTinh(0, txtThuocTinh.getText()), indexThuocTinh) == 1) {
+                    JOptionPane.showMessageDialog(this, "Thành Công");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thất Bại");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Thuộc Tính Đã Tồn Tại\n ID Là : " + checktontaiTT + "\n Vui Lòng Nhập Thuộc Tính Khác");
+            }
+        }
         loadData();
+        index = -1;
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Thuộc Tính");
+            return;
+        }
         int id = Integer.parseInt(tblThuocTinh.getValueAt(index, 0).toString());
-        Service.update(new ThuocTinh(id, txtThuocTinh.getText()), indexThuocTinh);
+        if (txtThuocTinh.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn Chưa Nhập Thuộc Tính");
+        } else {
+            if (!tblThuocTinh.getValueAt(index, 1).equals(txtThuocTinh.getText())) {
+                int checktontaiTT = Service.ktrTonTaiTT(indexThuocTinh, txtThuocTinh.getText());
+                if (checktontaiTT == -1) {
+                    if (Service.update(new ThuocTinh(id, txtThuocTinh.getText()), indexThuocTinh) == 1) {
+                        JOptionPane.showMessageDialog(this, "Thành Công");
+                        index = -1;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thất Bại");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thuộc Tính Đã Tồn Tại\n ID Là : " + checktontaiTT + "\n Vui Lòng Nhập Thuộc Tính Khác");
+                }
+            }
+        }
         loadData();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Thuộc Tính");
+            return;
+        }
         int id = Integer.parseInt(tblThuocTinh.getValueAt(index, 0).toString());
         Service.remove(id, indexThuocTinh);
         loadData();
+        index = -1;
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblThuocTinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThuocTinhMouseClicked
         index = tblThuocTinh.getSelectedRow();
+        txtThuocTinh.setText(tblThuocTinh.getValueAt(index, 1).toString());
     }//GEN-LAST:event_tblThuocTinhMouseClicked
     public static void main(String args[]) {
         new viewCRUDThuocTinh(1).setVisible(true);
