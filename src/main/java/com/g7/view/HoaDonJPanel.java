@@ -34,7 +34,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         for (HoaDon hd : dshd) {
             dtm.addRow(new Object[]{
                 hd.getId(),
-                hd.getMaHoaDon(),
+                hd.getMaHD(),
                 hd.getNgayTao(),
                 hd.getNgayThanhToan(),
                 hd.getTongTien(),
