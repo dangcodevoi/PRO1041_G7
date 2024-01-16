@@ -37,19 +37,7 @@ public class HoaDonRepository {
         }
         return listHoaDon;
     }
-    public void updateTrangThai(int id, int trangThai) {
-        try {
-            Connection con = JdbcHelper.openDbConnection();
-            String sql = "UPDATE HoaDon SET TrangThai = ? WHERE Id = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, trangThai);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 //    public static void main(String[] args) {
 //        HoaDonRepository hdsv = new HoaDonRepository();
 //        System.out.println(hdsv.getlistHoaDon());

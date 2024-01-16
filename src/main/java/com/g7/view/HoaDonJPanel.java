@@ -4,9 +4,10 @@ import com.g7.entity.HoaDon;
 import com.g7.entity.HoaDonChiTiet;
 import com.g7.repository.impl.HoaDonRepository;
 import com.g7.repository.impl.HoaDonCtRepository;
+import com.toedter.calendar.demo.DateChooserPanel;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDonJPanel extends javax.swing.JPanel {
@@ -16,14 +17,15 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private HoaDonCtRepository hdctsv = new HoaDonCtRepository();
     DefaultTableModel dtm = new DefaultTableModel();
 
+
     int id;
 
     public HoaDonJPanel() {
         initComponents();
         cbotrangThai.addItem("Đã Thanh Toán");
         cbotrangThai.addItem("Chưa Thanh Toán");
-     
         loadDataHd(listh);
+        
 
     }
 
@@ -185,15 +187,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        int selectedRow = tblhoaDon.getSelectedRow();
-    if (selectedRow >= 0) {
-        int id = (int) tblhoaDon.getValueAt(selectedRow, 0);
-        int newTrangThai = 1; // Hoặc 2 tùy thuộc vào trạng thái bạn muốn cập nhật
-        hdsv.updateTrangThai(id, newTrangThai);
-        loadDataHd(listh); // Cập nhật lại dữ liệu trong tblhoaDon
-    } else {
-        JOptionPane.showMessageDialog(this, "Vui lòng chọn một hóa đơn để cập nhật trạng thái");
-    }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblhoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhoaDonMouseClicked
