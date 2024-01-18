@@ -19,7 +19,19 @@ public class HoaDonChiTiet {
     private int idHoaDon;
     private int idCtSanPham;
     private int soLuong;
-    private int donGia;
+    private Double donGia;
     private int trangThai;
+
+    public HoaDonChiTiet(int idHoaDon, int idCtSanPham, int soLuong, Double donGia, int trangThai) {
+        this.idHoaDon = idHoaDon;
+        this.idCtSanPham = idCtSanPham;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.trangThai = trangThai;
+    }
+    
+    
     
 }
+
+

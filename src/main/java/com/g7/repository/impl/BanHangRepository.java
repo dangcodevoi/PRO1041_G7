@@ -5,6 +5,8 @@
 package com.g7.repository.impl;
 
 import com.g7.entity.HoaDon;
+import com.g7.entity.HoaDonChiTiet;
+import com.g7.entity.SanPhamChiTiet;
 import com.g7.utils.JdbcHelper;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
@@ -37,7 +39,15 @@ public class BanHangRepository {
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY;";
 
-    String TotalItems_sp = "SELECT COUNT(*) FROM dbo.ChiTietSanPham WHERE ChiTietSanPham.TrangThai = 1";
+    String TotalItems_sp = "SELECT COUNT(*)\n"
+            + "FROM     dbo.ChiTietSanPham INNER JOIN\n"
+            + "                  dbo.DanhMuc ON dbo.ChiTietSanPham.Id = dbo.DanhMuc.Id INNER JOIN\n"
+            + "                  dbo.HinhAnh ON dbo.ChiTietSanPham.IdHinhAnh = dbo.HinhAnh.Id INNER JOIN\n"
+            + "                  dbo.KichCo ON dbo.ChiTietSanPham.IdKichCo = dbo.KichCo.Id INNER JOIN\n"
+            + "                  dbo.MauSac ON dbo.ChiTietSanPham.IdMauSac = dbo.MauSac.Id INNER JOIN\n"
+            + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id INNER JOIN\n"
+            + "                  dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
+            + "				  WHERE ChiTietSanPham.TrangThai = 1";
 
     String select_Pagination_hdc = " SELECT dbo.HoaDon.MaHD, dbo.NhanVien.TenNhanVien, dbo.HoaDon.NgayTao, dbo.KhachHang.TenKhachHang, dbo.HoaDon.TrangThai, dbo.HoaDon.Id\n"
             + "FROM     dbo.HoaDon INNER JOIN\n"
@@ -54,21 +64,25 @@ public class BanHangRepository {
             + "                  dbo.SanPham ON dbo.HoaDonChiTiet.Id = dbo.SanPham.Id INNER JOIN\n"
             + "                  dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
             + "				  WHERE HoaDon.Id LIKE ?\n"
-            + "				  ORDER BY MaHD \n"
-            + "				  OFFSET ? ROWS \n"
-            + "				  FETCH NEXT ? ROWS ONLY";
+            + "				  ";
 
-    String TotalItimeHDC = " SELECT COUNT(*) FROM dbo.HoaDon WHERE TrangThai =1";
+    String TotalItimeHDC = " 	  SELECT COUNT(*)\n"
+            + "            FROM     dbo.HoaDon INNER JOIN\n"
+            + "                              dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id INNER JOIN\n"
+            + "                           dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
+            + "            			  WHERE HoaDon.TrangThai = 1";
     String select_byMaHd = "SELECT Id FROM dbo.HoaDon WHERE MaHD = ?";
     String Insert_hd = "INSERT INTO hoadon (IdNhanVien, IdKhachHang, MaHD) VALUES (?,?,?)";
     String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
+    String updateSoLuong = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE Id = ?";
+    String selectID_byMaSP = "SELECT id FROM chitietsanpham WHERE masanpham = ?";
 
-    public List<GioHangViewModel> selectWithPaginationGH(int id, int offset, int fetchSize) {
+    public List<GioHangViewModel> selectWithPaginationGH(int id) {
         String sql = select_Pagination_gh;
 
         List<GioHangViewModel> list = new ArrayList<>();
         try {
-            ResultSet rs = JdbcHelper.query(sql, id, offset, fetchSize);
+            ResultSet rs = JdbcHelper.query(sql, id);
             while (rs.next()) {
                 GioHangViewModel entity = new GioHangViewModel();
                 entity.setMasp(rs.getString(1));
@@ -262,7 +276,7 @@ public class BanHangRepository {
         return "Thêm hóa đơn thất bại";
     }
 
-    public int selectIdByMaNV(String makh) {
+    public int selectIdByMaKH(String makh) {
         int id = 0;
 
         try {
@@ -276,6 +290,51 @@ public class BanHangRepository {
         }
 
         return id;
+    }
+
+    public String updateSoLuong(SanPhamChiTiet ctsp, int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuong)) {
+            ps.setObject(1, ctsp.getSoLuong());
+            ps.setObject(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public int selectIdByMaSP(String maSP) {
+        int id = 0;
+
+        try {
+            ResultSet rs = JdbcHelper.query(selectID_byMaSP, maSP);
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    public String addHDCT(HoaDonChiTiet hdct) {
+        String sql = "INSERT INTO HoaDonChiTiet(IdHoaDon,IdCTSanPham,SoLuong, DonGia, trangthai) VALUES (?,?,?,?,?)";
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, hdct.getIdHoaDon());
+            ps.setObject(2, hdct.getIdCtSanPham());
+            ps.setObject(3, hdct.getSoLuong());
+            ps.setObject(4, hdct.getDonGia());
+            ps.setObject(5, hdct.getTrangThai());
+
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn ct thành công";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Thêm hóa đơn ct thất bại";
     }
 
 }
