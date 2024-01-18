@@ -1,28 +1,33 @@
 package com.g7.view;
 
 import com.g7.entity.HoaDon;
+import com.g7.entity.HoaDonChiTiet;
 import com.g7.repository.impl.HoaDonRepository;
+import com.g7.repository.impl.HoaDonCtRepository;
+import com.toedter.calendar.demo.DateChooserPanel;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 import javax.swing.table.DefaultTableModel;
 
 public class HoaDonJPanel extends javax.swing.JPanel {
 
-    private ArrayList<HoaDon> listHoaDon = new ArrayList<>();
+    private ArrayList<HoaDon> listh = new ArrayList<>();
     private HoaDonRepository hdsv = new HoaDonRepository();
+    private HoaDonCtRepository hdctsv = new HoaDonCtRepository();
     DefaultTableModel dtm = new DefaultTableModel();
+
+
     int id;
-    private int selectedRowIndex = -1;
+
     public HoaDonJPanel() {
         initComponents();
         cbotrangThai.addItem("Đã Thanh Toán");
         cbotrangThai.addItem("Chưa Thanh Toán");
-        loadDataHd(listHoaDon);
+        loadDataHd(listh);
+        
 
-  
     }
-
 
     public void loadDataHd(List<HoaDon> list) {
         dtm = (DefaultTableModel) tblhoaDon.getModel();
@@ -31,7 +36,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         for (HoaDon hd : dshd) {
             dtm.addRow(new Object[]{
                 hd.getId(),
-                hd.getMaHoaDon(),
+                hd.getMaHD(),
                 hd.getNgayTao(),
                 hd.getNgayThanhToan(),
                 hd.getTongTien(),
@@ -42,29 +47,22 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         }
     }
 
-    public void Search() {
-        String idString = txttimKiem.getText().trim();
-        try {
-            if (!idString.isEmpty()) {
-                try {
-                    int id = Integer.parseInt(idString);
-                    listHoaDon = hdsv.searchById(id);
-                    loadDataHd(listHoaDon);
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Định dạng ID không hợp lệ");
-                    e.printStackTrace();
-                }
-            } else {
-                listHoaDon = hdsv.getlistHoaDon();
-                loadDataHd(listHoaDon);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm");
-            e.printStackTrace();
-
+    public void loadHdct() {
+        DefaultTableModel dtm = (DefaultTableModel) tblhoaDonChiTiet.getModel();
+        dtm.setRowCount(0);
+        for (HoaDonChiTiet ct : hdctsv.getListHdct(id)) {
+           dtm.addRow(new Object[]{
+               ct.getId(),
+               ct.getIdHoaDon(),
+               ct.getIdCtSanPham(),
+               ct.getSoLuong(),
+               ct.getDonGia(),
+               ct.getTrangThai()
+           });
         }
     }
- 
+
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -104,24 +102,22 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 984, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 984, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
         );
 
         tblhoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID Hóa đơn", "ID Sản phẩm", "Số lượng", "Đơn giá"
+                "ID", "ID Hoá Đơn", "ID Sản Phẩm", "Số Lượng ", "Đơn Giá", "Trạng Thái"
             }
         ));
         jScrollPane1.setViewportView(tblhoaDonChiTiet);
@@ -131,12 +127,12 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 978, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
 
         btnSearch.setText("Tìm kiếm");
@@ -157,40 +153,32 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(cbotrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(167, 167, 167)
-                                .addComponent(txttimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
-                                .addComponent(btnSearch))
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel2)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(cbotrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(212, 212, 212)
+                        .addComponent(txttimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnSearch))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbotrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txttimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,15 +187,14 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        Search();
-        selectedRowIndex = -1;
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblhoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhoaDonMouseClicked
-        selectedRowIndex = tblhoaDon.getSelectedRow();
-    if (selectedRowIndex != -1) {  
-        String trangThai = tblhoaDon.getValueAt(selectedRowIndex, 7).toString();
-        cbotrangThai.setSelectedItem(trangThai);
+        int selectedRow = tblhoaDon.getSelectedRow();
+    if (selectedRow >= 0) {
+        id = (int) tblhoaDon.getValueAt(selectedRow, 0);
+        loadHdct();
     }
     }//GEN-LAST:event_tblhoaDonMouseClicked
 

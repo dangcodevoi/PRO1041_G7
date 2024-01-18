@@ -2,10 +2,10 @@ package com.g7.entity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class HoaDon {
 
     private int id;
-    private String MaHoaDon;
+    private String MaHD;
     private Date ngayTao;
     private Date ngayThanhToan;
     private BigDecimal tongTien;

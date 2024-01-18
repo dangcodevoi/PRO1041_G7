@@ -59,7 +59,7 @@ public class ThuocTinhRepository implements com.g7.repository.ThuocTinhRepositor
         try {
             ArrayList list = new ArrayList();
             connect = JdbcHelper.openDbConnection();
-            preparedStatement = connect.prepareStatement("update "+tenBang+" set "+tenThuocTinh+" =? where id=?");
+            preparedStatement = connect.prepareStatement("update " + tenBang + " set " + tenThuocTinh + " =? where id=?");
             ThuocTinh tt = (ThuocTinh) o;
             preparedStatement.setString(1, tt.getTenThuocTinh());
             preparedStatement.setInt(2, tt.getId());
@@ -77,7 +77,7 @@ public class ThuocTinhRepository implements com.g7.repository.ThuocTinhRepositor
         try {
             ArrayList list = new ArrayList();
             connect = JdbcHelper.openDbConnection();
-            preparedStatement = connect.prepareStatement("update "+tenBang+" set trangthai=0 where id="+id);
+            preparedStatement = connect.prepareStatement("update " + tenBang + " set trangthai=0 where id=" + id);
             preparedStatement.executeUpdate();
             return 1;
         } catch (SQLException e) {
@@ -86,7 +86,7 @@ public class ThuocTinhRepository implements com.g7.repository.ThuocTinhRepositor
         }
     }
 
-    public void setUpSql(int indexThuocTinh) {
+    private void setUpSql(int indexThuocTinh) {
         switch (indexThuocTinh) {
             case 0 -> {
                 tenBang = "NSX";
@@ -108,6 +108,22 @@ public class ThuocTinhRepository implements com.g7.repository.ThuocTinhRepositor
                 tenBang = "KichCo";
                 tenThuocTinh = "KichCo";
             }
+        }
+    }
+
+    public int ktrTonTaiTT(int indexThuocTinh, String tenThuocTinh) {
+        setUpSql(indexThuocTinh);
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement("select id from " + tenBang + " where trangThai=1 and " + this.tenThuocTinh + "='" + tenThuocTinh + "'");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("Lỗi C-05: " + e.getMessage());
+            return -1;
         }
     }
 

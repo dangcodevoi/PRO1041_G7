@@ -11,18 +11,14 @@ public class HoaDonCtRepository {
     public ArrayList<HoaDonChiTiet> listHdct;
     Connection con = JdbcHelper.openDbConnection();
 
-    ArrayList<HoaDonChiTiet> getListHdct(int id) {
+    public ArrayList<HoaDonChiTiet> getListHdct(int id) {
         listHdct = new ArrayList<>();
         try {
-            String sql = "SELECT [Id]\n"
-                    + "      ,[IdHoaDon]\n"
-                    + "      ,[IdCTSanPham]\n"
-                    + "      ,[SoLuong]\n"
-                    + "      ,[DonGia]\n"
-                    + "      ,[TrangThai]\n"
-                    + "  FROM [dbo].[HoaDonChiTiet]";
+            String sql = "SELECT [Id], [IdHoaDon], [IdCTSanPham], [SoLuong], [DonGia], [TrangThai] \" +\n"
+                    + "             \"FROM [dbo].[HoaDonChiTiet] \" +\n"
+                    + "             \"WHERE [Id] = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setObject(id, 1);
+            ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 this.listHdct.add(new HoaDonChiTiet(
@@ -39,7 +35,8 @@ public class HoaDonCtRepository {
         return listHdct;
     }
 
-    public void setHdct(ArrayList<HoaDonChiTiet> listHdct){
+    public void setListhdct(ArrayList<HoaDonChiTiet> listHdct) {
         this.listHdct = listHdct;
     }
+
 }

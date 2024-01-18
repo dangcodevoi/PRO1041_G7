@@ -38,35 +38,8 @@ public class HoaDonRepository {
         return listHoaDon;
     }
 
-    public ArrayList<HoaDon> searchById(int id) {
-    this.listHoaDon = new ArrayList<>();
-    try {
-        String sql = "SELECT Id, MaHD, NgayTao, NgayThanhToan, TongTien, SoTienDuocGiam, GhiChu, TrangThai, IdNhanVien, IdKhachHang FROM HoaDon WHERE Id = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            this.listHoaDon.add(new HoaDon(
-                    rs.getInt(1),
-                    rs.getString(2), 
-                    rs.getDate(3), 
-                    rs.getDate(4), 
-                    rs.getBigDecimal(5), 
-                    rs.getBigDecimal(6),
-                    rs.getString(7),
-                    rs.getInt(8),
-                    rs.getString(9),
-                    rs.getString(10)));
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return listHoaDon;
-}
-    
-
-    public static void main(String[] args) {
-        HoaDonRepository hdsv = new HoaDonRepository();
-        System.out.println(hdsv.getlistHoaDon());
-    }
+//    public static void main(String[] args) {
+//        HoaDonRepository hdsv = new HoaDonRepository();
+//        System.out.println(hdsv.getlistHoaDon());
+//    }
 }

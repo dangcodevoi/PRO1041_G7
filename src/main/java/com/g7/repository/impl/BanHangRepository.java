@@ -252,7 +252,7 @@ public class BanHangRepository {
 //            }
             ps.setObject(1, hd.getIdNhanVien());
             ps.setObject(2, hd.getIdKhachHang());
-            ps.setObject(3, hd.getMaHoaDon());
+            ps.setObject(3, hd.getMaHD());
             if (ps.executeUpdate() > 0) {
                 return "Thêm hóa đơn thành công";
             }
