@@ -36,6 +36,23 @@ public class ThuocTinhRepository implements com.g7.repository.ThuocTinhRepositor
         }
     }
 
+    public int selectIdByName(String tenThuocTinh, int indexThuocTinh) {
+        setUpSql(indexThuocTinh);
+        try {
+            ArrayList list = new ArrayList();
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement("select id  from " + tenBang + " where " + this.tenThuocTinh + "='" + tenThuocTinh + "'");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("Lỗi C-01: " + e.getMessage());
+            return -1;
+        }
+    }
+
     @Override
     public int create(Object o, int indexThuocTinh) {
         setUpSql(indexThuocTinh);

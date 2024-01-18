@@ -131,15 +131,15 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
 
     @Override
     public int create(Object o) {
-        String sql = "INSERT INTO [dbo].[ChiTietSanPham]\n"
-                + "           ([IdSanPham]\n"
-                + "           ,[IdKichCo]\n"
-                + "           ,[IdMauSac]\n"
-                + "           ,[IdHinhAnh]\n"
-                + "           ,[GiaBan]\n"
-                + "           ,[SoLuong]\n"
-                + "           ,[MoTa],"
-                + "           ,[MaSanPham]  \n"
+        String sql = "INSERT INTO ChiTietSanPham\n"
+                + "           (IdSanPham\n"
+                + "           ,IdKichCo\n"
+                + "           ,IdMauSac\n"
+                + "           ,IdHinhAnh\n"
+                + "           ,GiaBan\n"
+                + "           ,SoLuong\n"
+                + "           ,MoTa"
+                + "           ,MaSanPham)  \n"
                 + "     VALUES "
                 + "  (?,?,?,?,?,?,?,?)";
         try {
