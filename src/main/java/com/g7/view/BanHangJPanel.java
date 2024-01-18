@@ -78,7 +78,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void updatePageInfo() {
         int totalItems = BHrepo.getTotalItems();
-        int maxPage = (int) Math.ceil((double) totalItems / size);
+        int maxPage = (int) Math.ceil((double) totalItems / size) - 1 ;
 
         if (ht > maxPage) {
             ht = (maxPage == 0) ? 1 : maxPage;
@@ -99,7 +99,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         int max = 100000;
         int randomNumber = r.nextInt(max - min + 1) + min;
         String maHDC = maHd + randomNumber;
-        hdvm.setMaHD(maHDC);
+        hdvm.setMaHoaDon(maHDC);
         hdvm.setIdNhanVien(idNV);
         hdvm.setIdKhachHang(idkh);
         BHrepo.addHoaDon(hdvm);
@@ -108,7 +108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     public void PageLastSP() {
         int totalItems = BHrepo.getTotalItems();
-        int lastPage = (int) Math.ceil((double) totalItems / size) ;
+        int lastPage = (int) Math.ceil((double) totalItems / size) - 1 ;
         ht = lastPage;
         int page = (ht - 1) * size;
         findWithPaginationSPBH(page, size);
