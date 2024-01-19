@@ -8,6 +8,12 @@ public class SanPhamChiTiet {
     public SanPhamChiTiet() {
     }
 
+    public SanPhamChiTiet(int soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    
+    
     public SanPhamChiTiet(int idSanPham, int idSanPhamCT, int idMau, int idKichThuoc, int giaBan, int soLuong, String tenSanPham, String hinhAnh, String mau, String ghiChu, String kichThuoc, String maSanPham) {
         this.idSanPham = idSanPham;
         this.idSanPhamCT = idSanPhamCT;

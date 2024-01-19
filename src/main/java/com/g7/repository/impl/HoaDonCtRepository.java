@@ -26,7 +26,7 @@ public class HoaDonCtRepository {
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getInt(4),
-                        rs.getInt(5),
+                        rs.getDouble(5),
                         rs.getInt(6)));
             }
         } catch (Exception e) {

@@ -7,28 +7,32 @@ import com.g7.repository.impl.SanPhamCTRepository;
 import com.g7.repository.impl.SanPhamRepository;
 import com.g7.repository.impl.ThuocTinhRepository;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SanPhamJPanel extends javax.swing.JPanel {
-
+    
     public SanPhamJPanel() {
         initComponents();
         openApp();
     }
-
+    
     SanPhamRepository Service_SanPham = new SanPhamRepository();
     SanPhamCTRepository Service_SanPhamCT = new SanPhamCTRepository();
     ThuocTinhRepository Service_ThuocTinh = new ThuocTinhRepository();
-
+    
     DefaultTableModel Model = new DefaultTableModel();
-
+    
     int indexSP = -1;
     int indexSPCT = -1;
     int indexOffsetSP = 0;
     int indexOffsetSPCT = 0;
-    int soDongDataSanpham=Service_SanPham.soDongData();
-
+    int soDongDataSanpham = Service_SanPham.soDongData();
+    
+    String pathHinhAnh=null;
+    
     private void openApp() {
         loadDataSanPham(Service_SanPham.selectOffset(0));
         loadDataSanPhamCT(Service_SanPhamCT.selectOffset(0));
@@ -38,9 +42,9 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         loadDataCbo(3);
         loadDataCbo(4);
         loadDataCbo(5);
-        lbl_TrangSo.setText(indexOffsetSP+1+"/"+soDongDataSanpham);
+        lbl_TrangSo.setText(indexOffsetSP + 1 + "/" + soDongDataSanpham);
     }
-
+    
     private void loadDataCbo(int loaiTT) {
         switch (loaiTT) {
             case 0 -> {
@@ -97,9 +101,9 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 break;
             }
         }
-
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -326,6 +330,9 @@ public class SanPhamJPanel extends javax.swing.JPanel {
             }
         });
         SP1.setViewportView(tbl_DanhSachSP);
+        if (tbl_DanhSachSP.getColumnModel().getColumnCount() > 0) {
+            tbl_DanhSachSP.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
 
         txt_TenSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_TenSanPham.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -602,13 +609,15 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         });
         SP4.setViewportView(tbl_DanhSachSPCT);
         if (tbl_DanhSachSPCT.getColumnModel().getColumnCount() > 0) {
-            tbl_DanhSachSPCT.getColumnModel().getColumn(0).setMaxWidth(30);
+            tbl_DanhSachSPCT.getColumnModel().getColumn(0).setMaxWidth(40);
         }
 
         HinhAnh.setBackground(new java.awt.Color(204, 204, 204));
+        HinhAnh.setMaximumSize(new java.awt.Dimension(200, 210));
 
         lbl_HinhAnh.setBackground(new java.awt.Color(0, 0, 0));
         lbl_HinhAnh.setText("                   Không Hiện Thị");
+        lbl_HinhAnh.setMaximumSize(new java.awt.Dimension(200, 210));
 
         javax.swing.GroupLayout HinhAnhLayout = new javax.swing.GroupLayout(HinhAnh);
         HinhAnh.setLayout(HinhAnhLayout);
@@ -841,7 +850,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Thất Bại");
             }
         }
-        indexSP=-1;
+        indexSP = -1;
     }//GEN-LAST:event_btn_ThemSpActionPerformed
 
     private void btn_SuaSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaSpActionPerformed
@@ -851,7 +860,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 if (Service_SanPham.update(sp) == 0) {
                     JOptionPane.showMessageDialog(this, "Thành Công.");
                     loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
-                    indexSP=-1;
+                    indexSP = -1;
                 } else {
                     JOptionPane.showMessageDialog(this, "Thất Bại");
                 }
@@ -866,31 +875,31 @@ public class SanPhamJPanel extends javax.swing.JPanel {
             if (Service_SanPham.remove(Integer.parseInt(tbl_DanhSachSP.getValueAt(indexSP, 0).toString())) == 0) {
                 JOptionPane.showMessageDialog(this, "Thành Công.");
                 loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
-                indexSP=-1;
+                indexSP = -1;
             } else {
                 JOptionPane.showMessageDialog(this, "Thất Bại");
             }
-        }else {
+        } else {
             JOptionPane.showMessageDialog(this, "Hãy Chọn Sản Phẩm.");
         }
     }//GEN-LAST:event_btn_XoaActionPerformed
 
     private void btn_MoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_MoiActionPerformed
         newForm();
-        indexSP=-1;
+        indexSP = -1;
     }//GEN-LAST:event_btn_MoiActionPerformed
 
     private void btn_VeDauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeDauActionPerformed
         indexOffsetSP = 0;
         loadDataSanPham(Service_SanPham.selectOffset(0));
-        lbl_TrangSo.setText(indexOffsetSP+1+"/"+soDongDataSanpham);
+        lbl_TrangSo.setText(indexOffsetSP + 1 + "/" + soDongDataSanpham);
     }//GEN-LAST:event_btn_VeDauActionPerformed
 
     private void btn_VeTruocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeTruocActionPerformed
         if (indexOffsetSP > 0) {
             indexOffsetSP -= 1;
             loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
-            lbl_TrangSo.setText(indexOffsetSP+1+"/"+soDongDataSanpham);
+            lbl_TrangSo.setText(indexOffsetSP + 1 + "/" + soDongDataSanpham);
         }
     }//GEN-LAST:event_btn_VeTruocActionPerformed
 
@@ -898,20 +907,20 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         if (indexOffsetSP < soDongDataSanpham) {
             indexOffsetSP += 1;
             loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
-            lbl_TrangSo.setText(indexOffsetSP+1+"/"+soDongDataSanpham);
+            lbl_TrangSo.setText(indexOffsetSP + 1 + "/" + soDongDataSanpham);
         }
     }//GEN-LAST:event_btn_VeSauActionPerformed
 
     private void btn_VeCuoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_VeCuoiActionPerformed
         indexOffsetSP = soDongDataSanpham;
         loadDataSanPham(Service_SanPham.selectOffset(indexOffsetSP));
-        lbl_TrangSo.setText(indexOffsetSP+1+"/"+soDongDataSanpham);
+        lbl_TrangSo.setText(indexOffsetSP + 1 + "/" + soDongDataSanpham);
     }//GEN-LAST:event_btn_VeCuoiActionPerformed
 
     private void btn_XemCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_XemCTSPActionPerformed
 
     }//GEN-LAST:event_btn_XemCTSPActionPerformed
-
+    
     private void loadDataSanPham(ArrayList<SanPham> list) {
         Model = (DefaultTableModel) tbl_DanhSachSP.getModel();
         Model.setRowCount(0);
@@ -925,7 +934,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
             });
         }
     }
-
+    
     private void newForm() {
         lbl_IDSanPham.setText("Không Cần Nhập");
         cbo_NSX.setSelectedIndex(0);
@@ -933,11 +942,13 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         cbo_ChatLieu.setSelectedIndex(0);
         txt_TenSanPham.setText("");
     }
-
+    
     private SanPham getInputFromSP(boolean layID) {
-        if (Service_SanPham.ktrTenSanPham(txt_TenSanPham.getText())) {
-            JOptionPane.showMessageDialog(this, "Tên Sản Phầm Đã Tồn Tại");
-            return null;
+        if (!txt_TenSanPham.getText().equals(tbl_DanhSachSP.getValueAt(indexSP, 1).toString())) {
+            if (Service_SanPham.ktrTenSanPham(txt_TenSanPham.getText())) {
+                JOptionPane.showMessageDialog(this, "Tên Sản Phầm Đã Tồn Tại");
+                return null;
+            }
         }
         if (txt_TenSanPham.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Hãy Nhập Tên Sản Phẩm.");
@@ -955,10 +966,10 @@ public class SanPhamJPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Hãy Chọn Chất Liệu.");
             return null;
         }
-        int checkTonTaiTT=Service_SanPham.ktrThuocTinh(cbo_NSX.getSelectedIndex(), cbo_ChatLieu.getSelectedIndex(), cbo_DanhMuc.getSelectedIndex());
+        int checkTonTaiTT = Service_SanPham.ktrThuocTinh(cbo_NSX.getSelectedIndex(), cbo_ChatLieu.getSelectedIndex(), cbo_DanhMuc.getSelectedIndex());
         System.out.println(checkTonTaiTT);
-        if(checkTonTaiTT!=-1){
-            JOptionPane.showMessageDialog(this, "Sản Phầm Bạn Thêm Đã Trùng Các Thuộc Tính Của Sản Phẩm Có ID Là: "+checkTonTaiTT);
+        if (checkTonTaiTT != -1) {
+            JOptionPane.showMessageDialog(this, "Sản Phầm Bạn Thêm Đã Trùng Các Thuộc Tính Của Sản Phẩm Có ID Là: " + checkTonTaiTT);
             return null;
         }
         int idSanPham = 0;
@@ -967,21 +978,21 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         }
         return new SanPham(
                 idSanPham,
-                cbo_NSX.getSelectedIndex(),
-                cbo_DanhMuc.getSelectedIndex(),
-                cbo_ChatLieu.getSelectedIndex(),
+                Service_ThuocTinh.selectIdByName(cbo_NSX.getSelectedItem().toString(), 0),
+                Service_ThuocTinh.selectIdByName(cbo_DanhMuc.getSelectedItem().toString(), 1),
+                Service_ThuocTinh.selectIdByName(cbo_ChatLieu.getSelectedItem().toString(), 2),
                 txt_TenSanPham.getText(),
                 null,
                 null,
                 null);
     }
-
+    
     private void showData(SanPham o) {
         txt_TenSanPham.setText(o.getTenSanPham());
         lbl_IDSanPham.setText(String.valueOf(o.getIdSanPham()));
-        cbo_ChatLieu.setSelectedIndex(o.getIdChatLieu());
-        cbo_DanhMuc.setSelectedIndex(o.getIdDanhMuc());
-        cbo_NSX.setSelectedIndex(o.getIdNhaSX());
+        cbo_ChatLieu.setSelectedItem(o.getTenChatLieu());
+        cbo_DanhMuc.setSelectedItem(o.getTenDanhMuc());
+        cbo_NSX.setSelectedItem(o.getTenNhaSX());
     }
 
     //====================================SẢN PHẨM CHI TIẾT===================================================
@@ -1048,7 +1059,12 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tbl_DanhSachSPCTMouseClicked
 
     private void btn_AnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AnhActionPerformed
-
+        JFileChooser Jfile = new JFileChooser("");
+        int luaChon=Jfile.showOpenDialog(this);
+        if(luaChon==0){
+            pathHinhAnh=Jfile.getSelectedFile().getPath();
+            showHinhAnh();
+        }
     }//GEN-LAST:event_btn_AnhActionPerformed
 
     private void cbo_NSXFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_NSXFocusGained
@@ -1075,7 +1091,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     private void cbo_SanPhamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbo_SanPhamFocusGained
         loadDataCbo(5);
     }//GEN-LAST:event_cbo_SanPhamFocusGained
-
+    
     private void loadDataSanPhamCT(ArrayList<SanPhamChiTiet> list) {
         Model = (DefaultTableModel) tbl_DanhSachSPCT.getModel();
         Model.setRowCount(0);
@@ -1092,7 +1108,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
             );
         }
     }
-
+    
     private void newFormCT() {
         lbl_IDSPCT.setText("Không Cần Nhập.");
         cbo_SanPham.setSelectedIndex(0);
@@ -1102,9 +1118,39 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         txt_SoLuongCT.setText("");
         txt_GiaBanCT.setText("");
         lbl_TenSPCT.setText("");
+        lbl_HinhAnh.setIcon(null);
+        lbl_HinhAnh.setText("    Chọn Hình Ảnh");
+        pathHinhAnh=null;
     }
-
+    
     private SanPhamChiTiet getInputFromSPCT() {
+        if (txt_MaSanPham.getText().length()<=5) {
+            JOptionPane.showMessageDialog(this, "Mã Sản Phẩm Cần Phải Hơn 6 Ký Tự.");
+            return null;
+        }
+        if(cbo_SanPham.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Sản Phẩm.");
+            return null;
+        }
+        if(cbo_Mau.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Màu Sắc.");
+            return null;
+        }
+        if(cbo_KichThuoc.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Kích Thước.");
+            return null;
+        }
+        if(txt_GiaBanCT.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Hãy Nhập Giá Bán");
+            return null;
+        }
+        if(txt_SoLuongCT.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Hãy Nhập Số Lượng");
+            return null;
+        }
+        if(pathHinhAnh.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Hãy Chọn Hình Ảnh.");
+        }
         return new SanPhamChiTiet(
                 cbo_SanPham.getSelectedIndex(),
                 0,
@@ -1119,7 +1165,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 null,
                 txt_MaSanPham.getText());
     }
-
+    
     private void showDataCT(SanPhamChiTiet o) {
         lbl_IDSPCT.setText(String.valueOf(o.getIdSanPhamCT()));
         cbo_SanPham.setSelectedItem(o.getTenSanPham());
@@ -1128,14 +1174,25 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         txt_GiaBanCT.setText(String.valueOf(o.getGiaBan()));
         txt_SoLuongCT.setText(String.valueOf(o.getSoLuong()));
         txt_GhiChuCT.setText(o.getGhiChu());
-        lbl_TenSPCT.setText(
+        lbl_TenSPCT.setText(o.getMaSanPham()+"-"+
                 cbo_SanPham.getSelectedItem().toString() + " - "
                 + cbo_Mau.getSelectedItem().toString() + " - "
                 + cbo_KichThuoc.getSelectedItem().toString());
         txt_MaSanPham.setText(o.getMaSanPham());
+        pathHinhAnh=o.getHinhAnh();
     }
 
 
+    public void showHinhAnh(){
+        try {
+            lbl_HinhAnh.setIcon(new ImageIcon(pathHinhAnh));
+            lbl_HinhAnh.setText("");
+        } catch (Exception e) {
+            lbl_HinhAnh.setText("Không Phải Hình");
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Fame_SanPham;
     private javax.swing.JPanel Fame_SanPhamCT;
