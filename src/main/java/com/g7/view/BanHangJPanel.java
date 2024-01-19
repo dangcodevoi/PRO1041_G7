@@ -108,7 +108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }
 
     public void insertGH() {
-        List<CTSPBanHangViewModel> list = BHRepo.selectWithPagination(ht, size);
+        List<CTSPBanHangViewModel> list = BHRepo.selectWithPagination(0, size);
         GioHangViewModel gh = new GioHangViewModel();
         int rowHD = tbHDC.getSelectedRow();
         int row = tbSP.getSelectedRow();
@@ -152,26 +152,27 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         updatePageInfo();
 
                         int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
-                        int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString());
+                        int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString()) - 1;
                         int soLuong1 = Integer.parseInt(soLuong);
                         double dongia1 = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 
+                        System.out.println(soLuong);
 //                        HoaDonChiTiet hdct = new HoaDonChiTiet();
 //                        hdct.setIdHoaDon(idHD);
 //                        hdct.setIdCtSanPham(Integer.parseInt(idSP));
 //                        hdct.setSoLuong(soLuong1);
 //                        hdct.setDonGia(Double.valueOf(donGia));
-                        HoaDonChiTiet hdct = new HoaDonChiTiet(idHD, idSP, soLuong1, donGia, 1);
+                        HoaDonChiTiet hdct = new HoaDonChiTiet(idHD, idSP, soLuong1, donGia);
                         JOptionPane.showMessageDialog(this, BHRepo.addHDCT(hdct));
 
-//                        SanPhamChiTiet sp1 = new SanPhamChiTiet(sp.getSoluong());
-//                        BHRepo.updateSoLuong(sp1, idSP);
+                        SanPhamChiTiet sp1 = new SanPhamChiTiet(sp.getSoluong());
+                        BHRepo.updateSoLuong(sp1, idSP);
 
 //                        double thanhTien = 0;
 //                        double thanhToan = 0;
 
 //                        list.clear();
-                        FindDataSP(ht, size);
+                        FindDataSP(0, size);
 //                        FindDataGH(idHD, 0, size);
 
                     }
