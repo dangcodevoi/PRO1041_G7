@@ -4,10 +4,44 @@
  */
 package com.g7.entity;
 
+import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author Ddawng
  */
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class KhuyenMai {
+    private int IDKhuyenMai;
+    private String TenKhuyenMai;
+    private boolean KieuGiamGia;
+    private double MucGiamGia;
+    private Date NgayBatDau;
+    private Date NgayKetThuc;
+    private String MoTa;
+    private int TrangThai;
+
+    public KhuyenMai(int IDKhuyenMai, String TenKhuyenMai, boolean KieuGiamGia, double MucGiamGia, Date NgayBatDau, Date NgayKetThuc, String MoTa) {
+        this.IDKhuyenMai = IDKhuyenMai;
+        this.TenKhuyenMai = TenKhuyenMai;
+        this.KieuGiamGia = KieuGiamGia;
+        this.MucGiamGia = MucGiamGia;
+        this.NgayBatDau = NgayBatDau;
+        this.NgayKetThuc = NgayKetThuc;
+        this.MoTa = MoTa;
+    }
+
+    
+   
+    
+
     
 }
