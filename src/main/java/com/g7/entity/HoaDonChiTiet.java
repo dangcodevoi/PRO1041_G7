@@ -22,13 +22,14 @@ public class HoaDonChiTiet {
     private Double donGia;
     private int trangThai;
 
-    public HoaDonChiTiet(int idHoaDon, int idCtSanPham, int soLuong, Double donGia, int trangThai) {
+    public HoaDonChiTiet(int idHoaDon, int idCtSanPham, int soLuong, Double donGia) {
         this.idHoaDon = idHoaDon;
         this.idCtSanPham = idCtSanPham;
         this.soLuong = soLuong;
         this.donGia = donGia;
-        this.trangThai = trangThai;
     }
+
+ 
     
     
     

@@ -27,12 +27,12 @@ public class BanHangRepository {
 
     String select_Pagination_sp = "SELECT dbo.ChiTietSanPham.Id, dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.KichCo.KichCo, dbo.MauSac.TenMauSac, dbo.DanhMuc.TenDanhMuc, dbo.NSX.TenNSX, dbo.ChiTietSanPham.SoLuong, \n"
             + "                  dbo.ChiTietSanPham.GiaBan\n"
-            + "FROM     dbo.ChiTietSanPham INNER JOIN\n"
-            + "                  dbo.DanhMuc ON dbo.ChiTietSanPham.Id = dbo.DanhMuc.Id INNER JOIN\n"
-            + "                  dbo.HinhAnh ON dbo.ChiTietSanPham.IdHinhAnh = dbo.HinhAnh.Id INNER JOIN\n"
-            + "                  dbo.KichCo ON dbo.ChiTietSanPham.IdKichCo = dbo.KichCo.Id INNER JOIN\n"
-            + "                  dbo.MauSac ON dbo.ChiTietSanPham.IdMauSac = dbo.MauSac.Id INNER JOIN\n"
-            + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id INNER JOIN\n"
+            + "FROM     dbo.ChiTietSanPham LEFT JOIN\n"
+            + "                  dbo.DanhMuc ON dbo.ChiTietSanPham.Id = dbo.DanhMuc.Id LEFT JOIN\n"
+            + "                  dbo.HinhAnh ON dbo.ChiTietSanPham.IdHinhAnh = dbo.HinhAnh.Id LEFT JOIN\n"
+            + "                  dbo.KichCo ON dbo.ChiTietSanPham.IdKichCo = dbo.KichCo.Id LEFT JOIN\n"
+            + "                  dbo.MauSac ON dbo.ChiTietSanPham.IdMauSac = dbo.MauSac.Id LEFT JOIN\n"
+            + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id LEFT JOIN\n"
             + "                  dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
             + "				  WHERE ChiTietSanPham.TrangThai = 1		  \n"
             + "				  ORDER BY ID \n"
@@ -41,17 +41,17 @@ public class BanHangRepository {
 
     String TotalItems_sp = "SELECT COUNT(*)\n"
             + "FROM     dbo.ChiTietSanPham INNER JOIN\n"
-            + "                  dbo.DanhMuc ON dbo.ChiTietSanPham.Id = dbo.DanhMuc.Id INNER JOIN\n"
-            + "                  dbo.HinhAnh ON dbo.ChiTietSanPham.IdHinhAnh = dbo.HinhAnh.Id INNER JOIN\n"
-            + "                  dbo.KichCo ON dbo.ChiTietSanPham.IdKichCo = dbo.KichCo.Id INNER JOIN\n"
-            + "                  dbo.MauSac ON dbo.ChiTietSanPham.IdMauSac = dbo.MauSac.Id INNER JOIN\n"
-            + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id INNER JOIN\n"
+            + "                  dbo.DanhMuc ON dbo.ChiTietSanPham.Id = dbo.DanhMuc.Id LEFT JOIN\n"
+            + "                  dbo.HinhAnh ON dbo.ChiTietSanPham.IdHinhAnh = dbo.HinhAnh.Id LEFT JOIN\n"
+            + "                  dbo.KichCo ON dbo.ChiTietSanPham.IdKichCo = dbo.KichCo.Id LEFT JOIN\n"
+            + "                  dbo.MauSac ON dbo.ChiTietSanPham.IdMauSac = dbo.MauSac.Id LEFT JOIN\n"
+            + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id LEFT JOIN\n"
             + "                  dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
             + "				  WHERE ChiTietSanPham.TrangThai = 1";
 
     String select_Pagination_hdc = " SELECT dbo.HoaDon.MaHD, dbo.NhanVien.TenNhanVien, dbo.HoaDon.NgayTao, dbo.KhachHang.TenKhachHang, dbo.HoaDon.TrangThai, dbo.HoaDon.Id\n"
-            + "FROM     dbo.HoaDon INNER JOIN\n"
-            + "                  dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id INNER JOIN\n"
+            + "FROM     dbo.HoaDon LEFT JOIN\n"
+            + "                  dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id LEFT JOIN\n"
             + "                  dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
             + "				  WHERE HoaDon.TrangThai = 1\n"
             + "				  ORDER BY HoaDon.Id \n"
@@ -59,16 +59,16 @@ public class BanHangRepository {
             + "				  FETCH NEXT ? ROWS ONLY";
 
     String select_Pagination_gh = "	SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia\n"
-            + "FROM     dbo.HoaDonChiTiet INNER JOIN\n"
-            + "                  dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id INNER JOIN\n"
-            + "                  dbo.SanPham ON dbo.HoaDonChiTiet.Id = dbo.SanPham.Id INNER JOIN\n"
+            + "FROM     dbo.HoaDonChiTiet LEFT JOIN\n"
+            + "                  dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id LEFT JOIN\n"
+            + "                  dbo.SanPham ON dbo.HoaDonChiTiet.Id = dbo.SanPham.Id LEFT JOIN\n"
             + "                  dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
             + "				  WHERE HoaDon.Id LIKE ?\n"
             + "				  ";
 
     String TotalItimeHDC = " 	  SELECT COUNT(*)\n"
-            + "            FROM     dbo.HoaDon INNER JOIN\n"
-            + "                              dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id INNER JOIN\n"
+            + "            FROM     dbo.HoaDon LEFT JOIN\n"
+            + "                              dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id LEFT JOIN\n"
             + "                           dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
             + "            			  WHERE HoaDon.TrangThai = 1";
     String select_byMaHd = "SELECT Id FROM dbo.HoaDon WHERE MaHD = ?";
@@ -320,13 +320,12 @@ public class BanHangRepository {
     }
 
     public String addHDCT(HoaDonChiTiet hdct) {
-        String sql = "INSERT INTO HoaDonChiTiet(IdHoaDon,IdCTSanPham,SoLuong, DonGia, trangthai) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO HoaDonChiTiet(IdHoaDon,IdCTSanPham,SoLuong, DonGia) VALUES (?,?,?,?)";
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, hdct.getIdHoaDon());
             ps.setObject(2, hdct.getIdCtSanPham());
             ps.setObject(3, hdct.getSoLuong());
             ps.setObject(4, hdct.getDonGia());
-            ps.setObject(5, hdct.getTrangThai());
 
             if (ps.executeUpdate() > 0) {
                 return "Thêm hóa đơn ct thành công";

@@ -19,8 +19,8 @@ public class HoaDon {
 
     private int id;
     private String MaHD;
-    private Date ngayTao;
-    private Date ngayThanhToan;
+    private String ngayTao;
+    private String ngayThanhToan;
     private BigDecimal tongTien;
     private BigDecimal soTienGiam;
     private String ghiChu;

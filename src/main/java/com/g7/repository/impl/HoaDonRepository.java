@@ -5,7 +5,9 @@ import com.g7.utils.JdbcHelper;
 import java.math.BigDecimal;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HoaDonRepository {
 
@@ -21,8 +23,8 @@ public class HoaDonRepository {
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String maHD = rs.getString(2);
-                Date ngayTao = rs.getDate(3);
-                Date ngayThanhToan = rs.getDate(4);
+                String ngayTao = rs.getString(3);
+                String ngayThanhToan = rs.getString(4);
                 BigDecimal tongTien = rs.getBigDecimal(5);
                 BigDecimal soTienGiam = rs.getBigDecimal(6);
                 String ghiChu = rs.getString(7);
@@ -37,7 +39,31 @@ public class HoaDonRepository {
         }
         return listHoaDon;
     }
+public List<HoaDon> searchByDateTime(LocalDateTime fromDate, LocalDateTime toDate) {
+        List<HoaDon> result = new ArrayList<>();
+        try {
+            Connection con = JdbcHelper.openDbConnection();
+            String sql = "SELECT * FROM HoaDon WHERE NgayTao BETWEEN ? AND ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setTimestamp(1, Timestamp.valueOf(fromDate));
+            ps.setTimestamp(2, Timestamp.valueOf(toDate));
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                // Set các giá trị cho đối tượng HoaDon từ ResultSet
+                hd.setId(rs.getInt("Id"));
+                // ... Set các giá trị khác
 
+                result.add(hd);
+            }
+            
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 //    public static void main(String[] args) {
 //        HoaDonRepository hdsv = new HoaDonRepository();
 //        System.out.println(hdsv.getlistHoaDon());
