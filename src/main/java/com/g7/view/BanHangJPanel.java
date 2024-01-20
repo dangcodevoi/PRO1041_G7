@@ -125,10 +125,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 SanPhamChiTiet sp = new SanPhamChiTiet(tongSP);
                 BHRepo.updateSoLuongTM(sp, maSP);
                 int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
-                JOptionPane.showMessageDialog(this, BHRepo.deleteGioHang(idHD));
-                FindDataGH(idHD);
+                System.out.println(idHD);
+                JOptionPane.showMessageDialog(this, BHRepo.updateHoaDonChiTietTrangThai(idHD));
+//                FindDataGH(idHD);
             }
         }
+
 
     }
 
@@ -151,7 +153,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 } else {
                     String masp = tbSP.getValueAt(row, 1).toString();
                     String tenSP1 = Objects.toString(tbSP.getValueAt(row, 2), "");
-                    System.out.println(tenSP1);
+//                    System.out.println(tenSP1);
                     double donGia = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 //                    if (tenSP1 != null && !tenSP1.trim().isEmpty()) {
 //                        System.out.println(tenSP1);
@@ -168,7 +170,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     gh.setMasp(masp);
                     gh.setTensp(tenSP1);
                     gh.setDongia(donGia);
-                    System.out.println("Size of listGH after adding: " + listGH.size());
+//                    System.out.println("Size of listGH after adding: " + listGH.size());
 
 //                    
                     boolean trung = false;
@@ -177,7 +179,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         i++;
                         if (x.getMasp().contains(masp)) {
                             trung = true;
-                            System.out.println(i);
+//                            System.out.println(i);
                         }
                     }
                     if (trung) {
@@ -189,7 +191,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
                         int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
                         int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString());
-                        System.out.println(idSP);
+//                        System.out.println(idSP);
                         int soLuong1 = Integer.parseInt(soLuong);
                         double dongia1 = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 

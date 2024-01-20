@@ -19,6 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GioHangViewModel {
     
+    private int id;
     private String masp;
     private String tensp;
     private int soluong;

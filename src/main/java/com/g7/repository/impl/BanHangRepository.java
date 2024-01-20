@@ -70,7 +70,7 @@ public class BanHangRepository {
             + "LEFT JOIN dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id\n"
             + "LEFT JOIN dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
             + "LEFT JOIN dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
-            + "WHERE dbo.HoaDon.Id = ?";
+            + "WHERE dbo.HoaDon.Id = ? and dbo.HoaDonChiTiet.trangthai = 1";
 
     String TotalItimeHDC = " 	  SELECT COUNT(*)\n"
             + "            FROM     dbo.HoaDon LEFT JOIN\n"
@@ -83,9 +83,10 @@ public class BanHangRepository {
     String updateSoLuong = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE Id = ?";
     String selectID_byMaSP = "SELECT id FROM chitietsanpham WHERE masanpham = ?";
     String updateSoLuongMA = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE maSanPham = ?";
-    String delete_giohang = "Delete from HoaDonChiTiet where Id = ?";
+    String delete_giohang = "update hoadonchitiet set TrangThai = 2 where id = ?";
+//    String delete_giohang = "delete hoadonchitiet where id = ?";
     String TotalSL = "select soluong from chitietsanpham where masanpham = ?";
-    
+
     public List<GioHangViewModel> selectWithPaginationGH(int id) {
         String sql = select_Pagination_gh;
 
@@ -312,8 +313,8 @@ public class BanHangRepository {
         }
         return null;
     }
-    
-     public String updateSoLuongTM(SanPhamChiTiet ctsp, String ma) {
+
+    public String updateSoLuongTM(SanPhamChiTiet ctsp, String ma) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuongMA)) {
             ps.setObject(1, ctsp.getSoLuong());
             ps.setObject(2, ma);
@@ -339,8 +340,8 @@ public class BanHangRepository {
 
         return id;
     }
-    
-     public int TongSLTrongCTSP(String maSP) {
+
+    public int TongSLTrongCTSP(String maSP) {
         int id = 0;
 
         try {
@@ -372,8 +373,8 @@ public class BanHangRepository {
         }
         return "Thêm hóa đơn ct thất bại";
     }
-    
-       public String deleteGioHang(int id) {
+
+    public String deleteGioHang(int id) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
             ps.setObject(1, id);
 
@@ -385,5 +386,30 @@ public class BanHangRepository {
         }
         return "Để xác nhận vui lòng chọn lại sản phẩm cần xóa";
     }
+    private static final String UPDATE_HOADONCHITIET_TRANGTHAI = "UPDATE hoadonchitiet SET TrangThai = 2 WHERE id = ?";
 
+    public String updateHoaDonChiTietTrangThai(int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(UPDATE_HOADONCHITIET_TRANGTHAI)) {
+            ps.setInt(1, id);
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return "Cập nhật trạng thái thành công";
+            } else {
+                return "Không tìm thấy hóa đơn chi tiết có ID tương ứng hoặc không có sự thay đổi";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn chi tiết", e);
+        }
+    }
+//    public String deleteSPInGH(int id) {
+//        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
+//            ps.setObject(1, id);
+//            ps.executeUpdate();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return null;
+//    }
 }
