@@ -13,6 +13,7 @@ import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -107,14 +108,33 @@ public class BanHangJPanel extends javax.swing.JPanel {
         updatePageInfoHDC();
     }
 
+    public void deleteSPinGH() {
+        int rowHD = tbHDC.getSelectedRow();
+        int rowGH = tbGH.getSelectedRow();
+//        int rowSP = tbSP.getSelectedRow();
+        if (rowGH < 0) {
+            JOptionPane.showMessageDialog(this, "Chọn sản phẩm muốn xóa khỏi giỏ hàng");
+        } else {
+
+            int tempTT = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng không ?", "Xóa sản phẩm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (tempTT == JOptionPane.YES_OPTION) {
+                String maSP = tbGH.getValueAt(rowGH, 0).toString();
+                int SLtrongGH = Integer.parseInt(tbGH.getValueAt(rowGH, 2).toString());
+                int SLTrongCTSP = BHRepo.TongSLTrongCTSP(maSP);
+                int tongSP = SLTrongCTSP + SLtrongGH;
+                SanPhamChiTiet sp = new SanPhamChiTiet(tongSP);
+                BHRepo.updateSoLuongTM(sp, maSP);
+                int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
+                JOptionPane.showMessageDialog(this, BHRepo.deleteGioHang(idHD));
+                FindDataGH(idHD);
+            }
+        }
+
+    }
+
     public void insertGH() {
-//        List<CTSPBanHangViewModel> list = BHRepo.selectWithPagination(0, size);
-        GioHangViewModel gh = new GioHangViewModel();
         int rowHD = tbHDC.getSelectedRow();
         int row = tbSP.getSelectedRow();
-        String masp = tbSP.getValueAt(row, 1).toString();
-        String tenSP = tbSP.getValueAt(row, 2).toString();
-        double donGia = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 
         CTSPBanHangViewModel sp = new CTSPBanHangViewModel();
         String SLInTableSP = tbSP.getValueAt(row, 7).toString();
@@ -129,15 +149,35 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 } else if (Integer.parseInt(soLuong) > Integer.parseInt(SLInTableSP)) {
                     JOptionPane.showMessageDialog(this, "Số lượng vượt quá");
                 } else {
-//                    HoaDonViewModel hd = listHD.get(rowHD);
+                    String masp = tbSP.getValueAt(row, 1).toString();
+                    String tenSP1 = Objects.toString(tbSP.getValueAt(row, 2), "");
+                    System.out.println(tenSP1);
+                    double donGia = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
+//                    if (tenSP1 != null && !tenSP1.trim().isEmpty()) {
+//                        System.out.println(tenSP1);
+//
+//                    } else {
+//                        System.out.println("Vc vẫn null");
+//                    }
+//                    System.out.println("Size of listGH: " + listGH.size());
+//                    for (GioHangViewModel item : listGH) {
+//                        System.out.println("Item - tenSP: " + item.getTensp());
+//                    }
+                    GioHangViewModel gh = new GioHangViewModel();
                     gh.setSoluong(Integer.parseInt(soLuong));
                     gh.setMasp(masp);
-                    gh.setTensp(tenSP);
+                    gh.setTensp(tenSP1);
                     gh.setDongia(donGia);
+                    System.out.println("Size of listGH after adding: " + listGH.size());
+
+//                    
                     boolean trung = false;
+                    int i = 0;
                     for (GioHangViewModel x : listGH) {
+                        i++;
                         if (x.getMasp().contains(masp)) {
                             trung = true;
+                            System.out.println(i);
                         }
                     }
                     if (trung) {
@@ -145,32 +185,21 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     } else {
                         listGH.add(gh);
                         int TSL = Integer.parseInt(tbSP.getValueAt(row, 7).toString());
-                        sp.setSoluong( TSL - Integer.parseInt(soLuong));
-//                        FindDataSP(0, size);
-//                        updatePageInfo();
+                        sp.setSoluong(TSL - Integer.parseInt(soLuong));
 
                         int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
-                        int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString()) - 1;
+                        int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString());
+                        System.out.println(idSP);
                         int soLuong1 = Integer.parseInt(soLuong);
                         double dongia1 = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 
-                        System.out.println(soLuong);
-//                        HoaDonChiTiet hdct = new HoaDonChiTiet();
-//                        hdct.setIdHoaDon(idHD);
-//                        hdct.setIdCtSanPham(Integer.parseInt(idSP));
-//                        hdct.setSoLuong(soLuong1);
-//                        hdct.setDonGia(Double.valueOf(donGia));
                         HoaDonChiTiet hdct = new HoaDonChiTiet(idHD, idSP, soLuong1, donGia);
                         JOptionPane.showMessageDialog(this, BHRepo.addHDCT(hdct));
 
                         SanPhamChiTiet sp1 = new SanPhamChiTiet(sp.getSoluong());
                         BHRepo.updateSoLuong(sp1, idSP);
 
-//                        double thanhTien = 0;
-//                        double thanhToan = 0;
-//                        list.clear();
-                        FindDataSP(0, size);
-//                        FindDataGH(idHD, 0, size);
+                        FindDataGH(idHD);
 
                     }
                 }
@@ -330,6 +359,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jScrollPane3.setViewportView(tbGH);
 
         jButton6.setText("Xóa");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Sửa");
 
@@ -695,7 +729,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
             updatePageInfo();
         }
 
-
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
@@ -779,7 +812,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private void tbHDCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHDCMouseClicked
         int row = tbHDC.getSelectedRow();
         String Mahd = tbHDC.getValueAt(row, 0).toString();
-        System.out.println(Mahd);
         int id = BHRepo.selectByMa(Mahd);
         FindDataGH(id);
     }//GEN-LAST:event_tbHDCMouseClicked
@@ -808,7 +840,14 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
         insertGH();
+        FindDataSP(0, size);
+
     }//GEN-LAST:event_btnAddToCartActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        deleteSPinGH();
+        FindDataSP(0, size);
+    }//GEN-LAST:event_jButton6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

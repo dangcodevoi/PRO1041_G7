@@ -58,13 +58,19 @@ public class BanHangRepository {
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
 
-    String select_Pagination_gh = "	SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia\n"
-            + "FROM     dbo.HoaDonChiTiet LEFT JOIN\n"
-            + "                  dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id LEFT JOIN\n"
-            + "                  dbo.SanPham ON dbo.HoaDonChiTiet.Id = dbo.SanPham.Id LEFT JOIN\n"
-            + "                  dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
-            + "				  WHERE HoaDon.Id LIKE ?\n"
-            + "				  ";
+//    String select_Pagination_gh = "	SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia\n"
+//            + "FROM     dbo.HoaDonChiTiet LEFT JOIN\n"
+//            + "                  dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id Left JOIN\n"
+//            + "                  dbo.SanPham ON dbo.HoaDonChiTiet.Id = dbo.SanPham.Id LEFT JOIN\n"
+//            + "                  dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
+//            + "				  WHERE HoaDon.Id LIKE ?\n"
+//            + "				  ";
+    String select_Pagination_gh = "SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia\n"
+            + "FROM dbo.HoaDonChiTiet\n"
+            + "LEFT JOIN dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id\n"
+            + "LEFT JOIN dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
+            + "LEFT JOIN dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
+            + "WHERE dbo.HoaDon.Id = ?";
 
     String TotalItimeHDC = " 	  SELECT COUNT(*)\n"
             + "            FROM     dbo.HoaDon LEFT JOIN\n"
@@ -76,7 +82,10 @@ public class BanHangRepository {
     String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
     String updateSoLuong = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE Id = ?";
     String selectID_byMaSP = "SELECT id FROM chitietsanpham WHERE masanpham = ?";
-
+    String updateSoLuongMA = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE maSanPham = ?";
+    String delete_giohang = "Delete from HoaDonChiTiet where Id = ?";
+    String TotalSL = "select soluong from chitietsanpham where masanpham = ?";
+    
     public List<GioHangViewModel> selectWithPaginationGH(int id) {
         String sql = select_Pagination_gh;
 
@@ -87,6 +96,7 @@ public class BanHangRepository {
                 GioHangViewModel entity = new GioHangViewModel();
                 entity.setMasp(rs.getString(1));
                 entity.setTensp(rs.getString(2));
+                System.out.println("Value of TenSanPham: " + rs.getString(2));
                 entity.setSoluong(rs.getInt(3));
                 entity.setDongia(rs.getDouble(4));
                 list.add(entity);
@@ -302,12 +312,39 @@ public class BanHangRepository {
         }
         return null;
     }
+    
+     public String updateSoLuongTM(SanPhamChiTiet ctsp, String ma) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuongMA)) {
+            ps.setObject(1, ctsp.getSoLuong());
+            ps.setObject(2, ma);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public int selectIdByMaSP(String maSP) {
         int id = 0;
 
         try {
             ResultSet rs = JdbcHelper.query(selectID_byMaSP, maSP);
+
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+    
+     public int TongSLTrongCTSP(String maSP) {
+        int id = 0;
+
+        try {
+            ResultSet rs = JdbcHelper.query(TotalSL, maSP);
 
             if (rs.next()) {
                 id = rs.getInt(1);
@@ -334,6 +371,19 @@ public class BanHangRepository {
             e.printStackTrace();
         }
         return "Thêm hóa đơn ct thất bại";
+    }
+    
+       public String deleteGioHang(int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
+            ps.setObject(1, id);
+
+            if (ps.executeUpdate() > 0) {
+                return "Xóa sản phẩm thành công";
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Để xác nhận vui lòng chọn lại sản phẩm cần xóa";
     }
 
 }
