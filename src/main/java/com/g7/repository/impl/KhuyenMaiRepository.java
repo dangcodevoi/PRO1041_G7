@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
-    String INSERT_KM = "INSERT [dbo].[KhuyenMai] ([Id], [TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?,?)";
+    String INSERT_KM = "INSERT [dbo ].[KhuyenMai] ([Id], [TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?,?)";
     String UPDATE_KM = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
     String DELETE_KM = "UPDATE KhuyenMai set TrangThai = 0 where Id = ?";
     String SELECT_ALL_KM = "select * from KhuyenMai where TrangThai = '1'";

@@ -43,5 +43,11 @@ public class KhuyenMai {
    
     
 
-    
+    public String trangThai(int trangThai){
+        if (trangThai == 1) {
+            return "Đang hoạt động";
+        }else{
+            return "Ngừng hoạt động";
+        }
+    }
 }
