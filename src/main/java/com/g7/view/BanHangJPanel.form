@@ -301,6 +301,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1eed;a"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton7MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

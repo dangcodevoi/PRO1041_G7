@@ -108,7 +108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         updatePageInfoHDC();
     }
 
-    public void deleteSPinGH() {
+    private void deleteSPinGH() {
         int rowHD = tbHDC.getSelectedRow();
         int rowGH = tbGH.getSelectedRow();
 //        int rowSP = tbSP.getSelectedRow();
@@ -131,10 +131,43 @@ public class BanHangJPanel extends javax.swing.JPanel {
             }
         }
 
-
     }
 
-    public void insertGH() {
+    private void updateSPGH() {
+        int rowHD = tbHDC.getSelectedRow();
+        int row = tbSP.getSelectedRow();
+        int rowGH = tbGH.getSelectedRow();
+
+        if (rowHD < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn muốn thêm sản phẩm");
+        } else {
+            String soLuongMoi = JOptionPane.showInputDialog("Mời nhập số lượng cần cập nhật: ");
+            if (soLuongMoi != null) {
+                if (!soLuongMoi.matches("[0-9]+")) {
+                    JOptionPane.showMessageDialog(this, "Nhập đúng định dạng");
+                } else {
+                    int slHienTai = Integer.parseInt(tbGH.getValueAt(row, 2).toString());
+                    int slGH = Integer.parseInt(tbGH.getValueAt(row, 7).toString());
+                    int SoLuongTong = slHienTai + slGH;
+                    if (SoLuongTong < Integer.parseInt(soLuongMoi)) {
+                        JOptionPane.showMessageDialog(this, "Sản phẩm không đủ số lượng");
+                    } else {
+                        SanPhamChiTiet sp = new SanPhamChiTiet(Integer.parseInt(soLuongMoi));
+                        int idSP = BHRepo.selectIdByMaSP(tbGH.getValueAt(rowGH, 0).toString());
+                        BHRepo.updateSoLuong(sp, idSP);
+                        
+                    }
+                    GioHangViewModel gh = new GioHangViewModel();
+                    gh.setSoluong(Integer.parseInt(soLuongMoi));
+                    listGH.add(gh);
+                    int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
+                    FindDataGH(idHD);
+                }
+            }
+        }
+    }
+
+    private void insertGH() {
         int rowHD = tbHDC.getSelectedRow();
         int row = tbSP.getSelectedRow();
 
@@ -153,33 +186,19 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 } else {
                     String masp = tbSP.getValueAt(row, 1).toString();
                     String tenSP1 = Objects.toString(tbSP.getValueAt(row, 2), "");
-//                    System.out.println(tenSP1);
                     double donGia = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
-//                    if (tenSP1 != null && !tenSP1.trim().isEmpty()) {
-//                        System.out.println(tenSP1);
-//
-//                    } else {
-//                        System.out.println("Vc vẫn null");
-//                    }
-//                    System.out.println("Size of listGH: " + listGH.size());
-//                    for (GioHangViewModel item : listGH) {
-//                        System.out.println("Item - tenSP: " + item.getTensp());
-//                    }
                     GioHangViewModel gh = new GioHangViewModel();
                     gh.setSoluong(Integer.parseInt(soLuong));
                     gh.setMasp(masp);
                     gh.setTensp(tenSP1);
                     gh.setDongia(donGia);
-//                    System.out.println("Size of listGH after adding: " + listGH.size());
 
-//                    
                     boolean trung = false;
                     int i = 0;
                     for (GioHangViewModel x : listGH) {
                         i++;
                         if (x.getMasp().contains(masp)) {
                             trung = true;
-//                            System.out.println(i);
                         }
                     }
                     if (trung) {
@@ -191,7 +210,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
                         int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
                         int idSP = Integer.parseInt(tbSP.getValueAt(row, 0).toString());
-//                        System.out.println(idSP);
                         int soLuong1 = Integer.parseInt(soLuong);
                         double dongia1 = Double.parseDouble(tbSP.getValueAt(row, 8).toString());
 
@@ -368,6 +386,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
         });
 
         jButton7.setText("Sửa");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -850,6 +873,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
         deleteSPinGH();
         FindDataSP(0, size);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        updateSPGH();
+        FindDataSP(0, size);
+
+    }//GEN-LAST:event_jButton7MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

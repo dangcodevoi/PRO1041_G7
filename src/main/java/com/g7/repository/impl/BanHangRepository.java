@@ -356,6 +356,20 @@ public class BanHangRepository {
 
         return id;
     }
+    
+      public String updateSoLuong2(SanPhamChiTiet ctsp, int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuong)) {
+            ps.setObject(1, ctsp.getSoLuong());
+            ps.setObject(2, id);
+            
+             if (ps.executeUpdate() > 0) {
+                return "Sửa thành công";
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Sửa không thành công";
+    }
 
     public String addHDCT(HoaDonChiTiet hdct) {
         String sql = "INSERT INTO HoaDonChiTiet(IdHoaDon,IdCTSanPham,SoLuong, DonGia) VALUES (?,?,?,?)";
