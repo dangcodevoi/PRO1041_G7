@@ -107,20 +107,20 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
             preparedStatement = connect.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
             SanPhamChiTiet sp = null;
-            while (resultSet.next()) {                
-                sp= new SanPhamChiTiet(
-                    resultSet.getInt("SanPham_Id"),
-                    resultSet.getInt("ChiTietSanPham_Id"),
-                    resultSet.getInt("MauSac_Id"),
-                    resultSet.getInt("KichCo_Id"),
-                    resultSet.getInt("GiaBan"),
-                    resultSet.getInt("SoLuong"),
-                    resultSet.getString("TenSanPham"),
-                    resultSet.getString("TenHinhAnh"),
-                    resultSet.getString("TenMauSac"),
-                    resultSet.getString("MoTa"),
-                    resultSet.getString("KichCo"),
-                    resultSet.getString("MaSanPham"));
+            while (resultSet.next()) {
+                sp = new SanPhamChiTiet(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("ChiTietSanPham_Id"),
+                        resultSet.getInt("MauSac_Id"),
+                        resultSet.getInt("KichCo_Id"),
+                        resultSet.getInt("GiaBan"),
+                        resultSet.getInt("SoLuong"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("TenHinhAnh"),
+                        resultSet.getString("TenMauSac"),
+                        resultSet.getString("MoTa"),
+                        resultSet.getString("KichCo"),
+                        resultSet.getString("MaSanPham"));
             }
             return sp;
         } catch (SQLException e) {
@@ -206,4 +206,23 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         }
     }
 
+    public int checkThuocTinhCT(int idSanPham, int idMau, int idKichThuoc) {
+        String sql = "Select id from chitietsanpham where idSanPham=?,id mausac=?,idkichco=?;";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setInt(1, idSanPham);
+            preparedStatement.setInt(1, idMau);
+            preparedStatement.setInt(1, idKichThuoc);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-06:" + e.getMessage());
+            return -1;
+        }
+    }
 }
