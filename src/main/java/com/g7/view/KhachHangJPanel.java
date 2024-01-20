@@ -3,12 +3,15 @@ package com.g7.view;
 import com.g7.entity.KhachHang;
 import com.g7.repository.impl.KhachHangRepository;
 import com.g7.utils.MsgBox;
+import java.awt.event.ActionEvent;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,11 +27,12 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     public KhachHangJPanel() {
         initComponents();
         setOpaque(false);
+        
         updatePageInfo();
         findWithPaginationKH(0, size);
         rdbntActive.setSelected(true);
     }
-
+    
     public void findWithPaginationKH(int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat f = new DecimalFormat("#,##0.##");
@@ -36,12 +40,18 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
-    
+
     public void findWithNoActiveKH(int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat f = new DecimalFormat("#,##0.##");
@@ -49,13 +59,19 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
-    
-    public void findByIdKH(int id, int ht, int c) {
+
+    public void findByIdKH(int id) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat f = new DecimalFormat("#,##0.##");
         KhachHang kh = KHrepo.findById(id);
@@ -64,12 +80,18 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
-    
+
     public void findByMaKH(String maKH, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat f = new DecimalFormat("#,##0.##");
@@ -77,12 +99,18 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
-    
+
     public void findByTenKH(String tenKH, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat f = new DecimalFormat("#,##0.##");
@@ -90,8 +118,14 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
@@ -103,12 +137,18 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
         for (KhachHang x : list) {
+            String status = null;
+            if (x.getTrangThai() == 1) {
+                status = "Đang hoạt động";
+            } else {
+                status = "Dừng hoạt động";
+            }
             defaultTableModelKH.addRow(new Object[]{
-                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), x.getTrangThai()
+                x.getIDKhachHang(), x.getMaKhachHang(), x.getTenKhachHang(), x.getSDT(), df.format(x.getNgayTao()), status
             });
         }
     }
-    
+
     private void updatePageInfo() {
         int totalItems = KHrepo.getTotalItems();
         int maxPage = (int) Math.ceil((double) totalItems / size);
@@ -222,16 +262,16 @@ public class KhachHangJPanel extends javax.swing.JPanel {
         }
     }
 
-    private boolean checkTimKiem(){
-        if(txtTimKiem.getText().equals("")){
+    private boolean checkTimKiem() {
+        if (txtTimKiem.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập từ khóa", "Error", 1);
             txtTimKiem.requestFocus();
             return false;
         }
-        
+
         return true;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -357,6 +397,12 @@ public class KhachHangJPanel extends javax.swing.JPanel {
                     .addComponent(bntLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(105, 105, 105))
         );
+
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
 
         bntTimKiem.setText("Tìm kiếm");
         bntTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -535,7 +581,15 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private void bntSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSuaActionPerformed
         // TODO add your handling code here:
 
-        this.update();
+        try {
+
+            if (checkKH()) {
+                this.update();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi, Vui lòng xem lại");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_bntSuaActionPerformed
 
     private void bntThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntThemActionPerformed
@@ -601,32 +655,41 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
         // TODO add your handling code here:
         String keyword = txtTimKiem.getText();
-        if(checkTimKiem()){
-           if(txtTimKiem.getText().matches("^\\d{4}$")){
-               findByIdKH(Integer.parseInt(keyword), 0, size);
-           }else if(txtTimKiem.getText().matches("^KH")){
-               findByMaKH(keyword, 0, size);
-           }else if(txtTimKiem.getText().matches("^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")){
-               findbySDT(keyword, 0, size);
-           }else{
-               findByTenKH(keyword, 0, size);
-           }
+        if (checkTimKiem()) {
+            if (txtTimKiem.getText().matches("^\\d{4}$")) {
+                findByIdKH(Integer.parseInt(keyword));
+            } else if (txtTimKiem.getText().matches("^KH")) {
+                findByMaKH(keyword, 0, size);
+            } else if (txtTimKiem.getText().matches("^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")) {
+                findbySDT(keyword, 0, size);
+            } else {
+                findByTenKH(keyword, 0, size);
+            }
         }
     }//GEN-LAST:event_bntTimKiemActionPerformed
 
     private void tbKhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbKhachHangMousePressed
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        
             this.index = tbKhachHang.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
                 this.edit();
             }
-        }
+        
     }//GEN-LAST:event_tbKhachHangMousePressed
 
     private void bntXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntXoaActionPerformed
         // TODO add your handling code here:
-        this.delete();
+        try {
+
+            if (checkKH()) {
+                this.delete();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi, Vui lòng xem lại");
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_bntXoaActionPerformed
 
     private void rdbntActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbntActiveMouseClicked
@@ -647,6 +710,18 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
         lbPresentPage.setText(ht + " / " + maxPage);
     }//GEN-LAST:event_rdbntNoActiveMouseClicked
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bntTimKiemActionPerformed(e);
+            }
+        };
+        txtTimKiem.addActionListener(action);
+        bntTimKiem.addActionListener(action);
+    }//GEN-LAST:event_txtTimKiemKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntFirstPage;
@@ -677,4 +752,6 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtSoDT;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+
+    
 }
