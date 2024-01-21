@@ -4,14 +4,10 @@ import com.g7.entity.HoaDon;
 import com.g7.entity.HoaDonChiTiet;
 import com.g7.repository.impl.HoaDonRepository;
 import com.g7.repository.impl.HoaDonCtRepository;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import com.toedter.calendar.JDateChooser;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
-import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -22,8 +18,8 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private HoaDonRepository hdsv = new HoaDonRepository();
     private HoaDonCtRepository hdctsv = new HoaDonCtRepository();
     DefaultTableModel dtm = new DefaultTableModel();
-    private JDateChooser dateChooserFromDate;
-    private JDateChooser dateChooserToDate;
+    private JDateChooser FromDate;
+    private JDateChooser ToDate;
     int id;
 
     public HoaDonJPanel() {
@@ -46,7 +42,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 hd.getTongTien(),
                 hd.getSoTienGiam(),
                 hd.getGhiChu(),
-                hd.getTrangThai()
+                hd.trangThai(hd.getTrangThai())
             });
         }
     }
@@ -150,6 +146,12 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Chi tiết hóa đơn");
 
+        txtThoiGianMin.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txtThoiGianMinPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,6 +210,16 @@ public class HoaDonJPanel extends javax.swing.JPanel {
             loadHdct();
         }
     }//GEN-LAST:event_tblhoaDonMouseClicked
+
+    private void txtThoiGianMinPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtThoiGianMinPropertyChange
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss ");
+//        Date day = (Date) FromDate.getDate();
+//        if (day != null) {
+//            String NgayTao = dateFormat.format(day);
+//            txtThoiGianMin.get
+//        }
+        
+    }//GEN-LAST:event_txtThoiGianMinPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

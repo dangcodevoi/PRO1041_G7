@@ -268,6 +268,9 @@
       </AuxValues>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="txtThoiGianMin">
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="txtThoiGianMinPropertyChange"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

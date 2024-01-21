@@ -29,12 +29,10 @@ public class HoaDon {
     private String idNhanVien;
 
 
-
-    
-    public String getTrangThaiLabel() {
-        if (trangThai == 1) {
+    public String trangThai(int trangthai){
+        if(trangthai == 1){
             return "Chưa thanh toán";
-        } else {
+        }else{
             return "Đã thanh toán";
         }
     }
