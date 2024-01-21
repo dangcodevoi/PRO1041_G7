@@ -61,7 +61,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         defaultTableModelGH = (DefaultTableModel) tbGH.getModel();
         for (GioHangViewModel x : list) {
             defaultTableModelGH.addRow(new Object[]{
-                x.getMasp(), x.getTensp(), x.getSoluong(), x.getDongia()
+                x.getId(), x.getMasp(), x.getTensp(), x.getSoluong(), x.getDongia()
             });
         }
     }
@@ -111,26 +111,28 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private void deleteSPinGH() {
         int rowHD = tbHDC.getSelectedRow();
         int rowGH = tbGH.getSelectedRow();
-//        int rowSP = tbSP.getSelectedRow();
         if (rowGH < 0) {
             JOptionPane.showMessageDialog(this, "Chọn sản phẩm muốn xóa khỏi giỏ hàng");
         } else {
-
+            int IdHDCT = Integer.parseInt(tbGH.getValueAt(rowGH, 0).toString());
             int tempTT = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng không ?", "Xóa sản phẩm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if (tempTT == JOptionPane.YES_OPTION) {
-                String maSP = tbGH.getValueAt(rowGH, 0).toString();
-                int SLtrongGH = Integer.parseInt(tbGH.getValueAt(rowGH, 2).toString());
+                String maSP = tbGH.getValueAt(rowGH, 1).toString();
+                
+                int SLtrongGH = Integer.parseInt(tbGH.getValueAt(rowGH, 3).toString());
                 int SLTrongCTSP = BHRepo.TongSLTrongCTSP(maSP);
                 int tongSP = SLTrongCTSP + SLtrongGH;
+                
                 SanPhamChiTiet sp = new SanPhamChiTiet(tongSP);
                 BHRepo.updateSoLuongTM(sp, maSP);
+                
                 int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
-                System.out.println(idHD);
-                JOptionPane.showMessageDialog(this, BHRepo.updateHoaDonChiTietTrangThai(idHD));
-//                FindDataGH(idHD);
+                System.out.println("IdHDCT: " + IdHDCT);
+                JOptionPane.showMessageDialog(this, BHRepo.deleteGioHang(IdHDCT));
+                
+                FindDataGH(idHD); // Cập nhật lại dữ liệu trên giao diện người dùng
             }
         }
-
     }
 
     private void updateSPGH() {
@@ -146,16 +148,18 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 if (!soLuongMoi.matches("[0-9]+")) {
                     JOptionPane.showMessageDialog(this, "Nhập đúng định dạng");
                 } else {
-                    int slHienTai = Integer.parseInt(tbGH.getValueAt(row, 2).toString());
-                    int slGH = Integer.parseInt(tbGH.getValueAt(row, 7).toString());
+                    int slHienTai = Integer.parseInt(tbGH.getValueAt(row, 3).toString());
+                    int slGH = Integer.parseInt(tbGH.getValueAt(row, 8).toString());
                     int SoLuongTong = slHienTai + slGH;
                     if (SoLuongTong < Integer.parseInt(soLuongMoi)) {
                         JOptionPane.showMessageDialog(this, "Sản phẩm không đủ số lượng");
                     } else {
                         SanPhamChiTiet sp = new SanPhamChiTiet(Integer.parseInt(soLuongMoi));
-                        int idSP = BHRepo.selectIdByMaSP(tbGH.getValueAt(rowGH, 0).toString());
+                        String maSP = tbGH.getValueAt(rowGH, 1).toString();
+                        int idSP = BHRepo.selectIdByMaSP(maSP);
+                        System.out.println(idSP);
                         BHRepo.updateSoLuong(sp, idSP);
-                        
+
                     }
                     GioHangViewModel gh = new GioHangViewModel();
                     gh.setSoluong(Integer.parseInt(soLuongMoi));
@@ -373,7 +377,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã SP", "Tên SP", "Số lượng", "Đơn giá"
+                "ID", "Mã SP", "Tên SP", "Số lượng", "Đơn giá"
             }
         ));
         jScrollPane3.setViewportView(tbGH);
@@ -871,7 +875,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         deleteSPinGH();
-        FindDataSP(0, size);
+//        FindDataSP(0, size);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked

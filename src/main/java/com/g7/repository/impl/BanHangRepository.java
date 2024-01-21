@@ -65,7 +65,7 @@ public class BanHangRepository {
 //            + "                  dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
 //            + "				  WHERE HoaDon.Id LIKE ?\n"
 //            + "				  ";
-    String select_Pagination_gh = "SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia\n"
+    String select_Pagination_gh = "SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia, dbo.HoaDonChiTiet.id \n"
             + "FROM dbo.HoaDonChiTiet\n"
             + "LEFT JOIN dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id\n"
             + "LEFT JOIN dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
@@ -83,9 +83,25 @@ public class BanHangRepository {
     String updateSoLuong = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE Id = ?";
     String selectID_byMaSP = "SELECT id FROM chitietsanpham WHERE masanpham = ?";
     String updateSoLuongMA = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE maSanPham = ?";
-    String delete_giohang = "update hoadonchitiet set TrangThai = 2 where id = ?";
-//    String delete_giohang = "delete hoadonchitiet where id = ?";
+//    String delete_giohang = "update hoadonchitiet set TrangThai = 2 where id = ?";
+    String delete_giohang = "delete from hoadonchitiet where id = ?";
     String TotalSL = "select soluong from chitietsanpham where masanpham = ?";
+    
+      public String deleteGioHang(int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
+            ps.setObject(1, id);
+
+            if (ps.executeUpdate() > 0) {
+                System.out.println("Deleted successfully");
+                return "Xóa sản phẩm thành công";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        System.out.println("Delete failed");
+        return "Để xác nhận vui lòng chọn lại sản phẩm cần xóa";
+    }
 
     public List<GioHangViewModel> selectWithPaginationGH(int id) {
         String sql = select_Pagination_gh;
@@ -97,9 +113,9 @@ public class BanHangRepository {
                 GioHangViewModel entity = new GioHangViewModel();
                 entity.setMasp(rs.getString(1));
                 entity.setTensp(rs.getString(2));
-                System.out.println("Value of TenSanPham: " + rs.getString(2));
                 entity.setSoluong(rs.getInt(3));
                 entity.setDongia(rs.getDouble(4));
+                entity.setId(rs.getInt(5));
                 list.add(entity);
             }
         } catch (SQLException e) {
@@ -356,13 +372,13 @@ public class BanHangRepository {
 
         return id;
     }
-    
-      public String updateSoLuong2(SanPhamChiTiet ctsp, int id) {
+
+    public String updateSoLuong2(SanPhamChiTiet ctsp, int id) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuong)) {
             ps.setObject(1, ctsp.getSoLuong());
             ps.setObject(2, id);
-            
-             if (ps.executeUpdate() > 0) {
+
+            if (ps.executeUpdate() > 0) {
                 return "Sửa thành công";
             }
         } catch (Exception e) {
@@ -388,18 +404,8 @@ public class BanHangRepository {
         return "Thêm hóa đơn ct thất bại";
     }
 
-    public String deleteGioHang(int id) {
-        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
-            ps.setObject(1, id);
-
-            if (ps.executeUpdate() > 0) {
-                return "Xóa sản phẩm thành công";
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return "Để xác nhận vui lòng chọn lại sản phẩm cần xóa";
-    }
+  
+    
     private static final String UPDATE_HOADONCHITIET_TRANGTHAI = "UPDATE hoadonchitiet SET TrangThai = 2 WHERE id = ?";
 
     public String updateHoaDonChiTietTrangThai(int id) {
