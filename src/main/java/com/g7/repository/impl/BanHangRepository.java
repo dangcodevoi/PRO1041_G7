@@ -81,13 +81,15 @@ public class BanHangRepository {
     String Insert_hd = "INSERT INTO hoadon (IdNhanVien, IdKhachHang, MaHD) VALUES (?,?,?)";
     String select_byKH = " SELECT id FROM dbo.KhachHang WHERE MaKhachHang = ? ";
     String updateSoLuong = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE Id = ?";
+    String updateSoLuongGH = "UPDATE hoadonchitiet SET SoLuong = ? WHERE Id = ?";
     String selectID_byMaSP = "SELECT id FROM chitietsanpham WHERE masanpham = ?";
     String updateSoLuongMA = "UPDATE ChiTietSanPham SET SoLuong = ? WHERE maSanPham = ?";
 //    String delete_giohang = "update hoadonchitiet set TrangThai = 2 where id = ?";
     String delete_giohang = "delete from hoadonchitiet where id = ?";
     String TotalSL = "select soluong from chitietsanpham where masanpham = ?";
-    
-      public String deleteGioHang(int id) {
+    String select_slSP_HT = "select soluong from chitietsanpham where masanpham = ?";
+
+    public String deleteGioHang(int id) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
             ps.setObject(1, id);
 
@@ -329,6 +331,17 @@ public class BanHangRepository {
         }
         return null;
     }
+    
+     public String updateSoLuongGH(GioHangViewModel gh, int id) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuongGH)) {
+            ps.setObject(1, gh.getSoluong());
+            ps.setObject(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public String updateSoLuongTM(SanPhamChiTiet ctsp, String ma) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuongMA)) {
@@ -373,6 +386,22 @@ public class BanHangRepository {
         return id;
     }
 
+    public int getSLHT(String maSP) {
+        int sl = 0;
+
+        try {
+            ResultSet rs = JdbcHelper.query(select_slSP_HT, maSP);
+
+            if (rs.next()) {
+                sl = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return sl;
+    }
+
     public String updateSoLuong2(SanPhamChiTiet ctsp, int id) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(updateSoLuong)) {
             ps.setObject(1, ctsp.getSoLuong());
@@ -404,8 +433,6 @@ public class BanHangRepository {
         return "Thêm hóa đơn ct thất bại";
     }
 
-  
-    
     private static final String UPDATE_HOADONCHITIET_TRANGTHAI = "UPDATE hoadonchitiet SET TrangThai = 2 WHERE id = ?";
 
     public String updateHoaDonChiTietTrangThai(int id) {

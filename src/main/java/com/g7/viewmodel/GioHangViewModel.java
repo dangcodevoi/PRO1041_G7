@@ -24,6 +24,10 @@ public class GioHangViewModel {
     private String tensp;
     private int soluong;
     private Double dongia;
+
+    public GioHangViewModel(int soluong) {
+        this.soluong = soluong;
+    }
     
     
     

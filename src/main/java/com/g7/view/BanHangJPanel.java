@@ -140,25 +140,33 @@ public class BanHangJPanel extends javax.swing.JPanel {
         int row = tbSP.getSelectedRow();
         int rowGH = tbGH.getSelectedRow();
 
-        if (rowHD < 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn muốn thêm sản phẩm");
+        if (rowGH < 0) {
+            JOptionPane.showMessageDialog(this, "Vui long chọn Hóa đơn và sản phẩm muốn cập nh");
         } else {
             String soLuongMoi = JOptionPane.showInputDialog("Mời nhập số lượng cần cập nhật: ");
             if (soLuongMoi != null) {
                 if (!soLuongMoi.matches("[0-9]+")) {
                     JOptionPane.showMessageDialog(this, "Nhập đúng định dạng");
                 } else {
-                    int slHienTai = Integer.parseInt(tbGH.getValueAt(row, 3).toString());
-                    int slGH = Integer.parseInt(tbGH.getValueAt(row, 8).toString());
+                    String maSP = tbGH.getValueAt(rowGH, 1).toString();
+                    int slGH = Integer.parseInt(tbGH.getValueAt(rowGH, 3).toString());
+                    int slHienTai = BHRepo.getSLHT(maSP);
+                    System.out.println(slGH);
+                    System.out.println(slHienTai);
                     int SoLuongTong = slHienTai + slGH;
                     if (SoLuongTong < Integer.parseInt(soLuongMoi)) {
                         JOptionPane.showMessageDialog(this, "Sản phẩm không đủ số lượng");
                     } else {
-                        SanPhamChiTiet sp = new SanPhamChiTiet(Integer.parseInt(soLuongMoi));
-                        String maSP = tbGH.getValueAt(rowGH, 1).toString();
+                        int slht = SoLuongTong - Integer.parseInt(soLuongMoi);
+                        SanPhamChiTiet sp = new SanPhamChiTiet(slht);
+                        GioHangViewModel gh = new GioHangViewModel(Integer.parseInt(soLuongMoi));
+                        
                         int idSP = BHRepo.selectIdByMaSP(maSP);
                         System.out.println(idSP);
                         BHRepo.updateSoLuong(sp, idSP);
+                        
+                        int idhdct = Integer.parseInt(tbGH.getValueAt(rowGH, 0).toString());
+                        BHRepo.updateSoLuongGH(gh, idhdct);
 
                     }
                     GioHangViewModel gh = new GioHangViewModel();
@@ -875,7 +883,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         deleteSPinGH();
-//        FindDataSP(0, size);
+        FindDataSP(0, size);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
