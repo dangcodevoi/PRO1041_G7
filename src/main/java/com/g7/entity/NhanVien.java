@@ -22,7 +22,7 @@ public class NhanVien implements Serializable {
     private String Email;
     private Date NgayTao;
     private String MatKhau;
-    private String ChucVu;
+    private int ChucVu;
     private int TrangThai;
 
     @Override
@@ -34,7 +34,7 @@ public class NhanVien implements Serializable {
     public NhanVien() {
     }
 
-    public NhanVien(int IDNhanVien, String TenNhanVien, int GioiTinh, Date NgaySinh, String SDT, String DiaChi, String Email, Date NgayTao, String MatKhau, String ChucVu, int TrangThai) {
+    public NhanVien(int IDNhanVien, String TenNhanVien, int GioiTinh, Date NgaySinh, String SDT, String DiaChi, String Email, Date NgayTao, String MatKhau, int ChucVu, int TrangThai) {
         this.IDNhanVien = IDNhanVien;
         this.TenNhanVien = TenNhanVien;
         this.GioiTinh = GioiTinh;
@@ -84,7 +84,7 @@ public class NhanVien implements Serializable {
         return MatKhau;
     }
 
-    public String getChucVu() {
+    public int getChucVu() {
         return ChucVu;
     }
 
@@ -128,7 +128,7 @@ public class NhanVien implements Serializable {
         this.MatKhau = MatKhau;
     }
 
-    public void setChucVu(String IDChucVu) {
+    public void setChucVu(int ChucVu) {
         this.ChucVu = ChucVu;
     }
 

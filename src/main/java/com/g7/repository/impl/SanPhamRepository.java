@@ -170,19 +170,19 @@ public class SanPhamRepository implements SP_SPCT_Repository {
         }
     }
 
-    public boolean ktrTenSanPham(String tenSanPham) {
-        String sql = "select * from sanpham where tenSanPham=?";
+    public int selectIdByName(String tenSanPham) {
+        String sql = "select id from sanpham where tenSanPham=?";
         try {
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareCall(sql);
             preparedStatement.setString(1, tenSanPham);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                return true;
+                return resultSet.getInt("id");
             }
-            return false;
+            return -1;
         } catch (SQLException e) {
-            return false;
+            return -1;
         }
     }
 
@@ -223,5 +223,7 @@ public class SanPhamRepository implements SP_SPCT_Repository {
             return -1;
         }
     }
+    
+    
 
 }

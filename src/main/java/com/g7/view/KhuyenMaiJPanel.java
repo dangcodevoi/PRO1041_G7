@@ -382,7 +382,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         } catch (ParseException ex) {
             Logger.getLogger(KhuyenMaiJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        txtMoTa.setText(tblKhuyenMai.getValueAt(row, 6).toString());
+        txtMoTa.setText(tblKhuyenMai.getValueAt(row, 7).toString());
     }//GEN-LAST:event_tblKhuyenMaiMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -447,7 +447,8 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         try {
             for (KhuyenMai km : list) {
                 Object[] row = {
-                    km.getIDKhuyenMai(), km.getTenKhuyenMai(), km.isKieuGiamGia() ? "%" : "VND", km.getMucGiamGia(), km.getNgayBatDau(), km.getNgayKetThuc(), km.getTrangThai(), km.getMoTa()
+                    km.getIDKhuyenMai(), km.getTenKhuyenMai(), km.isKieuGiamGia() ? "%" : "VND",
+                    km.getMucGiamGia(), km.getNgayBatDau(), km.getNgayKetThuc(), km.trangThai(km.getTrangThai()), km.getMoTa()
                 };
                 model.addRow(row);
             }
@@ -497,13 +498,13 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     void insert() {
         KhuyenMai km = getForm();
         try {
-            kmr.insert(km);
+            kmr.insert(km); 
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
             MsgBox.alert(this, "thành công");
         } catch (Exception e) {
             MsgBox.alert(this, "chim cút");
-            e.printStackTrace();
+            System.out.println("lỗi B-02"+e.getMessage());
         }
 
     }
