@@ -16,7 +16,7 @@ public class HoaDonCtRepository {
         try {
             String sql = "SELECT [Id], [IdHoaDon], [IdCTSanPham], [SoLuong], [DonGia], [TrangThai] \" +\n"
                     + "             \"FROM [dbo].[HoaDonChiTiet] \" +\n"
-                    + "             \"WHERE [Id] = ?";
+                    + "             \"WHERE [IdHoaDon] = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setObject(1, id);
             ResultSet rs = ps.executeQuery();

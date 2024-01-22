@@ -28,6 +28,13 @@ public class HoaDonChiTiet {
         this.soLuong = soLuong;
         this.donGia = donGia;
     }
+    public String trangThai(int trangthai){
+        if(trangthai == 1){
+            return "Chưa thanh toán";
+        }else{
+            return "Đã thanh toán";
+        }
+    }
 
  
     
