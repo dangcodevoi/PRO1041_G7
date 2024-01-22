@@ -11,6 +11,7 @@ import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private List<CTSPBanHangViewModel> listSP = new ArrayList<>();
     private List<HoaDonViewModel> listHD = new ArrayList<>();
     private List<GioHangViewModel> listGH = new ArrayList<>();
+
+    DecimalFormat fomat = new DecimalFormat("###,###,###");
 
     private int ht = 1;
     private int size = 100;
@@ -118,18 +121,18 @@ public class BanHangJPanel extends javax.swing.JPanel {
             int tempTT = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng không ?", "Xóa sản phẩm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if (tempTT == JOptionPane.YES_OPTION) {
                 String maSP = tbGH.getValueAt(rowGH, 1).toString();
-                
+
                 int SLtrongGH = Integer.parseInt(tbGH.getValueAt(rowGH, 3).toString());
                 int SLTrongCTSP = BHRepo.TongSLTrongCTSP(maSP);
                 int tongSP = SLTrongCTSP + SLtrongGH;
-                
+
                 SanPhamChiTiet sp = new SanPhamChiTiet(tongSP);
                 BHRepo.updateSoLuongTM(sp, maSP);
-                
+
                 int idHD = BHRepo.selectByMa(tbHDC.getValueAt(rowHD, 0).toString());
                 System.out.println("IdHDCT: " + IdHDCT);
                 JOptionPane.showMessageDialog(this, BHRepo.deleteGioHang(IdHDCT));
-                
+
                 FindDataGH(idHD); // Cập nhật lại dữ liệu trên giao diện người dùng
             }
         }
@@ -160,11 +163,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         int slht = SoLuongTong - Integer.parseInt(soLuongMoi);
                         SanPhamChiTiet sp = new SanPhamChiTiet(slht);
                         GioHangViewModel gh = new GioHangViewModel(Integer.parseInt(soLuongMoi));
-                        
+
                         int idSP = BHRepo.selectIdByMaSP(maSP);
                         System.out.println(idSP);
                         BHRepo.updateSoLuong(sp, idSP);
-                        
+
                         int idhdct = Integer.parseInt(tbGH.getValueAt(rowGH, 0).toString());
                         BHRepo.updateSoLuongGH(gh, idhdct);
 
@@ -282,12 +285,12 @@ public class BanHangJPanel extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         lblMaKH = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblMaHD = new javax.swing.JLabel();
+        lblNgayTao = new javax.swing.JLabel();
+        lblTongTien = new javax.swing.JLabel();
         cbHTTT = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel17 = new javax.swing.JLabel();
+        lblThanhToan = new javax.swing.JLabel();
         lblTT = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -570,11 +573,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         jLabel13.setText("Khách vãng lai");
 
-        jLabel14.setText("HD++");
+        lblMaHD.setText("HD++");
 
-        jLabel15.setText("Date");
+        lblNgayTao.setText("Date");
 
-        jLabel16.setText("0");
+        lblTongTien.setText("0");
 
         cbHTTT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiền mặt", "Chuyển khoản" }));
         cbHTTT.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -585,7 +588,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel17.setText("0");
+        lblThanhToan.setText("0");
 
         lblTT.setText("0");
 
@@ -638,16 +641,16 @@ public class BanHangJPanel extends javax.swing.JPanel {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblTT)
-                            .addComponent(jLabel17)
+                            .addComponent(lblThanhToan)
                             .addComponent(cbHTTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel15)
+                            .addComponent(lblTongTien)
+                            .addComponent(lblNgayTao)
                             .addComponent(jLabel13)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTienKhachDua, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
+                                .addComponent(lblMaHD)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnTaoHD)
                                 .addGap(48, 48, 48))
@@ -677,16 +680,16 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel14)
+                    .addComponent(lblMaHD)
                     .addComponent(btnTaoHD))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel15))
+                    .addComponent(lblNgayTao))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel16))
+                    .addComponent(lblTongTien))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -694,7 +697,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel17))
+                    .addComponent(lblThanhToan))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8)
@@ -851,6 +854,18 @@ public class BanHangJPanel extends javax.swing.JPanel {
         String Mahd = tbHDC.getValueAt(row, 0).toString();
         int id = BHRepo.selectByMa(Mahd);
         FindDataGH(id);
+
+        listGH = BHRepo.selectWithPaginationGH(id);
+
+        double tongtien = 0;
+        for (GioHangViewModel x : listGH) {
+            tongtien += x.getSoluong() * x.getDongia();
+        }
+        lblTongTien.setText(fomat.format(tongtien));
+        lblMaHD.setText(tbHDC.getValueAt(row, 0).toString());
+        lblNgayTao.setText(tbHDC.getValueAt(row, 2).toString());
+
+
     }//GEN-LAST:event_tbHDCMouseClicked
 
     private void tbSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSPMouseClicked
@@ -915,10 +930,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -935,12 +946,16 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblMaHD;
     private javax.swing.JLabel lblMaKH;
+    private javax.swing.JLabel lblNgayTao;
     private javax.swing.JLabel lblPageHDC;
     private javax.swing.JLabel lblPageSP;
     private javax.swing.JLabel lblTT;
+    private javax.swing.JLabel lblThanhToan;
     private javax.swing.JLabel lblTienKhachDUa;
     private javax.swing.JLabel lblTienThua;
+    private javax.swing.JLabel lblTongTien;
     private javax.swing.JTable tbGH;
     private javax.swing.JTable tbHDC;
     private javax.swing.JTable tbSP;
