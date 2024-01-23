@@ -11,12 +11,15 @@ import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
+import java.awt.event.ActionEvent;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +49,23 @@ public class BanHangJPanel extends javax.swing.JPanel {
         FindDataHDC(0, size);
         updatePageInfo();
         updatePageInfoHDC();
+        
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Double thanhToan = Double.valueOf(lblThanhToan.getText().replace(",", ""));
+                Double tienKhachDua = Double.valueOf(txtTienKhachDua.getText());
+                Double tienThua;
+
+                if (tienKhachDua == 0 || tienKhachDua == null) {
+                    tienThua = 0.0;
+                } else {
+                    tienThua = tienKhachDua - thanhToan;
+                }
+                lblTT.setText(String.valueOf(fomat.format(tienThua)));
+            }
+        };
+        txtTienKhachDua.addActionListener(action);
     }
 
     public void FindDataSP(int ht, int size) {
@@ -65,7 +85,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         defaultTableModelGH = (DefaultTableModel) tbGH.getModel();
         for (GioHangViewModel x : list) {
             defaultTableModelGH.addRow(new Object[]{
-                x.getId(), x.getMasp(), x.getTensp(), x.getSoluong(), x.getDongia()
+                x.getId(), x.getMasp(), x.getTensp(), x.getSoluong(), x.getDongia(), x.getKickCo(), x.getMauSac(), x.getDanhMuc(), x.getNsx()
             });
         }
     }
@@ -500,7 +520,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Mã SP", "Tên SP", "Số lượng", "Đơn giá"
+                "ID", "Mã SP", "Tên SP", "Số lượng", "Đơn giá", "Kích cỡ", "Màu sắc", "Danh mục", "NSX"
             }
         ));
         jScrollPane3.setViewportView(tbGH);
