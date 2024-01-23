@@ -88,7 +88,31 @@ public class BanHangRepository {
     String delete_giohang = "delete from hoadonchitiet where id = ?";
     String TotalSL = "select soluong from chitietsanpham where masanpham = ?";
     String select_slSP_HT = "select soluong from chitietsanpham where masanpham = ?";
+    String delete_HDCT_ByidHD = "delete from hoadonchitiet where idhoadon = ?";
+    String delete_HD_byID = "delete from hoadon where id = ?";
+    String update_thanhtoan = "UPDATE HoaDon set NgayThanhToan = GETDATE(), TongTien = ?, IdPhuocThucThanhToan = ?, TrangThai = ? WHERE MaHD = ?";
+    
+    
+       public String deleteHDCT(int idHD) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_HDCT_ByidHD)) {
+            ps.setObject(1, idHD);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Ôi hỏng";
+    }
 
+    public String deleteHD(int idHD) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_HD_byID)) {
+            ps.setObject(1, idHD);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Ôi hỏng";
+    }
+    
     public String deleteGioHang(int id) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
             ps.setObject(1, id);
@@ -450,6 +474,23 @@ public class BanHangRepository {
             throw new RuntimeException("Đã xảy ra lỗi khi cập nhật trạng thái hóa đơn chi tiết", e);
         }
     }
+    
+    public String updateThanhToan(HoaDonViewModel hd, String ma) {
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(update_thanhtoan)) {
+            ps.setObject(1, hd.getTongTien());
+            ps.setObject(2, hd.getHinhThucThanhToan());
+            ps.setObject(3, hd.getTrangThai());
+            ps.setObject(4, ma);
+            if (ps.executeUpdate() > 0) {
+                return "Thành công";
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Thất bại";
+    }
+    
+    
 //    public String deleteSPInGH(int id) {
 //        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_giohang)) {
 //            ps.setObject(1, id);

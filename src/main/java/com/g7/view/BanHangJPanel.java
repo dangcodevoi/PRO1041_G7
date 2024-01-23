@@ -11,6 +11,7 @@ import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -240,6 +241,117 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 }
             }
         }
+    }
+
+    private void huyhoadon() {
+        int index = tbHDC.getSelectedRow();
+//        int sl = listGH.size();
+
+        if (index < 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn muốn hủy");
+        } else {
+            int tempTT = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn hủy hóa đơn không ?", "Hủy hóa đơn", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (tempTT == JOptionPane.YES_OPTION) {
+//                if (listHD != null) {
+//                    for (GioHangViewModel x : listGH) {
+//                        int slGH = x.getSoluong();
+//                        int idCTSP = x.getId();
+//                        SanPhamChiTiet ctsp = new SanPhamChiTiet(slGH);
+//                        BHRepo.updateSoLuong2(ctsp, idCTSP);
+//                    }
+//                    int idHD = BHRepo.selectByMa(tbHDC.getValueAt(index, 0).toString());
+//                    BHRepo.deleteHDCT(idHD);
+//                    BHRepo.deleteHD(idHD);
+//
+//                    FindDataHDC(htHDC, size);
+//
+//                }
+
+//            int rowCount = tbGH.getRowCount();
+//                for (int i = 0; i < 10; i++) {
+//                    
+//                }
+                DefaultTableModel modelGH = (DefaultTableModel) tbGH.getModel();
+                int rowCountGH = modelGH.getRowCount();
+                if (rowCountGH > 0) {
+                    int slGH = 0;
+                    String maSP = null;
+                    for (int i = 0; i < rowCountGH; i++) {
+                        String col1Value = modelGH.getValueAt(i, 1).toString();
+                        int col3Value = Integer.parseInt(modelGH.getValueAt(i, 3).toString());
+                        System.out.println(col1Value);
+                        System.out.println(col3Value);
+
+                        slGH = col3Value;
+                        maSP = col1Value;
+                        int slDC = BHRepo.TongSLTrongCTSP(maSP);
+                        int Tong = slGH + slDC;
+                        int idCTSP = BHRepo.selectIdByMaSP(maSP);
+                        SanPhamChiTiet ctsp = new SanPhamChiTiet(Tong);
+                        BHRepo.updateSoLuong2(ctsp, idCTSP);
+                    }
+                    int idHD = BHRepo.selectByMa(tbHDC.getValueAt(index, 0).toString());
+                    BHRepo.deleteHDCT(idHD);
+                    BHRepo.deleteHD(idHD);
+
+                } else {
+                    int idHD = BHRepo.selectByMa(tbHDC.getValueAt(index, 0).toString());
+                    BHRepo.deleteHDCT(idHD);
+                    BHRepo.deleteHD(idHD);
+                    JOptionPane.showMessageDialog(this, "Hủy hóa đơn thành công");
+                }
+
+            }
+        }
+
+    }
+
+    private void thanhToan() {
+        long millis = System.currentTimeMillis();
+
+        String thanhToan = lblThanhToan.getText();
+
+        String tenKH = txtTienKhachDua.getText();
+
+        String tienKhachDua1 = txtTienKhachDua.getText();
+        String tienThua = lblTienThua.getText();
+
+        int temp = 3;
+
+        if (lblThanhToan.getText().equals("0")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng thêm sản phẩm trước khi thanh toán");
+        } else if (txtTienKhachDua.getText().matches("\\s+") && txtTienKhachDua.equals("0") && cbHTTT.getSelectedItem().equals("Tiền mặt")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ thông tin");
+            txtTienKhachDua.setText("");
+        } else {
+            int tempTT = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn thanh toán không ?", "Thanh toán", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if (tempTT == JOptionPane.YES_OPTION) {
+                String maHD = lblMaHD.getText();
+                HoaDonViewModel hd = new HoaDonViewModel();
+                hd.setNgayThanhToan(new Date(millis));
+                hd.setTongTien(Double.valueOf(thanhToan.replaceAll(",", "")));
+                if (cbHTTT.getSelectedItem().equals("Tiền mặt")) {
+                    hd.setHinhThucThanhToan(1);
+                    if (txtTienKhachDua.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiền khách đưa");
+                        return;
+                    }
+                    double tienKhachDua = Double.parseDouble(txtTienKhachDua.getText());
+                    if (tienKhachDua < hd.getTongTien()) {
+                        JOptionPane.showMessageDialog(this, "Số tiền khách đưa phải lớn hơn hoặc bằng tổng tiền");
+                        return;
+                    }
+                } else if (cbHTTT.getSelectedItem().equals("Chuyển khoản")) {
+                    hd.setHinhThucThanhToan(2);
+                }
+
+                hd.setTrangThai(temp);
+                String message = BHRepo.updateThanhToan(hd, maHD);
+                JOptionPane.showMessageDialog(this, message);
+                
+            }
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -593,8 +705,18 @@ public class BanHangJPanel extends javax.swing.JPanel {
         lblTT.setText("0");
 
         jButton1.setText("Thanh toán");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Hủy hóa đơn");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Làm mới");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -862,6 +984,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             tongtien += x.getSoluong() * x.getDongia();
         }
         lblTongTien.setText(fomat.format(tongtien));
+        lblThanhToan.setText(fomat.format(tongtien));
         lblMaHD.setText(tbHDC.getValueAt(row, 0).toString());
         lblNgayTao.setText(tbHDC.getValueAt(row, 2).toString());
 
@@ -906,6 +1029,15 @@ public class BanHangJPanel extends javax.swing.JPanel {
         FindDataSP(0, size);
 
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        huyhoadon();
+        FindDataSP(ht, size);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        thanhToan();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

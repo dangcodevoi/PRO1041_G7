@@ -19,21 +19,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HoaDonViewModel {
-    
+
     private String mahd;
     private String tenNV;
     private String tenKH;
+    private Date ngayThanhToan;
     private Date ngayTao;
     private int trangThai;
     private int idhd;
-    
-    public String trangThai(int trangthai){
-        if(trangthai == 1){
+    private Double TongTien;
+    private int hinhThucThanhToan;
+
+    public String trangThai(int trangthai) {
+        if (trangthai == 1) {
             return "Chưa thanh toán";
-        }else{
+        } else {
             return "Đã thanh toán";
         }
     }
-    
-    
+
 }
