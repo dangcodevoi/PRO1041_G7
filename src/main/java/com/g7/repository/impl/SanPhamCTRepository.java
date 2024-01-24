@@ -42,7 +42,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                     JOIN\n"
                 + "                         HinhAnh HA ON CTS.IdHinhAnh = HA.Id\n"
                 + "                     WHERE\n"
-                + "                         CTS.TrangThai = 1\n"
+                + "                         CTS.TrangThai = 1 And SP.TrangThai=1\n"
                 + "                     ORDER BY\n"
                 + "                         CTS.Id\n"
                 + "                     OFFSET " + (indexOffset * 5) + "0 ROWS\n"
@@ -124,7 +124,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
             }
             return sp;
         } catch (SQLException e) {
-            System.out.println("Lỗi B-01: " + e.getMessage());
+            System.out.println("Lỗi B-05: " + e.getMessage());
             return null;
         }
     }
@@ -207,16 +207,18 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
     }
 
     public int checkThuocTinhCT(int idSanPham, int idMau, int idKichThuoc) {
-        String sql = "Select id from chitietsanpham where idSanPham=?,id mausac=?,idkichco=?;";
+        System.out.println(idSanPham+"+"+idMau+"+"+idKichThuoc);
+        String sql = "Select id from chitietsanpham where idSanPham=? and idmausac=? and idkichco=?;";
         try {
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
             preparedStatement.setInt(1, idSanPham);
-            preparedStatement.setInt(1, idMau);
-            preparedStatement.setInt(1, idKichThuoc);
+            preparedStatement.setInt(2, idMau);
+            preparedStatement.setInt(3, idKichThuoc);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id"));
                 return resultSet.getInt("id");
             }
             return -1;
@@ -225,4 +227,21 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
             return -1;
         }
     }
+    
+    public boolean checkMaSp(String maSp){
+        String sql="select count(*) from chitietsanpham where masanpham='"+maSp+"'";
+        try {
+            connect=JdbcHelper.openDbConnection();
+            preparedStatement=connect.prepareStatement(sql);
+            resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt(1) != 0;
+            }
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-07:"+e.getMessage());
+            return false;
+        }
+    }
+    
 }

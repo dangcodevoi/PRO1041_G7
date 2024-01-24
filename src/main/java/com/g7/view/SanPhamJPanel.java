@@ -31,7 +31,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     int indexOffsetSPCT = 0;
     int soDongDataSanpham = Service_SanPham.soDongData();
 
-    String pathHinhAnh = null;
+    String pathHinhAnh = "";
 
     private void openApp() {
         loadDataSanPham(Service_SanPham.selectOffset(0));
@@ -1010,16 +1010,19 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     //====================================SẢN PHẨM CHI TIẾT===================================================
 
     private void btn_ThemCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ThemCTActionPerformed
-        if (Service_SanPhamCT.create(getInputFromSPCT()) == 0) {
-            JOptionPane.showMessageDialog(this, "Thành Công");
-            loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
-        } else {
-            JOptionPane.showMessageDialog(this, "Thất Bại");
+        SanPhamChiTiet sp = getInputFromSPCT(true);
+        if (sp != null) {
+            if (Service_SanPhamCT.create(sp) == 0) {
+                JOptionPane.showMessageDialog(this, "Thành Công");
+                loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
+            } else {
+                JOptionPane.showMessageDialog(this, "Thất Bại");
+            }
         }
     }//GEN-LAST:event_btn_ThemCTActionPerformed
 
     private void btn_SuaCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SuaCTActionPerformed
-        if (Service_SanPhamCT.update(getInputFromSPCT()) == 0) {
+        if (Service_SanPhamCT.update(getInputFromSPCT(false)) == 0) {
             JOptionPane.showMessageDialog(this, "Thành Công");
             loadDataSanPhamCT(Service_SanPhamCT.selectOffset(indexOffsetSPCT));
         } else {
@@ -1153,20 +1156,23 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         txt_GhiChuCT.setText("");
         txt_SoLuongCT.setText("");
         txt_GiaBanCT.setText("");
+        txt_MaSanPham.setText("");
         lbl_TenSPCT.setText("");
         lbl_HinhAnh.setIcon(null);
         lbl_HinhAnh.setText("    Chọn Hình Ảnh");
-        pathHinhAnh = null;
+        pathHinhAnh = "";
     }
 
-    private SanPhamChiTiet getInputFromSPCT() {
+    private SanPhamChiTiet getInputFromSPCT(boolean layMa) {
         if (txt_MaSanPham.getText().length() <= 5) {
             JOptionPane.showMessageDialog(this, "Mã Sản Phẩm Cần Phải Hơn 6 Ký Tự.");
             return null;
         }
-        if (cbo_SanPham.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Hãy Chọn Sản Phẩm.");
-            return null;
+        if (!txt_MaSanPham.getText().equals(tbl_DanhSachSPCT.getValueAt(indexSPCT, 1).toString())) {
+            if (cbo_SanPham.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Hãy Chọn Sản Phẩm.");
+                return null;
+            }
         }
         if (cbo_Mau.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Hãy Chọn Màu Sắc.");
@@ -1186,24 +1192,30 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         }
         if (pathHinhAnh.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Hãy Chọn Hình Ảnh.");
+            return null;
         }
         int checkThuocTinh = Service_SanPhamCT.checkThuocTinhCT(
                 Service_SanPham.selectIdByName(cbo_SanPham.getSelectedItem().toString()),
-                Service_ThuocTinh.selectIdByName(cbo_Mau.getSelectedItem().toString(), indexSPCT),
-                Service_ThuocTinh.selectIdByName(cbo_Mau.getSelectedItem().toString(), indexSPCT));
+                Service_ThuocTinh.selectIdByName(cbo_Mau.getSelectedItem().toString(), 3),
+                Service_ThuocTinh.selectIdByName(cbo_KichThuoc.getSelectedItem().toString(), 4));
+        System.out.println("Id:" + checkThuocTinh);
         if (checkThuocTinh != -1) {
             JOptionPane.showMessageDialog(this, "Sản Phẩm Này Đã Tồn Tại, Có Id Là:" + checkThuocTinh);
             return null;
         }
+        int idSanpham = Service_SanPham.selectIdByName(cbo_SanPham.getSelectedItem().toString());
+        if (!layMa) {
+            idSanpham = 0;
+        }
         return new SanPhamChiTiet(
-                cbo_SanPham.getSelectedIndex(),
-                0,
-                cbo_Mau.getSelectedIndex(),
-                cbo_KichThuoc.getSelectedIndex(),
+                idSanpham,
+                Integer.parseInt(tbl_DanhSachSPCT.getValueAt(indexSPCT, 0).toString()),
+                Service_ThuocTinh.selectIdByName(cbo_Mau.getSelectedItem().toString(), 3),
+                Service_ThuocTinh.selectIdByName(cbo_KichThuoc.getSelectedItem().toString(), 4),
                 Integer.parseInt(txt_GiaBanCT.getText()),
                 Integer.parseInt(txt_SoLuongCT.getText()),
                 null,
-                null,
+                pathHinhAnh,
                 null,
                 txt_GhiChuCT.getText(),
                 null,
