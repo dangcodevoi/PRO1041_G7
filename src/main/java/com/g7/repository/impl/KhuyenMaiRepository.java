@@ -102,5 +102,24 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
         }
         return "Thêm hóa đơn ct thất bại";
     }
+    
+    public String updateKM(KhuyenMai km, int ma){
+        String sql = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setObject(1, km.getTenKhuyenMai());
+            ps.setObject(2, km.getMoTa());
+            ps.setObject(3, km.isKieuGiamGia());
+            ps.setObject(4, km.getMucGiamGia());
+            ps.setObject(5, km.getNgayBatDau());
+            ps.setObject(6, km.getNgayKetThuc());
+            ps.setObject(7, ma);
+            
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn ct thành công";
+            }
+        } catch (Exception e) {
+        }
+        return "Thêm hóa đơn ct thất bại";
+    }
 
 }

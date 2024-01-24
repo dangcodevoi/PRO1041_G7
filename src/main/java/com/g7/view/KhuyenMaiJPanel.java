@@ -518,8 +518,9 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     void update() {
         KhuyenMai km = getForm();
+        int ma = Integer.valueOf(txtID.getText());
         try {
-            kmr.update(km);
+            kmr.updateKM(km,ma);
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
             MsgBox.alert(this, "thành công");
