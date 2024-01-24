@@ -94,13 +94,11 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
             ps.setObject(6, km.getNgayKetThuc());
 
 
-            if (ps.executeUpdate() > 0) {
-                return "Thêm hóa đơn ct thành công";
-            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "Thêm hóa đơn ct thất bại";
+        return null;
     }
     
     public String updateKM(KhuyenMai km, int ma){
@@ -114,12 +112,10 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
             ps.setObject(6, km.getNgayKetThuc());
             ps.setObject(7, ma);
             
-            if (ps.executeUpdate() > 0) {
-                return "Thêm hóa đơn ct thành công";
-            }
+            
         } catch (Exception e) {
         }
-        return "Thêm hóa đơn ct thất bại";
+        return null;
     }
 
 }

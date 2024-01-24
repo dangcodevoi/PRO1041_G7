@@ -772,7 +772,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
             }
         });
 
-        bntReloadTB.setIcon(new javax.swing.ImageIcon("D:\\FPT\\DA_1\\Git\\PRO1041_G7\\src\\main\\java\\com\\g7\\icon\\reload icon.png")); // NOI18N
         bntReloadTB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntReloadTBActionPerformed(evt);
@@ -814,12 +813,13 @@ public class NhanVienJPanel extends javax.swing.JPanel {
             pnlDanhSachNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDanhSachNVLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDanhSachNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bntTimKiem)
-                    .addComponent(rdbntActive)
-                    .addComponent(rdbntNoActive)
-                    .addComponent(bntReloadTB, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDanhSachNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bntReloadTB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlDanhSachNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bntTimKiem)
+                        .addComponent(rdbntActive)
+                        .addComponent(rdbntNoActive)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

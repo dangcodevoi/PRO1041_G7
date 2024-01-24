@@ -427,12 +427,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="bntTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdbntActive" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdbntNoActive" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="bntReloadTB" alignment="1" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txtTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="bntTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdbntActive" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdbntNoActive" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="523" max="32767" attributes="0"/>
@@ -623,11 +625,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="bntReloadTB">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="D:\FPT\DA_1\Git\PRO1041_G7\src\main\java\com\g7\icon\reload icon.png"/>
-                </Property>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntReloadTBActionPerformed"/>
               </Events>

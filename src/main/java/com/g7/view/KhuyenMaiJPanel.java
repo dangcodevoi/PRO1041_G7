@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -54,7 +55,6 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtID = new javax.swing.JTextField();
         txtTen = new javax.swing.JTextField();
         txtMucGG = new javax.swing.JTextField();
         txtNgayBD = new com.toedter.calendar.JDateChooser();
@@ -64,6 +64,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         cboLoai = new javax.swing.JComboBox<>();
+        lblID = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -92,12 +93,6 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Ghi chú");
 
-        txtID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDActionPerformed(evt);
-            }
-        });
-
         txtNgayBD.setDateFormatString("dd-MM-yyyy");
 
         txtMoTa.setColumns(20);
@@ -121,6 +116,8 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         });
 
         cboLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "%", "VND" }));
+
+        lblID.setText("?");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -168,18 +165,18 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2))
                                 .addGap(32, 32, 32)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                                    .addComponent(txtID))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(21, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblID))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -258,18 +255,14 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnTim))
-                            .addComponent(jLabel10)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTim))
+                    .addComponent(jLabel10)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -352,13 +345,13 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDActionPerformed
-
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        this.update();
+        if (Validate()) {
+            JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa khuyến mãi không", "Sửa khuyến mãi", JOptionPane.YES_NO_OPTION);
+            this.update();
+            JOptionPane.showMessageDialog(this, "Sửa thành công");
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhuyenMaiMouseClicked
@@ -368,7 +361,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         if (row < 0) {
             return;
         }
-        txtID.setText(tblKhuyenMai.getValueAt(row, 0).toString());
+        lblID.setText(tblKhuyenMai.getValueAt(row, 0).toString());
         txtTen.setText(tblKhuyenMai.getValueAt(row, 1).toString());
         cboLoai.setSelectedItem(tblKhuyenMai.getValueAt(row, 2).toString());
         txtMucGG.setText(tblKhuyenMai.getValueAt(row, 3).toString());
@@ -387,15 +380,20 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        this.insert();
+        if (Validate()) {
+            JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm khuyến mãi không", "Thêm khuyến mãi", JOptionPane.YES_NO_OPTION);
+            this.insert();
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         try {
-            kmr.update21(txtID.getText());
+            JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa khuyến mãi này không?", "Xóa khuyến mãi", JOptionPane.YES_NO_OPTION);
+            kmr.update21(lblID.getText());
             this.ShowDaTa(kmr.selectAll());
-            MsgBox.alert(this, "thành công");
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
         } catch (Exception e) {
             MsgBox.alert(this, "chim cút");
         }
@@ -427,9 +425,9 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblPageKM;
     private javax.swing.JTable tblKhuyenMai;
-    private javax.swing.JTextField txtID;
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtMucGG;
     private com.toedter.calendar.JDateChooser txtNgayBD;
@@ -460,7 +458,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     void setForm(int index) {
         KhuyenMai km1 = list.get(index);
-        txtID.setText(String.valueOf(km.getIDKhuyenMai()));
+        lblID.setText(String.valueOf(km.getIDKhuyenMai()));
         txtTen.setText(km.getTenKhuyenMai());
         cboLoai.setSelectedIndex(index);
         txtMucGG.setText(String.valueOf(km.getMucGiamGia()));
@@ -471,7 +469,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     }
 
     void clearForm() {
-        txtID.setText(null);
+        lblID.setText(null);
         txtTen.setText(null);
         txtMucGG.setText(null);
         txtNgayBD.setDate(null);
@@ -508,9 +506,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             kmr.addKM(km); 
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
-            MsgBox.alert(this, "thành công");
         } catch (Exception e) {
-            MsgBox.alert(this, "chim cút");
             System.out.println(e);
         }
 
@@ -518,17 +514,39 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     void update() {
         KhuyenMai km = getForm();
-        int ma = Integer.valueOf(txtID.getText());
+        int ma = Integer.valueOf(lblID.getText());
         try {
             kmr.updateKM(km,ma);
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
-            MsgBox.alert(this, "thành công");
         } catch (Exception e) {
-            MsgBox.alert(this, "chim cút");
             e.printStackTrace();
         }
     }
-    
+    public boolean Validate(){
+        if (txtTen.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập tên khuyến mãi");
+            txtTen.requestFocus();
+            return false;
+        }
+        
+        if (txtMucGG.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập mức giảm giá");
+            txtMucGG.requestFocus();
+            return false;
+        }
+        if (txtNgayBD.getDate() == null) {
+            MsgBox.alert(this, "Vui lòng chọn ngày bắt đầu");
+            txtNgayBD.requestFocus();
+            return false;
+        }
+        if (txtNgayKT.getDate() == null) {
+            MsgBox.alert(this, "Vui lòng chọn ngày kết thúc");
+            txtNgayKT.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
 
 }
