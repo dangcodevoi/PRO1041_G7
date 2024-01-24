@@ -11,7 +11,14 @@ import com.g7.repository.impl.BanHangRepository;
 import com.g7.viewmodel.CTSPBanHangViewModel;
 import com.g7.viewmodel.GioHangViewModel;
 import com.g7.viewmodel.HoaDonViewModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -368,6 +375,42 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 hd.setTrangThai(temp);
                 String message = BHRepo.updateThanhToan(hd, maHD);
                 JOptionPane.showMessageDialog(this, message);
+                
+                
+                String filePath = "src/main/resources/com/raven/bills/bill.pdf"; 
+
+                try {
+                    Document document = new Document();
+                    PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                    document.open();
+
+                    Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+                    Font contentFont = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+
+                    // Add the invoice content to the PDF document
+                    document.add(new Paragraph("SHOP 7Unisex", titleFont));
+                    document.add(new Paragraph("Hoa Don Thanh Toan", titleFont));
+                    document.add(new Paragraph("---------------------------------------------------", contentFont));
+                    document.add(new Paragraph("Ngay thanh toan:    " + hd.getNgayThanhToan(), contentFont));
+                    document.add(new Paragraph("Ten khach hang:    " + tenKH, contentFont));
+                    document.add(new Paragraph("Thanh tien:             " + thanhToan + "   VND", contentFont));
+
+                    if (hd.getHinhThucThanhToan() == 1) {
+                        document.add(new Paragraph("Tien khach dua:     " + tienKhachDua1 + "   VND", contentFont));
+                        document.add(new Paragraph("Tien thua:              " + tienThua + "   VND", contentFont));
+                    } else { 
+                        document.add(new Paragraph("Phuong thuc thanh toan:     Chuyen khoan", contentFont));
+                    }
+
+                    document.add(new Paragraph("---------------------------------------------------", contentFont));
+                    document.add(new Paragraph("              Cam on quy khach", contentFont));
+
+                    document.close();
+
+                    System.out.println("Invoice PDF generated successfully at: " + filePath);
+                } catch (DocumentException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 
             }
         }
