@@ -21,6 +21,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
     public HoaDonJPanel() {
         initComponents();
+        cbotrangThai.addItem("Tất cả");
         cbotrangThai.addItem("Đã Thanh Toán");
         cbotrangThai.addItem("Chưa Thanh Toán");
         loadDataHd(listh);
@@ -214,11 +215,24 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-
         DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
         tblhoaDon.setRowSorter(obj);
-        obj.setRowFilter(RowFilter.regexFilter(txtTenKhachHang.getText()));
+
+        // Get the selected item from the ComboBox
+        String selectedTrangThai = cbotrangThai.getSelectedItem().toString();
+
+        // Check the selected item and apply the filter accordingly
+        if (!selectedTrangThai.equals("Tất cả")) {
+            obj.setRowFilter(RowFilter.regexFilter(selectedTrangThai, 8)); // 8 is the column index of "Trạng Thái"
+        } else {
+            tblhoaDon.setRowSorter(obj);
+            obj.setRowFilter(RowFilter.regexFilter(txtTenKhachHang.getText()));
+        }
+//        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
+//        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
+//        tblhoaDon.setRowSorter(obj);
+//        obj.setRowFilter(RowFilter.regexFilter(txtTenKhachHang.getText()));
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void tblhoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhoaDonMouseClicked
@@ -230,7 +244,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tblhoaDonMouseClicked
 
     private void txtTenKhachHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKhachHangKeyReleased
-        // TODO add your handling code here:
+
         DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
         tblhoaDon.setRowSorter(obj);
