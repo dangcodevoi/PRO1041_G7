@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
-    String INSERT_KM = "INSERT [dbo ].[KhuyenMai] ([Id], [TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?,?)";
+    String INSERT_KM = "INSERT INTO KhuyenMai ([TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?)";
     String UPDATE_KM = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
     String DELETE_KM = "UPDATE KhuyenMai set TrangThai = 0 where Id = ?";
     String SELECT_ALL_KM = "select * from KhuyenMai where TrangThai = '1'";
@@ -25,7 +25,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
     @Override
     public void insert(KhuyenMai entity) {
-        JdbcHelper.update(INSERT_KM, entity.getIDKhuyenMai(), entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
+        JdbcHelper.update(INSERT_KM, entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
                 km.setMucGiamGia(rs.getDouble(5));
                 km.setNgayBatDau(rs.getDate(6));
                 km.setNgayKetThuc(rs.getDate(7));
-                km.setTrangThai(rs.getInt(8));
+//                km.setTrangThai(rs.getInt(8));
                 list.add(km);
             }
             return list;

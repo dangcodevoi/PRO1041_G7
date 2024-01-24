@@ -72,11 +72,11 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         btnTim = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnFisrtKM = new javax.swing.JButton();
+        btnPreKM = new javax.swing.JButton();
+        lblPageKM = new javax.swing.JLabel();
+        btnNextKM = new javax.swing.JButton();
+        btnLastKM = new javax.swing.JButton();
 
         jLabel2.setText("Mã Khuyến mãi ");
 
@@ -243,24 +243,20 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("<<");
+        btnFisrtKM.setText("<<");
 
-        jButton2.setText("<");
+        btnPreKM.setText("<");
 
-        jLabel9.setText("?");
+        lblPageKM.setText("?");
 
-        jButton3.setText(">");
+        btnNextKM.setText(">");
 
-        jButton4.setText(">>");
+        btnLastKM.setText(">>");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(187, 187, 187))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -273,19 +269,23 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                             .addComponent(jLabel10)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnFisrtKM, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPreKM, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblPageKM, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNextKM, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLastKM, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(187, 187, 187))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,14 +298,14 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
                     .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel9)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFisrtKM)
+                    .addComponent(btnPreKM)
+                    .addComponent(lblPageKM)
+                    .addComponent(btnNextKM)
+                    .addComponent(btnLastKM))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -403,16 +403,16 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFisrtKM;
+    private javax.swing.JButton btnLastKM;
+    private javax.swing.JButton btnNextKM;
+    private javax.swing.JButton btnPreKM;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTim;
     private javax.swing.JButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboLoai;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -422,12 +422,12 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblPageKM;
     private javax.swing.JTable tblKhuyenMai;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextArea txtMoTa;
@@ -481,22 +481,29 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
 
     KhuyenMai getForm() {
         KhuyenMai km = new KhuyenMai();
-        km.setIDKhuyenMai(Integer.valueOf(txtID.getText()));
+//        km.setIDKhuyenMai(Integer.valueOf(txtID.getText()));
         km.setTenKhuyenMai(txtTen.getText());
         if (cboLoai.getSelectedItem() == "%") {
-            km.setKieuGiamGia(false);
-        } else {
             km.setKieuGiamGia(true);
+        } else {
+            km.setKieuGiamGia(false);
         }
         km.setMucGiamGia(Double.valueOf(txtMucGG.getText()));
         km.setNgayBatDau(txtNgayBD.getDate());
         km.setNgayKetThuc(txtNgayKT.getDate());
         km.setMoTa(txtMoTa.getText());
-        return km;
+        System.out.println(txtTen.getText());
+        System.out.println(cboLoai.getSelectedIndex());
+        System.out.println(txtMucGG.getText());
+        System.out.println(txtNgayBD.getDate());
+        System.out.println(txtNgayKT.getDate());
+        System.out.println(txtMoTa.getText());
+        return km;  
     }
 
     void insert() {
         KhuyenMai km = getForm();
+        System.out.println(km);
         try {
             kmr.insert(km); 
             this.ShowDaTa(kmr.selectAll());
@@ -504,7 +511,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             MsgBox.alert(this, "thành công");
         } catch (Exception e) {
             MsgBox.alert(this, "chim cút");
-            System.out.println("lỗi B-02"+e.getMessage());
+            System.out.println(e);
         }
 
     }
@@ -521,5 +528,6 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+    
 
 }
