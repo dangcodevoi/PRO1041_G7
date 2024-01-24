@@ -56,7 +56,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
         FindDataHDC(0, size);
         updatePageInfo();
         updatePageInfoHDC();
-        
+
         Action action = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -341,7 +341,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
         String tenKH = txtTienKhachDua.getText();
 
         String tienKhachDua1 = txtTienKhachDua.getText();
-        String tienThua = lblTienThua.getText();
+        String tienThua = lblTT.getText();
+        System.out.println(tienThua);
 
         int temp = 3;
 
@@ -375,9 +376,10 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 hd.setTrangThai(temp);
                 String message = BHRepo.updateThanhToan(hd, maHD);
                 JOptionPane.showMessageDialog(this, message);
+
                 
                 
-                String filePath = "src/main/resources/com/raven/bills/bill.pdf"; 
+                String filePath = "src/main/resources/com/raven/bills/bill.pdf";
 
                 try {
                     Document document = new Document();
@@ -398,7 +400,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     if (hd.getHinhThucThanhToan() == 1) {
                         document.add(new Paragraph("Tien khach dua:     " + tienKhachDua1 + "   VND", contentFont));
                         document.add(new Paragraph("Tien thua:              " + tienThua + "   VND", contentFont));
-                    } else { 
+                    } else {
                         document.add(new Paragraph("Phuong thuc thanh toan:     Chuyen khoan", contentFont));
                     }
 
@@ -411,7 +413,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 } catch (DocumentException | FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                
+
             }
         }
 
@@ -1059,7 +1061,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tbSPMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
+        lblTongTien.setText("0");
+        lblThanhToan.setText("0");
+        lblMaHD.setText("HD++");
+        lblNgayTao.setText("Date");
+        lblTongTien.setText("0");
+        lblTT.setText("0");
+        txtTienKhachDua.setText("0");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void cbHTTTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbHTTTMouseClicked
@@ -1100,6 +1108,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         thanhToan();
+        FindDataHDC(htHDC, size);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
