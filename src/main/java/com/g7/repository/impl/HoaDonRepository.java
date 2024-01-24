@@ -18,8 +18,8 @@ public class HoaDonRepository {
         try {
             String sql = "SELECT HoaDon.Id, HoaDon.MaHD, HoaDon.NgayTao, HoaDon.NgayThanhToan,HoaDon.TongTien, HoaDon.SoTienDuocGiam,\n"
                     + "HoaDon.GhiChu, HoaDon.TrangThai, HoaDon.IdNhanVien, .HoaDon.IdKhachHang, KhachHang.TenKhachHang, KhachHang.SoDienThoai \n"
-                    + "FROM HoaDon \n"
-                    + "INNER JOIN KhachHang ON HoaDon.IdKhachHang = KhachHang.Id";
+                    + "FROM HoaDon\n"
+                    + "Inner JOIN KhachHang ON HoaDon.IdKhachHang = KhachHang.Id";
 
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
