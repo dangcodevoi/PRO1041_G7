@@ -4,9 +4,12 @@
  */
 package com.g7.repository.impl;
 
+import com.g7.entity.HoaDonChiTiet;
 import com.g7.entity.KhuyenMai;
 import com.g7.repository.G7Repository;
 import com.g7.utils.JdbcHelper;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +80,27 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
     public void update21(String entity) {
         JdbcHelper.update(DELETE_KM, entity);
+    }
+
+    public String addKM(KhuyenMai km) {
+        String sql = "Insert into khuyenmai(TenKhuyenMai, Mota, kieuGiamGia, MucGiamGia, NgayBatdau, NgayKetThuc)\n"
+                + "					values (?,?,?,?,?,?)";
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, km.getTenKhuyenMai());
+            ps.setObject(2, km.getMoTa());
+            ps.setObject(3, km.isKieuGiamGia());
+            ps.setObject(4, km.getMucGiamGia());
+            ps.setObject(5, km.getNgayBatDau());
+            ps.setObject(6, km.getNgayKetThuc());
+
+
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn ct thành công";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Thêm hóa đơn ct thất bại";
     }
 
 }

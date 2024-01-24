@@ -505,7 +505,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         KhuyenMai km = getForm();
         System.out.println(km);
         try {
-            kmr.insert(km); 
+            kmr.addKM(km); 
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
             MsgBox.alert(this, "thành công");
