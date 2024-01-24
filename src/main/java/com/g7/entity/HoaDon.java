@@ -27,6 +27,8 @@ public class HoaDon {
     private int trangThai;
     private String idKhachHang;
     private String idNhanVien;
+     private String tenKhachHang;
+      private String soDienThoai;
 
 
     public String trangThai(int trangthai){
