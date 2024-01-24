@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame {
     private NhanVienJPanel nhanvien = new NhanVienJPanel();
     private KhachHangJPanel khachhang = new KhachHangJPanel();
     private ThongKeJPanel thongke = new ThongKeJPanel();
+    private Form_Home fh = new Form_Home();
     
 
     public Main() {
@@ -64,6 +65,7 @@ public class Main extends javax.swing.JFrame {
                     setForm(khuyenmai);
                 } else if (index == 7) {
 //                    dangXuat();
+                     setForm(home);
                 } else if (index == 8) {
                     System.exit(0);
                 }

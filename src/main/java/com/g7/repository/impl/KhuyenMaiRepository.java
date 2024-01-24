@@ -4,9 +4,12 @@
  */
 package com.g7.repository.impl;
 
+import com.g7.entity.HoaDonChiTiet;
 import com.g7.entity.KhuyenMai;
 import com.g7.repository.G7Repository;
 import com.g7.utils.JdbcHelper;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
-    String INSERT_KM = "INSERT [dbo ].[KhuyenMai] ([Id], [TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?,?)";
+    String INSERT_KM = "INSERT INTO KhuyenMai ([TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?)";
     String UPDATE_KM = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
     String DELETE_KM = "UPDATE KhuyenMai set TrangThai = 0 where Id = ?";
     String SELECT_ALL_KM = "select * from KhuyenMai where TrangThai = '1'";
@@ -25,7 +28,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
     @Override
     public void insert(KhuyenMai entity) {
-        JdbcHelper.update(INSERT_KM, entity.getIDKhuyenMai(), entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
+        JdbcHelper.update(INSERT_KM, entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
     }
 
     @Override
@@ -66,7 +69,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
                 km.setMucGiamGia(rs.getDouble(5));
                 km.setNgayBatDau(rs.getDate(6));
                 km.setNgayKetThuc(rs.getDate(7));
-                km.setTrangThai(rs.getInt(8));
+//                km.setTrangThai(rs.getInt(8));
                 list.add(km);
             }
             return list;
@@ -77,6 +80,46 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
 
     public void update21(String entity) {
         JdbcHelper.update(DELETE_KM, entity);
+    }
+
+    public String addKM(KhuyenMai km) {
+        String sql = "Insert into khuyenmai(TenKhuyenMai, Mota, kieuGiamGia, MucGiamGia, NgayBatdau, NgayKetThuc)\n"
+                + "					values (?,?,?,?,?,?)";
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, km.getTenKhuyenMai());
+            ps.setObject(2, km.getMoTa());
+            ps.setObject(3, km.isKieuGiamGia());
+            ps.setObject(4, km.getMucGiamGia());
+            ps.setObject(5, km.getNgayBatDau());
+            ps.setObject(6, km.getNgayKetThuc());
+
+
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn ct thành công";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Thêm hóa đơn ct thất bại";
+    }
+    
+    public String updateKM(KhuyenMai km, int ma){
+        String sql = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
+        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setObject(1, km.getTenKhuyenMai());
+            ps.setObject(2, km.getMoTa());
+            ps.setObject(3, km.isKieuGiamGia());
+            ps.setObject(4, km.getMucGiamGia());
+            ps.setObject(5, km.getNgayBatDau());
+            ps.setObject(6, km.getNgayKetThuc());
+            ps.setObject(7, ma);
+            
+            if (ps.executeUpdate() > 0) {
+                return "Thêm hóa đơn ct thành công";
+            }
+        } catch (Exception e) {
+        }
+        return "Thêm hóa đơn ct thất bại";
     }
 
 }

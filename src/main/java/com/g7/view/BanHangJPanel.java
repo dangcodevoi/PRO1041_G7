@@ -327,6 +327,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                     BHRepo.deleteHD(idHD);
                     JOptionPane.showMessageDialog(this, "Hủy hóa đơn thành công");
                 }
+                FindDataHDC(htHDC, size);
 
             }
         }

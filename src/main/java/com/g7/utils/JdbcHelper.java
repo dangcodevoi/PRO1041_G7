@@ -32,11 +32,12 @@ public class JdbcHelper {//Lớp này giải quyết kết nối xử lý truy v
     public static int update(String sql, Object... args) {
         PreparedStatement pstm = getStmt(sql, args);
         try {
-            try {
+            if (pstm != null) {
                 return pstm.executeUpdate();
-            } finally {
-                pstm.close();
+            } else {
+                return 0;
             }
+
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
