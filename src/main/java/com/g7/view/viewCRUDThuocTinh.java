@@ -2,7 +2,6 @@ package com.g7.view;
 
 import com.g7.entity.ThuocTinh;
 import com.g7.repository.impl.ThuocTinhRepository;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
