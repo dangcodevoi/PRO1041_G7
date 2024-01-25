@@ -58,12 +58,6 @@ public class BanHangRepository {
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
 
-//    String select_Pagination_gh = "SELECT dbo.ChiTietSanPham.MaSanPham, dbo.SanPham.TenSanPham, dbo.HoaDonChiTiet.SoLuong, dbo.HoaDonChiTiet.DonGia, dbo.HoaDonChiTiet.id \n"
-//            + "FROM dbo.HoaDonChiTiet\n"
-//            + "LEFT JOIN dbo.HoaDon ON dbo.HoaDonChiTiet.IdHoaDon = dbo.HoaDon.Id\n"
-//            + "LEFT JOIN dbo.ChiTietSanPham ON dbo.HoaDonChiTiet.IdCTSanPham = dbo.ChiTietSanPham.Id\n"
-//            + "LEFT JOIN dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
-//            + "WHERE dbo.HoaDon.Id = ? and dbo.HoaDonChiTiet.trangthai = 1";
     String select_Pagination_gh = "SELECT \n"
             + "    dbo.ChiTietSanPham.MaSanPham, \n"
             + "    dbo.SanPham.TenSanPham, \n"
@@ -104,6 +98,57 @@ public class BanHangRepository {
     String delete_HDCT_ByidHD = "delete from hoadonchitiet where idhoadon = ?";
     String delete_HD_byID = "delete from hoadon where id = ?";
     String update_thanhtoan = "UPDATE HoaDon set NgayThanhToan = GETDATE(), TongTien = ?, IdPhuocThucThanhToan = ?, TrangThai = ? WHERE MaHD = ?";
+    String selectMaNV_BySDT = "select makhachhang from khachhang where sodienthoai = ?";
+    String selectTenNV_BySDT = "select tenkhachhang from khachhang where sodienthoai = ?";
+    String selectMaKH_ByTenKH = "select MaKhachHang FROM khachhang where TenKhachHang = ?";
+
+     public String selectMaKHByTenKH(String tenKH) {
+        String ma = null;
+
+        try {
+            ResultSet rs = JdbcHelper.query(selectMaKH_ByTenKH, tenKH);
+
+            if (rs.next()) {
+                ma = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ma;
+    }
+    
+    public String selectBySDTnvMa(String sdt) {
+        String ma = null;
+
+        try {
+            ResultSet rs = JdbcHelper.query(selectMaNV_BySDT, sdt);
+
+            if (rs.next()) {
+                ma = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ma;
+    }
+
+    public String selectBySDTnvTen(String sdt) {
+        String ten = null;
+
+        try {
+            ResultSet rs = JdbcHelper.query(selectTenNV_BySDT, sdt);
+
+            if (rs.next()) {
+                ten = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ten;
+    }
 
     public String deleteHDCT(int idHD) {
         try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(delete_HDCT_ByidHD)) {
@@ -167,6 +212,7 @@ public class BanHangRepository {
         return list;
     }
 
+    
     public List<HoaDonViewModel> selectWithPaginationHDC(int offset, int fetchSize) {
         String sql = select_Pagination_hdc;
 
