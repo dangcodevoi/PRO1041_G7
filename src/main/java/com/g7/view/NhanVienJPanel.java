@@ -3,11 +3,14 @@ package com.g7.view;
 import com.g7.entity.NhanVien;
 import com.g7.repository.impl.NhanVienRepository;
 import com.g7.utils.MsgBox;
+import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -268,7 +271,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
     private boolean checkTimKiem() {
         if (txtTimKiem.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập từ khóa", "Error", 1);
-            txtTimKiem.requestFocus();
             return false;
         }
 
@@ -277,7 +279,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
     public void findbyIdNV(int id) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         NhanVien nv = NVrepo.findById(id);
         List<NhanVien> list = new ArrayList<>();
         list.add(nv);
@@ -320,7 +321,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
     public void findbySDT(String sdt, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<NhanVien> list = NVrepo.findBySDT(sdt, ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbNhanVien.getModel();
@@ -361,7 +361,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
     public void findbyEmail(String email, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<NhanVien> list = NVrepo.findByEmail(email, ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbNhanVien.getModel();
@@ -402,7 +401,6 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
     public void findbyTenNV(String tenNV, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<NhanVien> list = NVrepo.findByTenNV(tenNV, ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbNhanVien.getModel();
@@ -688,6 +686,12 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
         tabNhanVien.addTab("NHÂN VIÊN", pnlNhanVien);
 
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
+
         tbNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -882,17 +886,22 @@ public class NhanVienJPanel extends javax.swing.JPanel {
     private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
         // TODO add your handling code here:
         String keyword = txtTimKiem.getText();
-        if (checkTimKiem()) {
-            if (txtTimKiem.getText().matches("^\\d{4}$")) {
-                findbyIdNV(Integer.parseInt(keyword));
-            } else if (txtTimKiem.getText().matches("^[A-Za-z0-9]+[A-Za-z0-9]*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)$")) {
-                findbyEmail(keyword, 0, size);
-            } else if (txtTimKiem.getText().matches("^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")) {
-                findbySDT(keyword, 0, size);
-            } else {
-                findbyTenNV(keyword, 0, size);
+        try {
+            if (checkTimKiem()) {
+                if (txtTimKiem.getText().matches("^(0|\\+84|\\84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")) {
+                    findbySDT(keyword, 0, size);
+                } else if (txtTimKiem.getText().contains("@gmail.com")) {
+                    findbyEmail(keyword, 0, size);
+                } else if (txtTimKiem.getText().matches("\\d{4}") || txtTimKiem.getText().matches("\\d{3}") || txtTimKiem.getText().matches("\\d{2}") || txtTimKiem.getText().matches("\\d{1}")) {
+                    findbyIdNV(Integer.parseInt(keyword));
+                } else {
+                    findbyTenNV(keyword, 0, size);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
     }//GEN-LAST:event_bntTimKiemActionPerformed
 
     private void bntFirstPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntFirstPageActionPerformed
@@ -989,6 +998,18 @@ public class NhanVienJPanel extends javax.swing.JPanel {
 
         lbPresentPage.setText(ht + " / " + maxPage);
     }//GEN-LAST:event_rdbntNoActiveMousePressed
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bntTimKiemActionPerformed(e);
+            }
+        };
+        txtTimKiem.addActionListener(action);
+        bntTimKiem.addActionListener(action);
+    }//GEN-LAST:event_txtTimKiemKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser CalendarNgaySinh;
