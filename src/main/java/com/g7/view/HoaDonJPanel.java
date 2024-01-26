@@ -75,7 +75,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbotrangThai = new javax.swing.JComboBox<>();
-        txtTenKhachHang = new javax.swing.JTextField();
+        txtMaHoaDon = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -155,9 +155,9 @@ public class HoaDonJPanel extends javax.swing.JPanel {
             }
         });
 
-        txtTenKhachHang.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaHoaDon.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTenKhachHangKeyReleased(evt);
+                txtMaHoaDonKeyReleased(evt);
             }
         });
 
@@ -181,7 +181,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtTenKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(31, 31, 31)
                         .addComponent(btnSearch))
                     .addGroup(layout.createSequentialGroup()
@@ -198,7 +198,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtTenKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -226,8 +226,14 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         if (!selectedTrangThai.equals("Tất cả")) {
             obj.setRowFilter(RowFilter.regexFilter(selectedTrangThai, 8)); // 8 is the column index of "Trạng Thái"
         } else {
-            tblhoaDon.setRowSorter(obj);
-            obj.setRowFilter(RowFilter.regexFilter(txtTenKhachHang.getText()));
+            // If "Tất cả" is selected, check if the search field is empty
+            String maHd = txtMaHoaDon.getText().trim();
+            if (!maHd.isEmpty()) {
+                obj.setRowFilter(RowFilter.regexFilter(maHd, 1)); // 1 is the column index of "Mã Hoá Đơn" (MaHD)
+            } else {
+                tblhoaDon.setRowSorter(obj);
+                obj.setRowFilter(null); // Clear the filter if search field is empty
+            }
         }
 //        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
 //        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
@@ -243,13 +249,17 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblhoaDonMouseClicked
 
-    private void txtTenKhachHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKhachHangKeyReleased
-
+    private void txtMaHoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaHoaDonKeyReleased
         DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
         tblhoaDon.setRowSorter(obj);
-        obj.setRowFilter(RowFilter.regexFilter(txtTenKhachHang.getText()));
-    }//GEN-LAST:event_txtTenKhachHangKeyReleased
+        String maHd = txtMaHoaDon.getText().trim();
+        if (!maHd.isEmpty()) {
+            obj.setRowFilter(RowFilter.regexFilter(maHd, 1));
+        } else {
+            tblhoaDon.setRowSorter(obj);
+            obj.setRowFilter(null);        }
+    }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void cbotrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbotrangThaiActionPerformed
 
@@ -269,6 +279,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblhoaDon;
     private javax.swing.JTable tblhoaDonChiTiet;
-    private javax.swing.JTextField txtTenKhachHang;
+    private javax.swing.JTextField txtMaHoaDon;
     // End of variables declaration//GEN-END:variables
 }
