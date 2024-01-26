@@ -31,11 +31,21 @@ public class HoaDon {
       private String soDienThoai;
 
 
+//    public String trangThai(int trangthai){
+//        if(trangthai == 1){
+//            return "Chưa thanh toán";
+//        }else{
+//            return "Đã thanh toán";
+//        }
+//    }
     public String trangThai(int trangthai){
-        if(trangthai == 1){
+    switch (trangthai) {
+        case 1:
             return "Chưa thanh toán";
-        }else{
+        case 3:
             return "Đã thanh toán";
-        }
+        default:
+            return "Trạng thái không xác định";
     }
+}
 }
