@@ -7,6 +7,7 @@ package com.g7.view;
 import com.g7.entity.KhuyenMai;
 import com.g7.repository.impl.KhuyenMaiRepository;
 import com.g7.utils.MsgBox;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     KhuyenMaiRepository kmr = new KhuyenMaiRepository();
     KhuyenMai km = new KhuyenMai();
     DefaultTableModel model;
+    int ht = 1;
+    int size = 100;
 
     /**
      * Creates new form KhuyenMaiJPanel
@@ -241,14 +244,34 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         });
 
         btnFisrtKM.setText("<<");
+        btnFisrtKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFisrtKMActionPerformed(evt);
+            }
+        });
 
         btnPreKM.setText("<");
+        btnPreKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreKMActionPerformed(evt);
+            }
+        });
 
         lblPageKM.setText("?");
 
         btnNextKM.setText(">");
+        btnNextKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextKMActionPerformed(evt);
+            }
+        });
 
         btnLastKM.setText(">>");
+        btnLastKM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastKMActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -395,9 +418,52 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             this.ShowDaTa(kmr.selectAll());
             JOptionPane.showMessageDialog(this, "Xóa thành công");
         } catch (Exception e) {
-            MsgBox.alert(this, "chim cút");
+            MsgBox.alert(this, "Xóa không thành công");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnPreKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreKMActionPerformed
+        // TODO add your handling code here:
+        if (ht > 1) {
+            ht--;
+        }
+        int page = (ht - 1) * size;
+        findWithPaginationKM(page, size);
+        updatePageInfo();
+    }//GEN-LAST:event_btnPreKMActionPerformed
+
+    private void btnFisrtKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFisrtKMActionPerformed
+        // TODO add your handling code here:
+        ht = 1;
+        findWithPaginationKM(0, size);
+        updatePageInfo();
+    }//GEN-LAST:event_btnFisrtKMActionPerformed
+
+    private void btnNextKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextKMActionPerformed
+        // TODO add your handling code here:
+        int TotalItem = kmr.getTotalItems();
+        int TotalPage = TotalItem / size;
+        if (ht < TotalPage) {
+            ht++;
+            int page = (ht - 1) * size;
+            findWithPaginationKM(page, size);
+            updatePageInfo();
+        }else{
+            ht = 1;
+            findWithPaginationKM(0, size);
+            updatePageInfo();
+        }
+    }//GEN-LAST:event_btnNextKMActionPerformed
+
+    private void btnLastKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastKMActionPerformed
+        // TODO add your handling code here:
+        int totalItems = kmr.getTotalItems();
+        int lastPage = (int) Math.ceil((double) totalItems / size);
+        ht = lastPage;
+        int page = (ht - 1) * size;
+        findWithPaginationKM(page, size);
+        updatePageInfo();
+    }//GEN-LAST:event_btnLastKMActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -437,6 +503,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     void init() {
         this.ShowDaTa(kmr.selectAll());
+        findWithPaginationKM(0, size);
     }
 
     void ShowDaTa(List<KhuyenMai> list) {
@@ -496,14 +563,14 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         System.out.println(txtNgayBD.getDate());
         System.out.println(txtNgayKT.getDate());
         System.out.println(txtMoTa.getText());
-        return km;  
+        return km;
     }
 
     void insert() {
         KhuyenMai km = getForm();
         System.out.println(km);
         try {
-            kmr.addKM(km); 
+            kmr.addKM(km);
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
         } catch (Exception e) {
@@ -516,20 +583,21 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
         KhuyenMai km = getForm();
         int ma = Integer.valueOf(lblID.getText());
         try {
-            kmr.updateKM(km,ma);
+            kmr.updateKM(km, ma);
             this.ShowDaTa(kmr.selectAll());
             this.clearForm();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public boolean Validate(){
+
+    public boolean Validate() {
         if (txtTen.getText().isEmpty()) {
             MsgBox.alert(this, "Vui lòng nhập tên khuyến mãi");
             txtTen.requestFocus();
             return false;
         }
-        
+
         if (txtMucGG.getText().isEmpty()) {
             MsgBox.alert(this, "Vui lòng nhập mức giảm giá");
             txtMucGG.requestFocus();
@@ -545,8 +613,83 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
             txtNgayKT.requestFocus();
             return false;
         }
-        
+
         return true;
     }
 
+    public void findWithPaginationKM(int ht, int c) {
+
+        List<KhuyenMai> list = kmr.selectWithPagination(ht, c);
+        model.setRowCount(0);
+        model = (DefaultTableModel) tblKhuyenMai.getModel();
+        for (KhuyenMai x : list) {
+            String lkm = null;
+            if (x.isKieuGiamGia() == true) {
+                lkm = "%";
+            } else {
+                lkm = "VND";
+            }
+
+            String tt = null;
+            if (x.getTrangThai() == 1) {
+                tt = "Đang hoạt động";
+            } else {
+                tt = "Dừng hoạt động";
+            }
+            model.addRow(new Object[]{
+                x.getIDKhuyenMai(),
+                x.getTenKhuyenMai(),
+                x.getMoTa(),
+                lkm,
+                x.getMucGiamGia(),
+                x.getNgayBatDau(),
+                x.getNgayKetThuc(),
+                tt
+            });
+        }
+
+    }
+
+    public void findWithNoActiveNV(int ht, int c) {
+        List<KhuyenMai> list = kmr.selectWithPaginationNoActive(ht, c);
+        model.setRowCount(0);
+        model = (DefaultTableModel) tblKhuyenMai.getModel();
+        for (KhuyenMai x : list) {
+            String lkm = null;
+            if (x.isKieuGiamGia() == true) {
+                lkm = "%";
+            } else {
+                lkm = "VND";
+            }
+
+            String tt = null;
+            if (x.getTrangThai() == 1) {
+                tt = "Đang hoạt động";
+            } else {
+                tt = "Dừng hoạt động";
+            }
+            model.addRow(new Object[]{
+                x.getIDKhuyenMai(),
+                x.getTenKhuyenMai(),
+                x.getMoTa(),
+                lkm,
+                x.getMucGiamGia(),
+                x.getNgayBatDau(),
+                x.getNgayKetThuc(),
+                tt
+            });
+        }
+
+    }
+
+    private void updatePageInfo() {
+        int totalItems = kmr.getTotalItems();
+        int maxPage = (int) Math.ceil((double) totalItems / size);
+
+        if (ht > maxPage) {
+            ht = (maxPage == 0) ? 1 : maxPage;
+        }
+
+        lblPageKM.setText(ht + " / " + maxPage);
+    }
 }
