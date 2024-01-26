@@ -504,6 +504,7 @@ public class KhuyenMaiJPanel extends javax.swing.JPanel {
     void init() {
         this.ShowDaTa(kmr.selectAll());
         findWithPaginationKM(0, size);
+        updatePageInfo();
     }
 
     void ShowDaTa(List<KhuyenMai> list) {
