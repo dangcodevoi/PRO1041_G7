@@ -784,6 +784,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 cbHTTTMouseClicked(evt);
             }
         });
+        cbHTTT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbHTTTActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -1202,6 +1207,10 @@ public class BanHangJPanel extends javax.swing.JPanel {
         lblMaKH.setText("KH001");
         lblTenKH.setText("Khách vãng lai");
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void cbHTTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbHTTTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbHTTTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
