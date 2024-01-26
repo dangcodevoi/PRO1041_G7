@@ -58,10 +58,10 @@ public class KhachHangRepository {
     public List<KhachHang> selectWithPaginationNoActive(int offset, int fetchSize) {
 
         String sql = "SELECT dbo.KhachHang.id,dbo.KhachHang.MaKhachHang,dbo.KhachHang.TenKhachHang,dbo.KhachHang.SoDienThoai,dbo.KhachHang.NgayTao,dbo.KhachHang.TrangThai\n"
-            + "FROM dbo.KhachHang\n"
-            + "WHERE dbo.KhachHang.TrangThai = 0 ORDER BY ID\n"
-            + "OFFSET ? ROWS\n"
-            + "FETCH NEXT  ? ROWS ONLY;";
+                + "FROM dbo.KhachHang\n"
+                + "WHERE dbo.KhachHang.TrangThai = 0 ORDER BY ID\n"
+                + "OFFSET ? ROWS\n"
+                + "FETCH NEXT  ? ROWS ONLY;";
 
         List<KhachHang> list = new ArrayList<>();
         try {
@@ -81,7 +81,7 @@ public class KhachHangRepository {
         }
         return list;
     }
-    
+
     public int getTotalItems() {
         int totalItems = 0;
 
@@ -98,9 +98,9 @@ public class KhachHangRepository {
         return totalItems;
     }
 
-    public int getNoActiveTotal(){
+    public int getNoActiveTotal() {
         String sql = "SELECT COUNT(*) FROM KhachHang WHERE TrangThai = 0;";
-        
+
         int totalItems = 0;
 
         try {
@@ -115,7 +115,7 @@ public class KhachHangRepository {
 
         return totalItems;
     }
-    
+
     public int create(Object o) {
         String sql = "INSERT INTO KhachHang(MaKhachHang,TenKhachHang,SoDienThoai,NgayTao)\n"
                 + "VALUES(?,?,?,?);";
@@ -220,6 +220,8 @@ public class KhachHangRepository {
                 + "OFFSET ? ROWS\n"
                 + "FETCH NEXT  ? ROWS ONLY";
 
+        maKH = "%" + maKH + "%";
+
         List<KhachHang> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, maKH, offset, fetchSize);
@@ -238,7 +240,7 @@ public class KhachHangRepository {
         }
         return list;
     }
-    
+
     public List<KhachHang> findByTenKH(String tenKH, int offset, int fetchSize) {
 
         String sql = "SELECT dbo.KhachHang.id,dbo.KhachHang.MaKhachHang,dbo.KhachHang.TenKhachHang,dbo.KhachHang.SoDienThoai,dbo.KhachHang.NgayTao,dbo.KhachHang.TrangThai\n"
@@ -248,6 +250,7 @@ public class KhachHangRepository {
                 + "OFFSET ? ROWS\n"
                 + "FETCH NEXT  ? ROWS ONLY";
 
+        tenKH = "%" + tenKH + "%";
         List<KhachHang> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, tenKH, offset, fetchSize);
@@ -266,7 +269,7 @@ public class KhachHangRepository {
         }
         return list;
     }
-    
+
     public List<KhachHang> findBySDT(String SDT, int offset, int fetchSize) {
 
         String sql = "SELECT dbo.KhachHang.id,dbo.KhachHang.MaKhachHang,dbo.KhachHang.TenKhachHang,dbo.KhachHang.SoDienThoai,dbo.KhachHang.NgayTao,dbo.KhachHang.TrangThai\n"
@@ -275,7 +278,9 @@ public class KhachHangRepository {
                 + "ORDER BY ID\n"
                 + "OFFSET ? ROWS\n"
                 + "FETCH NEXT  ? ROWS ONLY";
-
+        
+        SDT = "%" + SDT + "%";
+        
         List<KhachHang> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, SDT, offset, fetchSize);

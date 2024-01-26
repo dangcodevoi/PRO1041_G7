@@ -260,6 +260,7 @@ public class NhanVienRepository {
                 entity.setMatKhau(rs.getString(9));
                 entity.setChucVu(rs.getInt(10));
                 entity.setTrangThai(rs.getInt(11));
+                list.add(entity);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -275,7 +276,9 @@ public class NhanVienRepository {
                 + "ORDER BY NhanVien.Id \n"
                 + "OFFSET ? ROWS\n"
                 + "FETCH NEXT ? ROWS ONLY;";
-
+        
+        tenNV = "%"+tenNV+"%";
+        
         List<NhanVien> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, tenNV, offset, fetchSize);
@@ -292,6 +295,7 @@ public class NhanVienRepository {
                 entity.setMatKhau(rs.getString(9));
                 entity.setChucVu(rs.getInt(10));
                 entity.setTrangThai(rs.getInt(11));
+                list.add(entity);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -324,6 +328,7 @@ public class NhanVienRepository {
                 entity.setMatKhau(rs.getString(9));
                 entity.setChucVu(rs.getInt(10));
                 entity.setTrangThai(rs.getInt(11));
+                list.add(entity);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -27,15 +27,14 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     public KhachHangJPanel() {
         initComponents();
         setOpaque(false);
-        
+
         updatePageInfo();
         findWithPaginationKH(0, size);
         rdbntActive.setSelected(true);
     }
-    
+
     public void findWithPaginationKH(int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<KhachHang> list = KHrepo.selectWithPagination(ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
@@ -54,7 +53,6 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
     public void findWithNoActiveKH(int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<KhachHang> list = KHrepo.selectWithPaginationNoActive(ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
@@ -73,7 +71,6 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
     public void findByIdKH(int id) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         KhachHang kh = KHrepo.findById(id);
         List<KhachHang> list = new ArrayList<>();
         list.add(kh);
@@ -94,7 +91,6 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
     public void findByMaKH(String maKH, int ht, int c) {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        DecimalFormat f = new DecimalFormat("#,##0.##");
         List<KhachHang> list = KHrepo.findByMaKH(maKH, ht, c);
         defaultTableModelKH.setRowCount(0);
         defaultTableModelKH = (DefaultTableModel) tbKhachHang.getModel();
@@ -583,9 +579,8 @@ public class KhachHangJPanel extends javax.swing.JPanel {
 
         try {
 
-            if (checkKH()) {
-                this.update();
-            }
+            this.update();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi, Vui lòng xem lại");
             e.printStackTrace();
@@ -655,41 +650,45 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private void bntTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntTimKiemActionPerformed
         // TODO add your handling code here:
         String keyword = txtTimKiem.getText();
-        if (checkTimKiem()) {
-            if (txtTimKiem.getText().matches("^\\d{4}$")) {
-                findByIdKH(Integer.parseInt(keyword));
-            } else if (txtTimKiem.getText().matches("^KH")) {
-                findByMaKH(keyword, 0, size);
-            } else if (txtTimKiem.getText().matches("^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")) {
-                findbySDT(keyword, 0, size);
-            } else {
-                findByTenKH(keyword, 0, size);
+        try {
+            if (checkTimKiem()) {
+                if (txtTimKiem.getText().matches("^(0|\\+84|\\84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$")) {
+                    findbySDT(keyword, 0, size);
+                } else if (txtTimKiem.getText().matches("^KH\\d{4}")) {
+                    findByMaKH(keyword, 0, size);
+                } else if (txtTimKiem.getText().matches("\\d{4}") || txtTimKiem.getText().matches("\\d{3}") || txtTimKiem.getText().matches("\\d{2}") || txtTimKiem.getText().matches("\\d{1}")) {
+                    findByIdKH(Integer.parseInt(keyword));
+                } else {
+                    findByTenKH(keyword, 0, size);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
     }//GEN-LAST:event_bntTimKiemActionPerformed
 
     private void tbKhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbKhachHangMousePressed
         // TODO add your handling code here:
-        
-            this.index = tbKhachHang.rowAtPoint(evt.getPoint());
-            if (this.index >= 0) {
-                this.edit();
-            }
-        
+
+        this.index = tbKhachHang.rowAtPoint(evt.getPoint());
+        if (this.index >= 0) {
+            this.edit();
+        }
+
     }//GEN-LAST:event_tbKhachHangMousePressed
 
     private void bntXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntXoaActionPerformed
         // TODO add your handling code here:
         try {
 
-            if (checkKH()) {
-                this.delete();
-            }
+            this.delete();
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi, Vui lòng xem lại");
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_bntXoaActionPerformed
 
     private void rdbntActiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbntActiveMouseClicked
@@ -753,5 +752,4 @@ public class KhachHangJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 
-    
 }
