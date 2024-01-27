@@ -212,6 +212,31 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
         return totalItems;
     }
     
+    public List<KhuyenMai> Search(String ten){
+        String sql = "SELECT * FROM KhuyenMai WHERE TenKhuyenMai Like ? AND TrangThai = 1";
+        List<KhuyenMai> listSearch = new ArrayList<>();
+        try {
+            conn = new JdbcHelper().openDbConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + ten + "%");
+            rs = ps.executeQuery();
+             while (rs.next()) {                
+                KhuyenMai km = new KhuyenMai();
+                km.setIDKhuyenMai(rs.getInt(1));
+                km.setTenKhuyenMai(rs.getString(2));
+                km.setMoTa(rs.getString(3));
+                km.setKieuGiamGia(rs.getBoolean(4));
+                km.setMucGiamGia(rs.getDouble(5));
+                km.setNgayBatDau(rs.getDate(6));
+                km.setNgayKetThuc(rs.getDate(7));
+                km.setTrangThai(8);
+               listSearch.add(km);
+            }
+        } catch (Exception e) {
+        }
+        return listSearch;
+    }
+    
     
 
 }
