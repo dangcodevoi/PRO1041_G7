@@ -6,6 +6,7 @@ package com.g7.repository.impl;
 
 import com.g7.entity.HoaDon;
 import com.g7.entity.HoaDonChiTiet;
+import com.g7.entity.KhuyenMai;
 import com.g7.entity.SanPhamChiTiet;
 import com.g7.utils.JdbcHelper;
 import com.g7.viewmodel.CTSPBanHangViewModel;
@@ -101,8 +102,12 @@ public class BanHangRepository {
     String selectMaNV_BySDT = "select makhachhang from khachhang where sodienthoai = ?";
     String selectTenNV_BySDT = "select tenkhachhang from khachhang where sodienthoai = ?";
     String selectMaKH_ByTenKH = "select MaKhachHang FROM khachhang where TenKhachHang = ?";
+    String select_Pagination_KM = "select * from khuyenmai where trangthai = 1\n"
+            + "ORDER BY ID \n"
+            + "OFFSET ? ROWS \n"
+            + "FETCH NEXT ? ROWS ONLY";
 
-     public String selectMaKHByTenKH(String tenKH) {
+    public String selectMaKHByTenKH(String tenKH) {
         String ma = null;
 
         try {
@@ -117,7 +122,7 @@ public class BanHangRepository {
 
         return ma;
     }
-    
+
     public String selectBySDTnvMa(String sdt) {
         String ma = null;
 
@@ -212,7 +217,6 @@ public class BanHangRepository {
         return list;
     }
 
-    
     public List<HoaDonViewModel> selectWithPaginationHDC(int offset, int fetchSize) {
         String sql = select_Pagination_hdc;
 
@@ -253,6 +257,30 @@ public class BanHangRepository {
                 entity.setNsx(rs.getString(7));
                 entity.setSoluong(rs.getInt(8));
                 entity.setGiaban(rs.getDouble(9));
+                list.add(entity);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<KhuyenMai> selectWithPaginationKM(int offset, int fetchSize) {
+        String sql = select_Pagination_KM;
+
+        List<KhuyenMai> list = new ArrayList<>();
+        try {
+            ResultSet rs = JdbcHelper.query(sql, offset, fetchSize);
+            while (rs.next()) {
+                KhuyenMai entity = new KhuyenMai();
+                entity.setIDKhuyenMai(rs.getInt(1));
+                entity.setTenKhuyenMai(rs.getString(2));
+                entity.setMoTa(rs.getString(3));
+                entity.setKieuGiamGia(rs.getBoolean(4));
+                entity.setMucGiamGia(rs.getDouble(5));
+                entity.setNgayBatDau(rs.getDate(6));
+                entity.setNgayKetThuc(rs.getDate(7));
+                entity.setTrangThai(rs.getInt(8));
                 list.add(entity);
             }
         } catch (SQLException e) {

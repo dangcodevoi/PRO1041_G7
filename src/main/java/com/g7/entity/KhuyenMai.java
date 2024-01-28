@@ -40,7 +40,13 @@ public class KhuyenMai {
     }
 
     
-   
+   public String KieuKM(boolean k){
+       if(k == true){
+           return "%";
+       }else{
+           return "VNĐ";
+       }
+   }
     
 
     public String trangThai(int trangThai){
