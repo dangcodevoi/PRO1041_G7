@@ -933,17 +933,15 @@ public class BanHangJPanel extends javax.swing.JPanel {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(67, 67, 67)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtTimKiemKH, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                                .addComponent(btnHuy)
-                                                .addGap(45, 45, 45)
-                                                .addComponent(btnLamMoi))))
+                                        .addComponent(btnHuy)
+                                        .addGap(45, 45, 45)
+                                        .addComponent(btnLamMoi))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(59, 59, 59)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblTenKH)
-                                            .addComponent(lblMaKH)))
+                                            .addComponent(lblMaKH)
+                                            .addComponent(txtTimKiemKH, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -966,12 +964,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTimKiemKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnTKKH)
-                        .addComponent(btnAddKH))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTKKH)
+                            .addComponent(btnAddKH))
+                        .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(txtTimKiemKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1194,30 +1193,31 @@ public class BanHangJPanel extends javax.swing.JPanel {
             double giamGia = 0;
             double thanhtoan = 0;
 
-            if (BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 0) {
-                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText()));
-                giamGia = Double.parseDouble(mucGG) / 100.0;
-            }else if(BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 1){
-                giamGia = 1.0;
-            }else{
-                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText())).replace(",", "");
-                giamGia = Double.parseDouble(mucGG) ;
-            }
+//            if (BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 1) {
+//                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText()));
+//                giamGia = Double.parseDouble(mucGG) / 100.0;
+//            }else if(BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 2){
+//                giamGia = 1.0;
+//            }else{
+//                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText())).replace(",", "");
+//                giamGia = Double.parseDouble(mucGG) ;
+//            }
 
             double tongtien = 0;
             for (GioHangViewModel x : listGH) {
                 tongtien += x.getSoluong() * x.getDongia();
             }
             
-            if(tongtien > 0){
-                 double soTienBiTru = 0;
-                 if (giamGia < 1) {
-                        soTienBiTru = tongtien * giamGia;
-                    } else {
-                        soTienBiTru = giamGia;
-                    }
-                 thanhtoan = tongtien - 10000;
-            }
+//            if(tongtien > 0){
+//                 double soTienBiTru = 0;
+//                 if (giamGia < 1) {
+//                        soTienBiTru = tongtien * giamGia;
+//                    } else {
+//                        soTienBiTru = giamGia;
+//                    }
+//                 System.out.println(soTienBiTru);
+//                 thanhtoan = tongtien - soTienBiTru;
+//            }
             
             thanhtoan = tongtien;
 
