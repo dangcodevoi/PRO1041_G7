@@ -20,7 +20,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private int currentPage = 1;
     private int pageSize = 10;
     int id;
-    int ht;
+    
 
     public HoaDonJPanel() {
         initComponents();
