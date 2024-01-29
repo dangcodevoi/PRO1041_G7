@@ -35,7 +35,7 @@ public class SanPhamRepository implements SP_SPCT_Repository {
                 + "                     WHERE\n"
                 + "                         SP.TrangThai = 1\n"
                 + "                     ORDER BY\n"
-                + "                         SP.Id\n";
+                + "                         SP.Id DESC\n";
         if (indexOffset != -1) {
             if (indexOffset == 0) {
                 sql += " OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
@@ -223,7 +223,125 @@ public class SanPhamRepository implements SP_SPCT_Repository {
             return -1;
         }
     }
-    
-    
+
+    public ArrayList<SanPham> listTimKiem(String tuKhoa) {
+        ArrayList<SanPham> danhSach = new ArrayList<>();
+        String sql = "SELECT "
+                + "SP.Id AS SanPham_Id,"
+                + "   SP.TenSanPham,"
+                + "   SP.IdDanhMuc,"
+                + "   DM.TenDanhMuc,"
+                + "   SP.IdChatLieu,"
+                + "   CL.TenChatLieu,"
+                + "   SP.IdNSX,"
+                + "   NSX.TenNSX "
+                + "FROM SanPham SP "
+                + "JOIN DanhMuc DM ON SP.IdDanhMuc = DM.Id "
+                + "JOIN ChatLieu CL ON SP.IdChatLieu = CL.Id "
+                + "JOIN NSX ON SP.IdNSX = NSX.Id "
+                + "WHERE SP.TrangThai = 1 "
+                + "AND (SP.TenSanPham LIKE ? "
+                + "OR DM.TenDanhMuc LIKE ? "
+                + "OR CL.TenChatLieu LIKE ? "
+                + "OR NSX.TenNSX LIKE ? "
+                + "OR SP.Id = ?) "
+                + "ORDER BY SP.Id DESC";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + tuKhoa + "%");
+            preparedStatement.setString(2, "%" + tuKhoa + "%");
+            preparedStatement.setString(3, "%" + tuKhoa + "%");
+            preparedStatement.setString(4, "%" + tuKhoa + "%");
+
+            try {
+                int id = Integer.parseInt(tuKhoa);
+                preparedStatement.setInt(5, id);
+            } catch (NumberFormatException e) {
+                preparedStatement.setInt(5, 0); // Sử dụng một giá trị không khớp với bất kỳ ID nào
+            }
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                danhSach.add(new SanPham(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("IdNSX"),
+                        resultSet.getInt("IdDanhMuc"),
+                        resultSet.getInt("IdChatLieu"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("TenNSX"),
+                        resultSet.getString("TenChatLieu"),
+                        resultSet.getString("TenDanhMuc")));
+            }
+            return danhSach;
+        } catch (SQLException e) {
+            System.out.println("Lỗi A-01: " + e.getMessage());
+        } finally {
+        }
+
+        return null;
+    }
+
+    public ArrayList<SanPham> listLoc( int locTheo, int idLoc) {
+        ArrayList list = new ArrayList();
+        String sql = "SELECT\n"
+                + "                         SP.Id AS SanPham_Id,\n"
+                + "                         SP.TenSanPham,\n"
+                + "                         SP.IdDanhMuc,\n"
+                + "                         DM.TenDanhMuc,\n"
+                + "                         SP.IdChatLieu,\n"
+                + "                         CL.TenChatLieu,\n"
+                + "                         SP.IdNSX,\n"
+                + "                         NSX.TenNSX\n"
+                + "                     FROM\n"
+                + "                         SanPham SP\n"
+                + "                     JOIN\n"
+                + "                         DanhMuc DM ON SP.IdDanhMuc = DM.Id\n"
+                + "                     JOIN\n"
+                + "                         ChatLieu CL ON SP.IdChatLieu = CL.Id\n"
+                + "                     JOIN\n"
+                + "                         NSX ON SP.IdNSX = NSX.Id\n"
+                + "                     WHERE\n"
+                + "                         SP.TrangThai = 1 ";
+        switch (locTheo) {
+            case 1 -> {
+                sql += "and SP.IDNSX =" + idLoc;
+                break;
+            }
+            case 2 -> {
+                sql += "and SP.IDDanhMuc =" + idLoc;
+                break;
+            }
+            case 3 -> {
+                sql += " and"
+                        + " SP.IDChatLieu =" + idLoc;
+                break;
+            }
+        }
+        sql += " ORDER BY\n"
+                + "  SP.Id desc\n";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new SanPham(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("IdNSX"),
+                        resultSet.getInt("IdDanhMuc"),
+                        resultSet.getInt("IdChatLieu"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("TenNSX"),
+                        resultSet.getString("TenChatLieu"),
+                        resultSet.getString("TenDanhMuc")));
+            }
+
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Lỗi A-07: " + e.getMessage());
+            return null;
+        }
+    }
 
 }
