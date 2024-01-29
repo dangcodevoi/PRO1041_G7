@@ -106,6 +106,36 @@ public class BanHangRepository {
             + "ORDER BY ID \n"
             + "OFFSET ? ROWS \n"
             + "FETCH NEXT ? ROWS ONLY";
+    String select_KieuGG = "select kieugiamgia from khuyenmai where id =?";
+    String select_MucGG = "select mucgiamgia from khuyenmai where id = ?";
+    
+     public String selectMucGG(int id) {
+        String mucGG = null;
+        try {
+            ResultSet rs = JdbcHelper.query(select_MucGG, id);
+
+            if (rs.next()) {
+                mucGG = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mucGG;
+    }
+
+    public int selectKieuGG(int id) {
+        int kieuGG = 0;
+        try {
+            ResultSet rs = JdbcHelper.query(select_KieuGG, id);
+
+            if (rs.next()) {
+                kieuGG = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return kieuGG;
+    }
 
     public String selectMaKHByTenKH(String tenKH) {
         String ma = null;

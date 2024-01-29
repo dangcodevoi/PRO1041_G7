@@ -20,12 +20,18 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private int currentPage = 1;
     private int pageSize = 10;
     int id;
+<<<<<<< HEAD
     
+=======
+    int ht = 0;
+>>>>>>> 347569780f4f06e218631681f53c6f1899e66488
 
     public HoaDonJPanel() {
         initComponents();
         loadDataHd(listh);
+        
     }
+    
 
     public void loadDataHd(List<HoaDon> list) {
         dtm = (DefaultTableModel) tblhoaDon.getModel();
@@ -383,7 +389,8 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void btnnhoMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoMaxActionPerformed
-      loadDataHd(hdsv.getlistHoaDon(0));
+      
+        loadDataHd(hdsv.getlistHoaDon(0));
 
     }//GEN-LAST:event_btnnhoMaxActionPerformed
 
@@ -392,7 +399,8 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnnhoActionPerformed
 
     private void btnlonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonActionPerformed
-        // TODO add your handling code here:
+       ht ++;
+        loadDataHd(hdsv.getlistHoaDon(ht));
     }//GEN-LAST:event_btnlonActionPerformed
 
     private void btnlonMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonMaxActionPerformed
