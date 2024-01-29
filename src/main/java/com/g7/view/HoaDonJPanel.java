@@ -20,6 +20,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private int currentPage = 1;
     private int pageSize = 10;
     int id;
+    int ht;
 
     public HoaDonJPanel() {
         initComponents();
@@ -387,7 +388,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnnhoMaxActionPerformed
 
     private void btnnhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_btnnhoActionPerformed
 
     private void btnlonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonActionPerformed
@@ -399,17 +400,11 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnlonMaxActionPerformed
 
     private void rdodaThanhToanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdodaThanhToanItemStateChanged
-        // TODO add your handling code here:
-//         if (rdodaThanhToan.isSelected()) {
-//        applyFilter();
-//   }
+
     }//GEN-LAST:event_rdodaThanhToanItemStateChanged
 
     private void rdochuaThanhToanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdochuaThanhToanItemStateChanged
-        // TODO add your handling code here:
-//        if (rdochuaThanhToan.isSelected()) {
-//        applyFilter();
- //   }
+
     }//GEN-LAST:event_rdochuaThanhToanItemStateChanged
 
     private void rdodaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdodaThanhToanActionPerformed
