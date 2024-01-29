@@ -207,7 +207,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
     }
 
     public int checkThuocTinhCT(int idSanPham, int idMau, int idKichThuoc) {
-        System.out.println(idSanPham+"+"+idMau+"+"+idKichThuoc);
+        System.out.println(idSanPham + "+" + idMau + "+" + idKichThuoc);
         String sql = "Select id from chitietsanpham where idSanPham=? and idmausac=? and idkichco=?;";
         try {
             connect = JdbcHelper.openDbConnection();
@@ -227,21 +227,175 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
             return -1;
         }
     }
-    
-    public boolean checkMaSp(String maSp){
-        String sql="select count(*) from chitietsanpham where masanpham='"+maSp+"'";
+
+    public boolean checkMaSp(String maSp) {
+        String sql = "select id from chitietsanpham where masanpham='" + maSp + "'";
         try {
-            connect=JdbcHelper.openDbConnection();
-            preparedStatement=connect.prepareStatement(sql);
-            resultSet=preparedStatement.executeQuery();
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                return resultSet.getInt(1) != 0;
+                return false;
             }
             return true;
         } catch (SQLException e) {
-            System.out.println("Lỗi B-07:"+e.getMessage());
+            System.out.println("Lỗi B-07:" + e.getMessage());
             return false;
         }
     }
-    
+
+    public ArrayList<SanPhamChiTiet> listTimKiem(String tuKhoa) {
+        System.out.println(tuKhoa);
+        ArrayList<SanPhamChiTiet> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "                         CTS.[Id] AS ChiTietSanPham_Id,\n"
+                + "                         CTS.IdSanPham AS SanPham_Id,\n"
+                + "                         SP.TenSanPham,\n"
+                + "                         CTS.IdKichCo AS KichCo_Id,\n"
+                + "                         KC.KichCo,\n"
+                + "                         CTS.IdMauSac AS MauSac_Id,\n"
+                + "                         MS.TenMauSac,\n"
+                + "                         HA.TenHinhAnh,\n"
+                + "                         CTS.GiaBan,\n"
+                + "                         CTS.SoLuong,\n"
+                + "                         CTS.MoTa,\n"
+                + "                         CTS.MaSanPham"
+                + "                     FROM\n"
+                + "                         ChiTietSanPham CTS\n"
+                + "                     JOIN\n"
+                + "                         SanPham SP ON CTS.IdSanPham = SP.Id\n"
+                + "                     JOIN\n"
+                + "                         KichCo KC ON CTS.IdKichCo = KC.Id\n"
+                + "                     JOIN\n"
+                + "                         MauSac MS ON CTS.IdMauSac = MS.Id\n"
+                + "                     JOIN\n"
+                + "                         HinhAnh HA ON CTS.IdHinhAnh = HA.Id\n"
+                + "                     WHERE\n"
+                + "                         CTS.TrangThai = 1 "
+                + "                         And SP.TrangThai=1\n"
+                + "                         AND "
+                + "                         (CTS.MaSanPham LIKE ? "
+                + "                         OR SP.TenSanPham LIKE ?"
+                + "                         OR KC.KichCo LIKE ?"
+                + "                         OR MS.TenMauSac LIKE ?"
+                + "                         OR CTS.MoTa LIKE ? "
+                + "                         OR CTS.GiaBan=?"
+                + "                         OR CTS.SoLuong=?"
+                + "                         OR CTS.[Id]=?)"
+                + "                     ORDER BY\n"
+                + "                         CTS.Id\n";
+
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + tuKhoa + "%");
+            preparedStatement.setString(2, "%" + tuKhoa + "%");
+            preparedStatement.setString(3, "%" + tuKhoa + "%");
+            preparedStatement.setString(4, "%" + tuKhoa + "%");
+            preparedStatement.setString(5, "%" + tuKhoa + "%");
+            try {
+                int tuKhoaInt = Integer.parseInt(tuKhoa);
+                preparedStatement.setInt(6, tuKhoaInt);
+                preparedStatement.setInt(7, tuKhoaInt);
+                preparedStatement.setInt(8, tuKhoaInt);
+            } catch (NumberFormatException | SQLException e) {
+                preparedStatement.setInt(6, -1);
+                preparedStatement.setInt(7, -1);
+                preparedStatement.setInt(8, -1);
+            }
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new SanPhamChiTiet(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("ChiTietSanPham_Id"),
+                        resultSet.getInt("MauSac_Id"),
+                        resultSet.getInt("KichCo_Id"),
+                        resultSet.getInt("GiaBan"),
+                        resultSet.getInt("SoLuong"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("TenHinhAnh"),
+                        resultSet.getString("TenMauSac"),
+                        resultSet.getString("MoTa"),
+                        resultSet.getString("KichCo"),
+                        resultSet.getString("MaSanPham")
+                ));
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-07: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public ArrayList<SanPhamChiTiet> listLoc(int locTheo, int idLoc) {
+        ArrayList<SanPhamChiTiet> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "                         CTS.[Id] AS ChiTietSanPham_Id,\n"
+                + "                         CTS.IdSanPham AS SanPham_Id,\n"
+                + "                         SP.TenSanPham,\n"
+                + "                         CTS.IdKichCo AS KichCo_Id,\n"
+                + "                         KC.KichCo,\n"
+                + "                         CTS.IdMauSac AS MauSac_Id,\n"
+                + "                         MS.TenMauSac,\n"
+                + "                         HA.TenHinhAnh,\n"
+                + "                         CTS.GiaBan,\n"
+                + "                         CTS.SoLuong,\n"
+                + "                         CTS.MoTa,\n"
+                + "                         CTS.MaSanPham"
+                + "                     FROM\n"
+                + "                         ChiTietSanPham CTS\n"
+                + "                     JOIN\n"
+                + "                         SanPham SP ON CTS.IdSanPham = SP.Id\n"
+                + "                     JOIN\n"
+                + "                         KichCo KC ON CTS.IdKichCo = KC.Id\n"
+                + "                     JOIN\n"
+                + "                         MauSac MS ON CTS.IdMauSac = MS.Id\n"
+                + "                     JOIN\n"
+                + "                         HinhAnh HA ON CTS.IdHinhAnh = HA.Id\n"
+                + "                     WHERE\n"
+                + "                         CTS.TrangThai = 1 "
+                + "                         And SP.TrangThai=1";
+
+        switch (locTheo) {
+            case 1 -> {
+                sql += " AND CTS.IdMauSac = ? ";
+                break;
+            }
+            case 2 -> {
+                sql += " AND CTS.IdKichCo = ? ";
+                break;
+            }
+        }
+
+        sql += " ORDER BY CTS.Id";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            if (locTheo !=0) {
+                preparedStatement.setInt(1, idLoc);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new SanPhamChiTiet(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("ChiTietSanPham_Id"),
+                        resultSet.getInt("MauSac_Id"),
+                        resultSet.getInt("KichCo_Id"),
+                        resultSet.getInt("GiaBan"),
+                        resultSet.getInt("SoLuong"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("TenHinhAnh"),
+                        resultSet.getString("TenMauSac"),
+                        resultSet.getString("MoTa"),
+                        resultSet.getString("KichCo"),
+                        resultSet.getString("MaSanPham")
+                ));
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-08: " + e.getMessage());
+            return null;
+        }
+    }
 }
