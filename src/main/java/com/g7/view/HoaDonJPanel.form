@@ -83,9 +83,7 @@
               <Component id="btnnhoMax" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnnho" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Component id="btnlon" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnlonMax" min="-2" max="-2" attributes="0"/>
@@ -136,7 +134,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnnhoMax" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnnho" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnlon" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnlonMax" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -174,7 +171,7 @@
             <Component class="javax.swing.JTable" name="tblhoaDon">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="9" rowCount="4">
+                  <Table columnCount="9" rowCount="0">
                     <Column editable="true" title="ID " type="java.lang.Object"/>
                     <Column editable="true" title="M&#xe3; Ho&#xe1; &#x110;&#x1a1;n" type="java.lang.Object"/>
                     <Column editable="true" title="Ng&#xe0;y T&#x1ea1;o" type="java.lang.Object"/>
@@ -278,7 +275,7 @@
             <Component class="javax.swing.JTable" name="tblhoaDonChiTiet">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="4">
+                  <Table columnCount="6" rowCount="0">
                     <Column editable="true" title="ID" type="java.lang.Object"/>
                     <Column editable="true" title="ID Ho&#xe1; &#x110;&#x1a1;n" type="java.lang.Object"/>
                     <Column editable="true" title="ID S&#x1ea3;n Ph&#x1ea9;m" type="java.lang.Object"/>
@@ -409,11 +406,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnlonMaxActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="?"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JRadioButton" name="rdodaThanhToan">
       <Properties>

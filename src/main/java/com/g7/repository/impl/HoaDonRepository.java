@@ -56,7 +56,7 @@ public class HoaDonRepository {
                     + "FROM HoaDon "
                     + "INNER JOIN KhachHang ON HoaDon.IdKhachHang = KhachHang.Id "
                     + "ORDER BY HoaDon.Id "
-                    + "OFFSET " + page * 100 + " ROWS FETCH NEXT 100 ROWS ONLY";
+                    + "OFFSET " + page * 50 + " ROWS FETCH NEXT 50 ROWS ONLY";
 
             PreparedStatement ps = con.prepareStatement(sql);
 

@@ -21,17 +21,12 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private int pageSize = 10;
     int id;
 
-    
-
     int ht = 0;
-
 
     public HoaDonJPanel() {
         initComponents();
-        loadDataHd(listh);
-        
+        loadDataHd(hdsv.getlistHoaDon(0));
     }
-    
 
     public void loadDataHd(List<HoaDon> list) {
         dtm = (DefaultTableModel) tblhoaDon.getModel();
@@ -66,7 +61,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         }
     }
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -88,7 +82,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         btnnhoMax = new javax.swing.JButton();
         btnnho = new javax.swing.JButton();
         btnlonMax = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         rdodaThanhToan = new javax.swing.JRadioButton();
         rdochuaThanhToan = new javax.swing.JRadioButton();
         CalendarNgaySinh = new com.toedter.calendar.JDateChooser();
@@ -99,10 +92,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
         tblhoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID ", "Mã Hoá Đơn", "Ngày Tạo", "Ngày Thanh Toán", "Tổng Tiền", "Số Tiền Giảm", "Tên Khách Hàng", "Số Điện Thoại", "Trạng Thái"
@@ -128,10 +118,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
         tblhoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "ID Hoá Đơn", "ID Sản Phẩm", "Số Lượng ", "Đơn Giá", "Trạng Thái"
@@ -207,8 +194,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 btnlonMaxActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("?");
 
         buttonGroup1.add(rdodaThanhToan);
         rdodaThanhToan.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -300,9 +285,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 .addComponent(btnnhoMax)
                 .addGap(18, 18, 18)
                 .addComponent(btnnho)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addGap(41, 41, 41)
                 .addComponent(btnlon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnlonMax)
@@ -342,7 +325,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnnhoMax)
                     .addComponent(btnnho)
-                    .addComponent(jLabel5)
                     .addComponent(btnlon)
                     .addComponent(btnlonMax))
                 .addGap(5, 5, 5)
@@ -389,22 +371,31 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void btnnhoMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoMaxActionPerformed
-      
+
         loadDataHd(hdsv.getlistHoaDon(0));
 
     }//GEN-LAST:event_btnnhoMaxActionPerformed
 
     private void btnnhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoActionPerformed
-       
+        if (ht == 0) {
+            ht = 19;
+        } else {
+            ht--;
+        }
+        loadDataHd(hdsv.getlistHoaDon(ht));
     }//GEN-LAST:event_btnnhoActionPerformed
 
     private void btnlonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonActionPerformed
-       ht ++;
+        if (ht == 19) {
+            ht = 0;
+        } else {
+            ht++;
+        }
         loadDataHd(hdsv.getlistHoaDon(ht));
     }//GEN-LAST:event_btnlonActionPerformed
 
     private void btnlonMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonMaxActionPerformed
-      loadDataHd(hdsv.getlistHoaDon(9));
+        loadDataHd(hdsv.getlistHoaDon(19));
     }//GEN-LAST:event_btnlonMaxActionPerformed
 
     private void rdodaThanhToanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdodaThanhToanItemStateChanged
@@ -439,7 +430,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
