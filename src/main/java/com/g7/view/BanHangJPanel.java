@@ -1192,6 +1192,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             listGH = BHRepo.selectWithPaginationGH(id);
             double giamGia = 0;
             double thanhtoan = 0;
+            
 
 //            if (BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 1) {
 //                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText()));
@@ -1310,6 +1311,13 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         KhuyenMaiTrongBanHang km = new KhuyenMaiTrongBanHang(this); // this chính là tham chiếu của BanHangJPanel
         km.setVisible(true);
+        if(lblIDKM.getText().equals("?")){
+            System.out.println("đang chọn");
+            
+        }else{
+                    System.out.println(BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())));
+
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
