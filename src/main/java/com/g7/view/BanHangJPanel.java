@@ -1163,7 +1163,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             hd.setIdNhanVien("1");
             hd.setIdKhachHang(String.valueOf(idKH));
             BHRepo.addHoaDon(hd);
-            PageLast();
+//            PageLast();
             JOptionPane.showMessageDialog(this, "Tạo hóa đơn chờ thành công");
         }
 

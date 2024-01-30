@@ -36,7 +36,7 @@ public class BanHangRepository {
             + "                  dbo.NSX ON dbo.ChiTietSanPham.Id = dbo.NSX.Id LEFT JOIN\n"
             + "                  dbo.SanPham ON dbo.ChiTietSanPham.IdSanPham = dbo.SanPham.Id\n"
             + "				  WHERE ChiTietSanPham.TrangThai = 1		  \n"
-            + "				  ORDER BY ID \n"
+            + "				  ORDER BY ID desc \n"
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY;";
 
@@ -55,7 +55,7 @@ public class BanHangRepository {
             + "                  dbo.KhachHang ON dbo.HoaDon.IdKhachHang = dbo.KhachHang.Id LEFT JOIN\n"
             + "                  dbo.NhanVien ON dbo.HoaDon.IdNhanVien = dbo.NhanVien.Id\n"
             + "				  WHERE HoaDon.TrangThai = 1\n"
-            + "				  ORDER BY HoaDon.Id \n"
+            + "				  ORDER BY HoaDon.Id desc \n"
             + "				  OFFSET ? ROWS \n"
             + "				  FETCH NEXT ? ROWS ONLY";
 
