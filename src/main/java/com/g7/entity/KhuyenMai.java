@@ -24,16 +24,18 @@ public class KhuyenMai {
     private String TenKhuyenMai;
     private boolean KieuGiamGia;
     private double MucGiamGia;
+    private int SoLuong;
     private Date NgayBatDau;
     private Date NgayKetThuc;
     private String MoTa;
     private int TrangThai;
 
-    public KhuyenMai(int IDKhuyenMai, String TenKhuyenMai, boolean KieuGiamGia, double MucGiamGia, Date NgayBatDau, Date NgayKetThuc, String MoTa) {
+    public KhuyenMai(int IDKhuyenMai, String TenKhuyenMai, boolean KieuGiamGia, double MucGiamGia,int SoLuong, Date NgayBatDau, Date NgayKetThuc, String MoTa) {
         this.IDKhuyenMai = IDKhuyenMai;
         this.TenKhuyenMai = TenKhuyenMai;
         this.KieuGiamGia = KieuGiamGia;
         this.MucGiamGia = MucGiamGia;
+        this.SoLuong = SoLuong;
         this.NgayBatDau = NgayBatDau;
         this.NgayKetThuc = NgayKetThuc;
         this.MoTa = MoTa;
@@ -42,9 +44,9 @@ public class KhuyenMai {
     
    public String KieuKM(boolean k){
        if(k == true){
-           return "%";
+           return "VND";
        }else{
-           return "VNĐ";
+           return "%";
        }
    }
     
