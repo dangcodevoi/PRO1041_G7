@@ -5,9 +5,9 @@
  */
 package com.g7.main;
 
+import com.g7.entity.NhanVien;
 import com.g7.swing.EventMenuSelected;
 import com.g7.view.BanHangJPanel;
-import com.g7.view.NhanVienJPanel;
 import com.g7.view.HoaDonJPanel;
 import com.g7.view.SanPhamJPanel;
 import com.g7.view.Form_Home;
@@ -17,6 +17,7 @@ import com.g7.view.NhanVienJPanel;
 import com.g7.view.ThongKeJPanel;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,44 +37,81 @@ public class Main extends javax.swing.JFrame {
     private KhachHangJPanel khachhang = new KhachHangJPanel();
     private ThongKeJPanel thongke = new ThongKeJPanel();
     private Form_Home fh = new Form_Home();
-    
 
-    public Main() {
+    public Main(boolean role, NhanVien nv) {
+        this.role = role;
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new Form_Home();
-//        form1 = new BanHangJPanel();
-//        form2 = new HoaDonJPanel();
-//        form3 = new SanPhamJPanel();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                 if (index == 0) {
-                    setForm(banhang);
-                } else if (index == 1) {
-                    setForm(hoadon);
-                } else if (index == 2) {
-                    setForm(sanpham);
-                } else if (index == 3) {
-                    setForm(nhanvien);
-                } else if (index == 4) {
-                    setForm(khachhang);
-                } else if (index == 5) {
-                    setForm(thongke);
-                } else if (index == 6) {
-                    setForm(khuyenmai);
-                } else if (index == 7) {
-//                    dangXuat();
-                     setForm(home);
-                } else if (index == 8) {
-                    System.exit(0);
+                if (role) {
+                    switch (index) {
+                        case 0:
+                            setForm(banhang);
+                            break;
+                        case 1:
+                            setForm(hoadon);
+                            break;
+                        case 2:
+                            setForm(sanpham);
+                            break;
+                        case 3:
+                            setForm(nhanvien);
+                            break;
+                        case 4:
+                            setForm(khachhang);
+                            break;
+                        case 5:
+                            setForm(thongke);
+                            break;
+                        case 6:
+                            setForm(khuyenmai);
+                            break;
+                        case 7:
+                            if (JOptionPane.showConfirmDialog(rootPane, "Bạn Muốn Đăng Xuất Không?") == 0) {
+                                new LoginJDialog().setVisible(true);
+                                dispose();
+                                break;
+                            }
+                        case 8:
+                            if (JOptionPane.showConfirmDialog(rootPane, "Bạn Muốn Thoát Không?") == 0) {
+                                System.exit(0);
+                            }
+                        default:
+                            new LoginJDialog().setVisible(true);
+                            dispose();
+                    }
+                } else {
+                    switch (index) {
+                        case 0 ->
+                            setForm(banhang);
+                        case 1 ->
+                            setForm(hoadon);
+                        case 2 ->
+                            setForm(thongke);
+                        case 3 -> {
+                            if (JOptionPane.showConfirmDialog(rootPane, "Bạn Muốn Đăng Xuất Không?") == 0) {
+                                new LoginJDialog().setVisible(true);
+                                dispose();
+                                break;
+                            }
+                        }
+                        case 4 -> {
+                            if (JOptionPane.showConfirmDialog(rootPane, "Bạn Muốn Thoát Không?") == 0) {
+                                System.exit(0);
+                            }
+                        }
+                    }
                 }
             }
         });
         //  set when system open start with home form
         setForm(new BanHangJPanel());
     }
+    boolean role;
 
     private void setForm(JComponent com) {
         mainPanel.removeAll();
@@ -92,7 +130,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         panelBorder1 = new com.g7.swing.PanelBorder();
-        menu = new com.g7.swing.Menu();
+        menu = new com.g7.swing.Menu(role);
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -164,7 +202,7 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new Main(true, new NhanVien()).setVisible(true);
             }
         });
     }

@@ -56,7 +56,7 @@ public class NhanVienRepository {
         }
         return list;
     }
-    
+
     public List<NhanVien> selectWithPaginationNoActive(int offset, int fetchSize) {
 
         String sql = "SELECT NhanVien.Id,NhanVien.TenNhanVien, NhanVien.GioiTinh,NhanVien.NgaySinh,NhanVien.SoDienThoai,NhanVien.DiaChi,NhanVien.Email,NhanVien.NgayTao,NhanVien.MatKhau,NhanVien.idChucVU,NhanVien.TrangThai\n"
@@ -107,10 +107,10 @@ public class NhanVienRepository {
 
         return totalItems;
     }
-    
-    public int getNoActiveTotal(){
+
+    public int getNoActiveTotal() {
         String sql = "SELECT COUNT(*) FROM NhanVien WHERE TrangThai = 0;";
-        
+
         int totalItems = 0;
 
         try {
@@ -234,7 +234,7 @@ public class NhanVienRepository {
         }
         return entity;
     }
-    
+
     public List<NhanVien> findByEmail(String email, int offset, int fetchSize) {
 
         String sql = "SELECT NhanVien.Id,NhanVien.TenNhanVien, NhanVien.GioiTinh,NhanVien.NgaySinh,NhanVien.SoDienThoai,NhanVien.DiaChi,NhanVien.Email,NhanVien.NgayTao,NhanVien.MatKhau,NhanVien.idChucVU,NhanVien.TrangThai\n"
@@ -267,7 +267,7 @@ public class NhanVienRepository {
         }
         return list;
     }
-    
+
     public List<NhanVien> findByTenNV(String tenNV, int offset, int fetchSize) {
 
         String sql = "SELECT NhanVien.Id,NhanVien.TenNhanVien, NhanVien.GioiTinh,NhanVien.NgaySinh,NhanVien.SoDienThoai,NhanVien.DiaChi,NhanVien.Email,NhanVien.NgayTao,NhanVien.MatKhau,NhanVien.idChucVU,NhanVien.TrangThai\n"
@@ -276,9 +276,9 @@ public class NhanVienRepository {
                 + "ORDER BY NhanVien.Id \n"
                 + "OFFSET ? ROWS\n"
                 + "FETCH NEXT ? ROWS ONLY;";
-        
-        tenNV = "%"+tenNV+"%";
-        
+
+        tenNV = "%" + tenNV + "%";
+
         List<NhanVien> list = new ArrayList<>();
         try {
             ResultSet rs = JdbcHelper.query(sql, tenNV, offset, fetchSize);
@@ -302,7 +302,7 @@ public class NhanVienRepository {
         }
         return list;
     }
-    
+
     public List<NhanVien> findBySDT(String SDT, int offset, int fetchSize) {
 
         String sql = "SELECT NhanVien.Id,NhanVien.TenNhanVien, NhanVien.GioiTinh,NhanVien.NgaySinh,NhanVien.SoDienThoai,NhanVien.DiaChi,NhanVien.Email,NhanVien.NgayTao,NhanVien.MatKhau,NhanVien.idChucVU,NhanVien.TrangThai\n"
@@ -334,5 +334,48 @@ public class NhanVienRepository {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    public NhanVien selectAccout(String eMail, String passWord) {
+        NhanVien entity = new NhanVien();
+        entity.setChucVu(-1);
+        String sql
+                = "SELECT Id, "
+                + "TenNhanVien, "
+                + "GioiTinh,"
+                + " NgaySinh,"
+                + " SoDienThoai,"
+                + " DiaChi,"
+                + " Email,"
+                + " NgayTao,"
+                + " MatKhau,"
+                + " idChucVU,"
+                + " TrangThai"
+                + " FROM NhanVien"
+                + " WHERE TrangThai = 1"
+                + " AND Email =?"
+                + " AND MatKhau =? ";
+        try {
+            ResultSet rs = JdbcHelper.query(sql, eMail, passWord);
+            while (rs.next()) {
+                entity.setIDNhanVien(rs.getInt(1));
+                entity.setTenNhanVien(rs.getString(2));
+                entity.setGioiTinh(rs.getInt(3));
+                entity.setNgaySinh(rs.getDate(4));
+                entity.setSDT(rs.getString(5));
+                entity.setDiaChi(rs.getString(6));
+                entity.setEmail(rs.getString(7));
+                entity.setNgayTao(rs.getDate(8));
+                entity.setMatKhau(rs.getString(9));
+                entity.setChucVu(rs.getInt(10));
+                entity.setTrangThai(rs.getInt(11));
+                return entity;
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi LoGin: " + e.getMessage());
+            entity.setChucVu(-2);
+            return entity;
+        }
+        return entity;
     }
 }
