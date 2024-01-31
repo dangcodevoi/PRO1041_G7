@@ -53,7 +53,7 @@ public class HoaDonRepository {
             // Câu lệnh SQL sử dụng OFFSET và FETCH để phân trang
             String sql = "SELECT HoaDon.Id, HoaDon.MaHD, HoaDon.NgayTao, HoaDon.NgayThanhToan, HoaDon.TongTien, HoaDon.SoTienDuocGiam, "
                     + "HoaDon.GhiChu, HoaDon.TrangThai, HoaDon.IdNhanVien, HoaDon.IdKhachHang, KhachHang.TenKhachHang, KhachHang.SoDienThoai "
-                    + "FROM HoaDon"
+                    + "FROM HoaDon "
                     + "INNER JOIN KhachHang ON HoaDon.IdKhachHang = KhachHang.Id "
                     + "ORDER BY HoaDon.Id desc "
                     + "OFFSET " + page * 50 + " ROWS FETCH NEXT 50 ROWS ONLY";

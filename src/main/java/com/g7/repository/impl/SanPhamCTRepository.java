@@ -44,7 +44,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                     WHERE\n"
                 + "                         CTS.TrangThai = 1 And SP.TrangThai=1\n"
                 + "                     ORDER BY\n"
-                + "                         CTS.Id\n"
+                + "                         CTS.Id DESC\n"
                 + "                     OFFSET " + (indexOffset * 5) + "0 ROWS\n"
                 + "                     FETCH NEXT 50 ROWS ONLY;";
         try {
@@ -74,6 +74,64 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         }
     }
 
+    public ArrayList<SanPhamChiTiet> selectByIdSanPham(int idSanPham) {
+        ArrayList<SanPhamChiTiet> list = new ArrayList<>();
+        String sql = "SELECT\n"
+                + "                         CTS.[Id] AS ChiTietSanPham_Id,\n"
+                + "                         CTS.IdSanPham AS SanPham_Id,\n"
+                + "                         SP.TenSanPham,\n"
+                + "                         CTS.IdKichCo AS KichCo_Id,\n"
+                + "                         KC.KichCo,\n"
+                + "                         CTS.IdMauSac AS MauSac_Id,\n"
+                + "                         MS.TenMauSac,\n"
+                + "                         HA.HinhAnh,\n"
+                + "                         CTS.GiaBan,\n"
+                + "                         CTS.SoLuong,\n"
+                + "                         CTS.MoTa,\n"
+                + "                         CTS.MaSanPham"
+                + "                     FROM\n"
+                + "                         ChiTietSanPham CTS\n"
+                + "                     JOIN\n"
+                + "                         SanPham SP ON CTS.IdSanPham = SP.Id\n"
+                + "                     JOIN\n"
+                + "                         KichCo KC ON CTS.IdKichCo = KC.Id\n"
+                + "                     JOIN\n"
+                + "                         MauSac MS ON CTS.IdMauSac = MS.Id\n"
+                + "                     JOIN\n"
+                + "                         HinhAnh HA ON CTS.IdHinhAnh = HA.Id\n"
+                + "                     WHERE\n"
+                + "                         CTS.TrangThai = 1 And SP.TrangThai=1 "
+                + "                         And CTS.IdSanPham=?\n"
+                + "                     ORDER BY\n"
+                + "                         CTS.Id DESC";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setInt(1, idSanPham);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new SanPhamChiTiet(
+                        resultSet.getInt("SanPham_Id"),
+                        resultSet.getInt("ChiTietSanPham_Id"),
+                        resultSet.getInt("MauSac_Id"),
+                        resultSet.getInt("KichCo_Id"),
+                        resultSet.getInt("GiaBan"),
+                        resultSet.getInt("SoLuong"),
+                        resultSet.getString("TenSanPham"),
+                        resultSet.getString("HinhAnh"),
+                        resultSet.getString("TenMauSac"),
+                        resultSet.getString("MoTa"),
+                        resultSet.getString("KichCo"),
+                        resultSet.getString("MaSanPham")
+                ));
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-01: " + e.getMessage());
+            return null;
+        }
+    }
+
     public SanPhamChiTiet selectById(int id) {
         String sql = "SELECT\n"
                 + "                         CTS.[Id] AS ChiTietSanPham_Id,\n"
@@ -83,7 +141,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                         KC.KichCo,\n"
                 + "                         CTS.IdMauSac AS MauSac_Id,\n"
                 + "                         MS.TenMauSac,\n"
-                + "                         HA.TenHinhAnh,\n"
+                + "                         HA.HinhAnh,\n"
                 + "                         CTS.GiaBan,\n"
                 + "                         CTS.SoLuong,\n"
                 + "                         CTS.MoTa,\n"
@@ -101,7 +159,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                     WHERE\n"
                 + "                         CTS.TrangThai = 1 and CTS.id=\n" + id
                 + "                     ORDER BY\n"
-                + "                         CTS.Id\n";
+                + "                         CTS.Id \n";
         try {
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
@@ -116,7 +174,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                         resultSet.getInt("GiaBan"),
                         resultSet.getInt("SoLuong"),
                         resultSet.getString("TenSanPham"),
-                        resultSet.getString("TenHinhAnh"),
+                        resultSet.getString("HinhAnh"),
                         resultSet.getString("TenMauSac"),
                         resultSet.getString("MoTa"),
                         resultSet.getString("KichCo"),
@@ -145,12 +203,13 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         try {
             SanPhamChiTiet sp = (SanPhamChiTiet) o;
 
+            int idHinhAnh = createImage(sp.getHinhAnh(), "HinhAnh-" + sp.getMaSanPham());
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
             preparedStatement.setInt(1, sp.getIdSanPham());
             preparedStatement.setInt(2, sp.getIdKichThuoc());
             preparedStatement.setInt(3, sp.getIdMau());
-            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(4, idHinhAnh);
             preparedStatement.setInt(5, sp.getGiaBan());
             preparedStatement.setInt(6, sp.getSoLuong());
             preparedStatement.setString(7, sp.getGhiChu());
@@ -164,18 +223,39 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         }
     }
 
+    public int createImage(String path, String tenHinhAnh) {
+        String sql = "INSERT INTO HinhAnh(hinhanh, tenhinhanh) OUTPUT INSERTED.id VALUES (?, ?)";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareStatement(sql);
+            preparedStatement.setString(1, path);
+            preparedStatement.setString(2, tenHinhAnh);
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            } else {
+                throw new SQLException("Lỗi: Không thể lấy ID sau khi thêm hình ảnh.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi B-09: " + e.getMessage());
+        }
+        return -1; // hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    }
+
     @Override
     public int update(Object o) {
         String sql = "update chitietsanpham set idsanpham=?,idkichco=?,idmausac=?,idhinhanh=?,giaban=?,soluong=?,mota=?,masanpham=? where id=?";
+
         try {
             SanPhamChiTiet sp = (SanPhamChiTiet) o;
-
+            int idHinhAnh = createImage(sp.getHinhAnh(), "Hinh Anh "+sp.getMaSanPham());
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
             preparedStatement.setInt(1, sp.getIdSanPham());
             preparedStatement.setInt(2, sp.getIdKichThuoc());
             preparedStatement.setInt(3, sp.getIdMau());
-            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(4,idHinhAnh);
             preparedStatement.setInt(5, sp.getGiaBan());
             preparedStatement.setInt(6, sp.getSoLuong());
             preparedStatement.setString(7, sp.getGhiChu());
@@ -283,7 +363,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
                 + "                         OR CTS.SoLuong=?"
                 + "                         OR CTS.[Id]=?)"
                 + "                     ORDER BY\n"
-                + "                         CTS.Id\n";
+                + "                         CTS.Id \n";
 
         try {
             connect = JdbcHelper.openDbConnection();
@@ -371,7 +451,7 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         try {
             connect = JdbcHelper.openDbConnection();
             preparedStatement = connect.prepareStatement(sql);
-            if (locTheo !=0) {
+            if (locTheo != 0) {
                 preparedStatement.setInt(1, idLoc);
             }
 
@@ -396,6 +476,25 @@ public class SanPhamCTRepository implements SP_SPCT_Repository {
         } catch (SQLException e) {
             System.out.println("Lỗi B-08: " + e.getMessage());
             return null;
+        }
+    }
+
+    public int soDongData() {
+        String sql = "select count(*) as soDong from chitietsanpham where trangThai=1";
+        try {
+            connect = JdbcHelper.openDbConnection();
+            preparedStatement = connect.prepareCall(sql);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (resultSet.getInt("soDong") % 50 != 0) {
+                    return resultSet.getInt("soDong") / 50;
+                } else {
+                    return resultSet.getInt("soDong") / 50 - 1;
+                }
+            }
+            return -1;
+        } catch (SQLException e) {
+            return -1;
         }
     }
 }
