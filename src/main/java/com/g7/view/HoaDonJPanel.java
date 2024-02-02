@@ -4,10 +4,12 @@ import com.g7.entity.HoaDon;
 import com.g7.entity.HoaDonChiTiet;
 import com.g7.repository.impl.HoaDonRepository;
 import com.g7.repository.impl.HoaDonCtRepository;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-import javax.swing.RowFilter.ComparisonType;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -17,8 +19,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private HoaDonRepository hdsv = new HoaDonRepository();
     private HoaDonCtRepository hdctsv = new HoaDonCtRepository();
     DefaultTableModel dtm = new DefaultTableModel();
-    private int currentPage = 1;
-    private int pageSize = 10;
     int id;
 
     int ht = 0;
@@ -72,7 +72,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblhoaDonChiTiet = new javax.swing.JTable();
-        btnSearchMaHD = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtMaHoaDon = new javax.swing.JTextField();
@@ -84,11 +83,11 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         btnlonMax = new javax.swing.JButton();
         rdodaThanhToan = new javax.swing.JRadioButton();
         rdochuaThanhToan = new javax.swing.JRadioButton();
-        CalendarNgaySinh = new com.toedter.calendar.JDateChooser();
-        CalendarNgaySinh1 = new com.toedter.calendar.JDateChooser();
-        btnSearchDate = new javax.swing.JButton();
+        CalendarNgayTao = new com.toedter.calendar.JDateChooser();
+        CalendarNgayThanhToan = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        btnSearchMaHD1 = new javax.swing.JButton();
 
         tblhoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,20 +144,17 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        btnSearchMaHD.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        btnSearchMaHD.setText("Tìm kiếm");
-        btnSearchMaHD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchMaHDActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setText("Hóa đơn");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel2.setText("Chi tiết hóa đơn");
 
+        txtMaHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaHoaDonActionPerformed(evt);
+            }
+        });
         txtMaHoaDon.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtMaHoaDonKeyReleased(evt);
@@ -223,11 +219,12 @@ public class HoaDonJPanel extends javax.swing.JPanel {
             }
         });
 
-        btnSearchDate.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        btnSearchDate.setText("Tìm kiếm");
-        btnSearchDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchDateActionPerformed(evt);
+        CalendarNgayTao.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                CalendarNgayTaoCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                CalendarNgayTaoInputMethodTextChanged(evt);
             }
         });
 
@@ -235,7 +232,15 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jLabel6.setText("Tìm Hoá Đơn:");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setText("Ngày Thanh Toán:");
+        jLabel7.setText("Ngày TT:");
+
+        btnSearchMaHD1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnSearchMaHD1.setText("Lọc");
+        btnSearchMaHD1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchMaHD1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -244,46 +249,41 @@ public class HoaDonJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(155, 155, 155))
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel4)
+                                .addGap(33, 33, 33))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jLabel4)
-                                        .addGap(33, 33, 33))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(btnSearchMaHD)
-                                        .addGap(155, 155, 155))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rdodaThanhToan)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rdochuaThanhToan)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(CalendarNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(74, 74, 74)
-                                .addComponent(btnSearchDate))
-                            .addComponent(CalendarNgaySinh1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(44, 44, 44)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CalendarNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CalendarNgayThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(142, 142, 142))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rdodaThanhToan)
+                                .addGap(18, 18, 18)
+                                .addComponent(rdochuaThanhToan)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnSearchMaHD1)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(50, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(369, 369, 369)
                 .addComponent(btnnhoMax)
@@ -298,32 +298,24 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSearchMaHD))
-                            .addComponent(jLabel6)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSearchDate)
-                            .addComponent(jLabel3)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(CalendarNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CalendarNgaySinh1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(rdodaThanhToan)
-                        .addComponent(rdochuaThanhToan)
-                        .addComponent(jLabel7)))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addComponent(CalendarNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearchMaHD1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel7)
+                        .addComponent(CalendarNgayThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(rdodaThanhToan)
+                    .addComponent(rdochuaThanhToan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -338,21 +330,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSearchMaHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchMaHDActionPerformed
-        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
-        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
-        tblhoaDon.setRowSorter(obj);
-
-        String maHd = txtMaHoaDon.getText().trim();
-        if (!maHd.isEmpty()) {
-            obj.setRowFilter(RowFilter.regexFilter(maHd, 1));
-        } else {
-            tblhoaDon.setRowSorter(obj);
-            obj.setRowFilter(null);
-
-        }
-    }//GEN-LAST:event_btnSearchMaHDActionPerformed
-
     private void tblhoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblhoaDonMouseClicked
         int selectedRow = tblhoaDon.getSelectedRow();
         if (selectedRow >= 0) {
@@ -362,16 +339,21 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tblhoaDonMouseClicked
 
     private void txtMaHoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaHoaDonKeyReleased
-        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
-        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
-        tblhoaDon.setRowSorter(obj);
-        String maHd = txtMaHoaDon.getText().trim();
-        if (!maHd.isEmpty()) {
-            obj.setRowFilter(RowFilter.regexFilter(maHd, 1));
-        } else {
-            tblhoaDon.setRowSorter(obj);
-            obj.setRowFilter(null);
-        }
+
+        String duLieuDauVao = txtMaHoaDon.getText().trim();
+        loadDataHd(hdsv.timKiem(duLieuDauVao, 0));
+
+//        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
+//        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
+//        tblhoaDon.setRowSorter(obj);
+//        
+//        if (!dưLieuDauVao.isEmpty()) {
+//            obj.setRowFilter(RowFilter.regexFilter(dưLieuDauVao, 1));
+//            obj.setRowFilter(RowFilter.regexFilter(dưLieuDauVao, 7));
+//        } else {
+//            tblhoaDon.setRowSorter(obj);
+//            obj.setRowFilter(null);
+//        }
     }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void btnnhoMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoMaxActionPerformed
@@ -381,21 +363,39 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnnhoMaxActionPerformed
 
     private void btnnhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoActionPerformed
-        if (ht == 0) {
-            ht = 19;
-        } else {
-            ht--;
+        ht--;
+        if(ht<0){
+           ht = 0;
+           JOptionPane.showMessageDialog(this, "Đã về trang đầu");
+           return;
         }
-        loadDataHd(hdsv.getlistHoaDon(ht));
+        String duLieuDauVao = txtMaHoaDon.getText().trim();
+        List<HoaDon> danhSachHoaDon;
+        if (duLieuDauVao.isBlank() || duLieuDauVao == null) {
+            danhSachHoaDon = hdsv.getlistHoaDon(ht);
+        } else {
+            danhSachHoaDon = hdsv.timKiem(duLieuDauVao, ht);
+        }
+        loadDataHd(danhSachHoaDon);
     }//GEN-LAST:event_btnnhoActionPerformed
 
     private void btnlonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonActionPerformed
-        if (ht == 19) {
-            ht = 0;
+        ht++;
+        String duLieuDauVao = txtMaHoaDon.getText().trim();
+        List<HoaDon> danhSachHoaDon;
+        if (duLieuDauVao.isBlank() || duLieuDauVao == null) {
+            danhSachHoaDon = hdsv.getlistHoaDon(ht);
         } else {
-            ht++;
+            danhSachHoaDon = hdsv.timKiem(duLieuDauVao, ht);
         }
-        loadDataHd(hdsv.getlistHoaDon(ht));
+
+        if (danhSachHoaDon.size() > 1)
+            
+            loadDataHd(danhSachHoaDon);
+        else{
+            ht--;
+            JOptionPane.showMessageDialog(this, "Đã đến trang cuối");
+        }
     }//GEN-LAST:event_btnlonActionPerformed
 
     private void btnlonMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonMaxActionPerformed
@@ -415,16 +415,58 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_rdodaThanhToanActionPerformed
 
-    private void btnSearchDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchDateActionPerformed
+    private void txtMaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaHoaDonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchDateActionPerformed
+    }//GEN-LAST:event_txtMaHoaDonActionPerformed
+
+    private void CalendarNgayTaoInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarNgayTaoInputMethodTextChanged
+        JOptionPane.showMessageDialog(this, "SHow");
+    }//GEN-LAST:event_CalendarNgayTaoInputMethodTextChanged
+
+    private void CalendarNgayTaoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarNgayTaoCaretPositionChanged
+        JOptionPane.showMessageDialog(this, "SHow");
+    }//GEN-LAST:event_CalendarNgayTaoCaretPositionChanged
+
+    private void btnSearchMaHD1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchMaHD1ActionPerformed
+
+        java.util.Date ngayTao = (java.util.Date) CalendarNgayTao.getDate();
+        
+        java.util.Date ngayThanhToan = (java.util.Date) CalendarNgayThanhToan.getDate();
+        
+        if(ngayTao==null && ngayThanhToan == null) JOptionPane.showMessageDialog(this, "Trường dữ liệu ngày còn thiếu");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            
+        String dinhDangNgayTao ="";
+        // Chuyển đổi đối tượng Date thành chuỗi có định dạng "yyyy-MM-dd"
+        try{
+            dinhDangNgayTao = dateFormat.format(ngayTao);
+        }catch(Exception ex){
+          
+        }
+        
+        String dinhDangNgayThanhToan="";
+        try{
+            dinhDangNgayThanhToan = dateFormat.format(ngayTao);
+    
+        }catch(Exception ex){
+        }
+        
+        System.out.println(dinhDangNgayThanhToan + "\n");
+        
+        if(!dinhDangNgayTao.isBlank() || !dinhDangNgayThanhToan.isBlank())
+            loadDataHd(hdsv.timKiemByDate(dinhDangNgayTao,dinhDangNgayThanhToan, 0));
+        else if(!dinhDangNgayTao.isBlank())
+            loadDataHd(hdsv.timKiemByCreatedDate(dinhDangNgayTao, 0));
+        else
+            loadDataHd(hdsv.timKiemByEndDate(dinhDangNgayThanhToan,0));
+    }//GEN-LAST:event_btnSearchMaHD1ActionPerformed
 
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser CalendarNgaySinh;
-    private com.toedter.calendar.JDateChooser CalendarNgaySinh1;
-    private javax.swing.JButton btnSearchDate;
-    private javax.swing.JButton btnSearchMaHD;
+    private com.toedter.calendar.JDateChooser CalendarNgayTao;
+    private com.toedter.calendar.JDateChooser CalendarNgayThanhToan;
+    private javax.swing.JButton btnSearchMaHD1;
     private javax.swing.JButton btnlon;
     private javax.swing.JButton btnlonMax;
     private javax.swing.JButton btnnho;
