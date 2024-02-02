@@ -4,7 +4,10 @@ import com.g7.entity.HoaDon;
 import com.g7.entity.HoaDonChiTiet;
 import com.g7.repository.impl.HoaDonRepository;
 import com.g7.repository.impl.HoaDonCtRepository;
-import java.sql.Date;
+import com.g7.viewmodel.GioHangViewModel;
+import com.g7.viewmodel.HoaDonViewModel;
+import java.util.Date;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,46 +21,74 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     private ArrayList<HoaDon> listh = new ArrayList<>();
     private HoaDonRepository hdsv = new HoaDonRepository();
     private HoaDonCtRepository hdctsv = new HoaDonCtRepository();
+    SimpleDateFormat ft = new SimpleDateFormat("yyyy/MM/dd");
     DefaultTableModel dtm = new DefaultTableModel();
+    DefaultTableModel dtmgh = new DefaultTableModel();
     int id;
+    int size = 100;
 
     int ht = 0;
 
     public HoaDonJPanel() {
         initComponents();
-        loadDataHd(hdsv.getlistHoaDon(0));
+        FindDataHD(0, size);
     }
-
-    public void loadDataHd(List<HoaDon> list) {
-        dtm = (DefaultTableModel) tblhoaDon.getModel();
+    public void Search(String nbd, String nkt, int ht, int size) {
+        List<HoaDonViewModel> list = hdsv.selectWithPaginationHDS(nbd, nkt, ht, size);
         dtm.setRowCount(0);
-        for (HoaDon hd : list) {
+        dtm = (DefaultTableModel) tblhoaDon.getModel();
+        for (HoaDonViewModel x : list) {
             dtm.addRow(new Object[]{
-                hd.getId(),
-                hd.getMaHD(),
-                hd.getNgayTao(),
-                hd.getNgayThanhToan(),
-                hd.getTongTien(),
-                hd.getSoTienGiam(),
-                hd.getTenKhachHang(),
-                hd.getSoDienThoai(),
-                hd.trangThai(hd.getTrangThai())
+                x.getIdhd(), x.getMahd(), x.getNgayTao(), x.getNgayThanhToan(), x.getTongTien(), x.getSoTienDuocGiam(), x.getTenNV(), x.getTenKH(), x.trangThai(x.getTrangThai())
             });
         }
     }
 
-    public void loadHdct() {
-        DefaultTableModel dtm = (DefaultTableModel) tblhoaDonChiTiet.getModel();
+    public void FindDataHD(int ht, int size) {
+        List<HoaDonViewModel> list = hdsv.selectWithPaginationHDC(ht, size);
         dtm.setRowCount(0);
-        for (HoaDonChiTiet ct : hdctsv.getListHdct(id)) {
+        dtm = (DefaultTableModel) tblhoaDon.getModel();
+        for (HoaDonViewModel x : list) {
             dtm.addRow(new Object[]{
-                ct.getId(),
-                ct.getIdHoaDon(),
-                ct.getIdCtSanPham(),
-                ct.getSoLuong(),
-                ct.getDonGia(),
-                ct.trangThai(ct.getTrangThai())
+                x.getIdhd(), x.getMahd(), x.getNgayTao(), x.getNgayThanhToan(), x.getTongTien(), x.getSoTienDuocGiam(), x.getTenNV(), x.getTenKH(), x.trangThai(x.getTrangThai())
             });
+        }
+    }
+
+    public void FindDataGH(int id) {
+        List<GioHangViewModel> list = hdsv.selectWithPaginationGH(id);
+        dtmgh.setRowCount(0);
+        dtmgh = (DefaultTableModel) tblhoaDonChiTiet.getModel();
+        for (GioHangViewModel x : list) {
+            dtmgh.addRow(new Object[]{
+                x.getId(), x.getMasp(), x.getTensp(), x.getKickCo(), x.getMauSac(), x.getDanhMuc(), x.getNsx(), x.getSoluong(), x.getDongia()
+            });
+        }
+    }
+
+    public void validate() {
+        try {
+            Date date1 = CalendarTu.getDate();
+            Date date2 = CalendarDen.getDate();
+
+            if (date1 != null && date2 != null) {
+                long differenceInMillis = Math.abs(date1.getTime() - date2.getTime());
+                long differenceInDays = differenceInMillis / (24 * 60 * 60 * 1000);
+
+                if (differenceInDays >= 31) {
+                    JOptionPane.showMessageDialog(this, "Chỉ tìm kiểm trong khoảng 31 ngày");
+                } else {
+                    String nbd = ft.format(CalendarTu.getDate());
+                    String nkt = ft.format(CalendarDen.getDate());
+                    Search(nbd, nkt, 0, size);
+                }
+
+            } else {
+                System.out.println("chịu");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,8 +114,8 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         btnlonMax = new javax.swing.JButton();
         rdodaThanhToan = new javax.swing.JRadioButton();
         rdochuaThanhToan = new javax.swing.JRadioButton();
-        CalendarNgayTao = new com.toedter.calendar.JDateChooser();
-        CalendarNgayThanhToan = new com.toedter.calendar.JDateChooser();
+        CalendarTu = new com.toedter.calendar.JDateChooser();
+        CalendarDen = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         btnSearchMaHD1 = new javax.swing.JButton();
@@ -94,7 +125,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID ", "Mã Hoá Đơn", "Ngày Tạo", "Ngày Thanh Toán", "Tổng Tiền", "Số Tiền Giảm", "Tên Khách Hàng", "Số Điện Thoại", "Trạng Thái"
+                "ID ", "Mã Hoá Đơn", "Ngày Tạo", "Ngày Thanh Toán", "Tổng Tiền", "Số Tiền Giảm", "Tên nhân viên", "Tên khách hàng", "Trạng Thái"
             }
         ));
         tblhoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -120,7 +151,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "ID HD", "ID Sản Phẩm", "Số Lượng ", "Đơn Giá", "Trạng Thái"
+                "ID", "Mã sản phẩm", "Tên sản phẩm", "Kích cỡ", "Màu sắc", "Danh mục", "NSX", "Số lượng", "Đơn giá"
             }
         ));
         jScrollPane1.setViewportView(tblhoaDonChiTiet);
@@ -162,7 +193,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel3.setText("Ngày Tạo:");
+        jLabel3.setText("Từ");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel4.setText("Trạng Thái:");
@@ -219,12 +250,12 @@ public class HoaDonJPanel extends javax.swing.JPanel {
             }
         });
 
-        CalendarNgayTao.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        CalendarTu.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                CalendarNgayTaoCaretPositionChanged(evt);
+                CalendarTuCaretPositionChanged(evt);
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                CalendarNgayTaoInputMethodTextChanged(evt);
+                CalendarTuInputMethodTextChanged(evt);
             }
         });
 
@@ -232,7 +263,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jLabel6.setText("Tìm Hoá Đơn:");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel7.setText("Ngày TT:");
+        jLabel7.setText("Đến");
 
         btnSearchMaHD1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnSearchMaHD1.setText("Lọc");
@@ -264,11 +295,11 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                                 .addGap(44, 44, 44)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CalendarNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CalendarTu, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(CalendarNgayThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(CalendarDen, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(142, 142, 142))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(rdodaThanhToan)
@@ -305,11 +336,11 @@ public class HoaDonJPanel extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3))
-                    .addComponent(CalendarNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CalendarTu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearchMaHD1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel7)
-                        .addComponent(CalendarNgayThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(CalendarDen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -334,14 +365,15 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         int selectedRow = tblhoaDon.getSelectedRow();
         if (selectedRow >= 0) {
             id = (int) tblhoaDon.getValueAt(selectedRow, 0);
-            loadHdct();
+            FindDataGH(id);
         }
+        FindDataGH(id);
     }//GEN-LAST:event_tblhoaDonMouseClicked
 
     private void txtMaHoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaHoaDonKeyReleased
 
         String duLieuDauVao = txtMaHoaDon.getText().trim();
-        loadDataHd(hdsv.timKiem(duLieuDauVao, 0));
+//        loadDataHd(hdsv.timKiem(duLieuDauVao, 0));
 
 //        DefaultTableModel dtm = (DefaultTableModel) tblhoaDon.getModel();
 //        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(dtm);
@@ -357,50 +389,25 @@ public class HoaDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void btnnhoMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoMaxActionPerformed
-
-        loadDataHd(hdsv.getlistHoaDon(0));
-
+//        ht = 0;
+//        FindDataHD(ht * 100, size);
     }//GEN-LAST:event_btnnhoMaxActionPerformed
 
     private void btnnhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnhoActionPerformed
-        ht--;
-        if(ht<0){
-           ht = 0;
-           JOptionPane.showMessageDialog(this, "Đã về trang đầu");
-           return;
-        }
-        String duLieuDauVao = txtMaHoaDon.getText().trim();
-        List<HoaDon> danhSachHoaDon;
-        if (duLieuDauVao.isBlank() || duLieuDauVao == null) {
-            danhSachHoaDon = hdsv.getlistHoaDon(ht);
-        } else {
-            danhSachHoaDon = hdsv.timKiem(duLieuDauVao, ht);
-        }
-        loadDataHd(danhSachHoaDon);
+//        ht--;
+//        if (ht < 1) {
+//            ht = 10;
+//        }
+//        FindDataHD(ht * 100, size);
     }//GEN-LAST:event_btnnhoActionPerformed
 
     private void btnlonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonActionPerformed
-        ht++;
-        String duLieuDauVao = txtMaHoaDon.getText().trim();
-        List<HoaDon> danhSachHoaDon;
-        if (duLieuDauVao.isBlank() || duLieuDauVao == null) {
-            danhSachHoaDon = hdsv.getlistHoaDon(ht);
-        } else {
-            danhSachHoaDon = hdsv.timKiem(duLieuDauVao, ht);
-        }
-
-        if (danhSachHoaDon.size() > 1)
-            
-            loadDataHd(danhSachHoaDon);
-        else{
-            ht--;
-            JOptionPane.showMessageDialog(this, "Đã đến trang cuối");
-        }
+//        ht++;
+//        if (ht > 10) {
+//            ht = 0;
+//        }
+//        FindDataHD(ht * 100, size);
     }//GEN-LAST:event_btnlonActionPerformed
-
-    private void btnlonMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonMaxActionPerformed
-        loadDataHd(hdsv.getlistHoaDon(19));
-    }//GEN-LAST:event_btnlonMaxActionPerformed
 
     private void rdodaThanhToanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdodaThanhToanItemStateChanged
 
@@ -419,53 +426,58 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaHoaDonActionPerformed
 
-    private void CalendarNgayTaoInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarNgayTaoInputMethodTextChanged
+    private void CalendarTuInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarTuInputMethodTextChanged
         JOptionPane.showMessageDialog(this, "SHow");
-    }//GEN-LAST:event_CalendarNgayTaoInputMethodTextChanged
+    }//GEN-LAST:event_CalendarTuInputMethodTextChanged
 
-    private void CalendarNgayTaoCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarNgayTaoCaretPositionChanged
+    private void CalendarTuCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_CalendarTuCaretPositionChanged
         JOptionPane.showMessageDialog(this, "SHow");
-    }//GEN-LAST:event_CalendarNgayTaoCaretPositionChanged
+    }//GEN-LAST:event_CalendarTuCaretPositionChanged
 
     private void btnSearchMaHD1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchMaHD1ActionPerformed
+        validate();
 
-        java.util.Date ngayTao = (java.util.Date) CalendarNgayTao.getDate();
-        
-        java.util.Date ngayThanhToan = (java.util.Date) CalendarNgayThanhToan.getDate();
-        
-        if(ngayTao==null && ngayThanhToan == null) JOptionPane.showMessageDialog(this, "Trường dữ liệu ngày còn thiếu");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            
-        String dinhDangNgayTao ="";
-        // Chuyển đổi đối tượng Date thành chuỗi có định dạng "yyyy-MM-dd"
-        try{
-            dinhDangNgayTao = dateFormat.format(ngayTao);
-        }catch(Exception ex){
-          
-        }
-        
-        String dinhDangNgayThanhToan="";
-        try{
-            dinhDangNgayThanhToan = dateFormat.format(ngayTao);
-    
-        }catch(Exception ex){
-        }
-        
-        System.out.println(dinhDangNgayThanhToan + "\n");
-        
-        if(!dinhDangNgayTao.isBlank() || !dinhDangNgayThanhToan.isBlank())
-            loadDataHd(hdsv.timKiemByDate(dinhDangNgayTao,dinhDangNgayThanhToan, 0));
-        else if(!dinhDangNgayTao.isBlank())
-            loadDataHd(hdsv.timKiemByCreatedDate(dinhDangNgayTao, 0));
-        else
-            loadDataHd(hdsv.timKiemByEndDate(dinhDangNgayThanhToan,0));
+//      
+//        java.util.Date ngayTao = (java.util.Date) CalendarNgayTao.getDate();
+//        
+//        java.util.Date ngayThanhToan = (java.util.Date) CalendarNgayThanhToan.getDate();
+//        
+//        if(ngayTao==null && ngayThanhToan == null) JOptionPane.showMessageDialog(this, "Trường dữ liệu ngày còn thiếu");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            
+//        String dinhDangNgayTao ="";
+//        // Chuyển đổi đối tượng Date thành chuỗi có định dạng "yyyy-MM-dd"
+//        try{
+//            dinhDangNgayTao = dateFormat.format(ngayTao);
+//        }catch(Exception ex){
+//          
+//        }
+//        
+//        String dinhDangNgayThanhToan="";
+//        try{
+//            dinhDangNgayThanhToan = dateFormat.format(ngayTao);
+//    
+//        }catch(Exception ex){
+//        }
+//        
+//        System.out.println(dinhDangNgayThanhToan + "\n");
+//        
+//        if(!dinhDangNgayTao.isBlank() || !dinhDangNgayThanhToan.isBlank())
+//            loadDataHd(hdsv.timKiemByDate(dinhDangNgayTao,dinhDangNgayThanhToan, 0));
+//        else if(!dinhDangNgayTao.isBlank())
+//            loadDataHd(hdsv.timKiemByCreatedDate(dinhDangNgayTao, 0));
+//        else
+//            loadDataHd(hdsv.timKiemByEndDate(dinhDangNgayThanhToan,0));
     }//GEN-LAST:event_btnSearchMaHD1ActionPerformed
 
+    private void btnlonMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlonMaxActionPerformed
+//        FindDataHD(900, size);
+    }//GEN-LAST:event_btnlonMaxActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser CalendarNgayTao;
-    private com.toedter.calendar.JDateChooser CalendarNgayThanhToan;
+    private com.toedter.calendar.JDateChooser CalendarDen;
+    private com.toedter.calendar.JDateChooser CalendarTu;
     private javax.swing.JButton btnSearchMaHD1;
     private javax.swing.JButton btnlon;
     private javax.swing.JButton btnlonMax;

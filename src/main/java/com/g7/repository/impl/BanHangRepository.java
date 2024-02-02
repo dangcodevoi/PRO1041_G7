@@ -108,8 +108,8 @@ public class BanHangRepository {
             + "FETCH NEXT ? ROWS ONLY";
     String select_KieuGG = "select kieugiamgia from khuyenmai where id =?";
     String select_MucGG = "select mucgiamgia from khuyenmai where id = ?";
-    
-     public String selectMucGG(int id) {
+
+    public String selectMucGG(int id) {
         String mucGG = null;
         try {
             ResultSet rs = JdbcHelper.query(select_MucGG, id);
@@ -563,7 +563,8 @@ public class BanHangRepository {
 
     public String addHDCT(HoaDonChiTiet hdct) {
         String sql = "INSERT INTO HoaDonChiTiet(IdHoaDon,IdCTSanPham,SoLuong, DonGia) VALUES (?,?,?,?)";
-        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = JdbcHelper.openDbConnection(); 
+            PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, hdct.getIdHoaDon());
             ps.setObject(2, hdct.getIdCtSanPham());
             ps.setObject(3, hdct.getSoLuong());
