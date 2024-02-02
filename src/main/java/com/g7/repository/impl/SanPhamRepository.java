@@ -213,9 +213,9 @@ public class SanPhamRepository implements SP_SPCT_Repository {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 if (resultSet.getInt("soDong") % 50 != 0) {
-                    return resultSet.getInt("soDong") / 50 + 1;
-                } else {
                     return resultSet.getInt("soDong") / 50;
+                } else {
+                    return resultSet.getInt("soDong") / 50-1;
                 }
             }
             return -1;

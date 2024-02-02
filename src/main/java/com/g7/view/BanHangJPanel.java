@@ -432,14 +432,14 @@ public class BanHangJPanel extends javax.swing.JPanel {
     public void setLabelTenKH(String text) {
         this.lblTenKH.setText(text);
     }
-
-    public void setLabelIDKM(String text) {
-        this.lblIDKM.setText(text);
-    }
-
-    public void setLabelTenKM(String text) {
-        this.lblKM.setText(text);
-    }
+//
+//    public void setLabelIDKM(String text) {
+//        this.lblIDKM.setText(text);
+//    }
+//
+//    public void setLabelTenKM(String text) {
+//        this.lblKM.setText(text);
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -499,10 +499,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
         txtTimKiemKH = new javax.swing.JTextField();
         btnAddKH = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
-        lblKM = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        lblIDKM = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Hóa đơn chờ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
@@ -858,19 +859,14 @@ public class BanHangJPanel extends javax.swing.JPanel {
             }
         });
 
-        lblKM.setText("?");
+        jButton1.setText("Tìm");
 
-        jButton1.setText("Chọn");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel12.setText("0");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("ID KM");
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("Mức giảm");
 
-        lblIDKM.setText("?");
+        jButton2.setText("Reset");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -895,7 +891,8 @@ public class BanHangJPanel extends javax.swing.JPanel {
                                     .addComponent(jLabel7)
                                     .addComponent(lblTienThua)
                                     .addComponent(jLabel11)
-                                    .addComponent(lblTienKhachDUa))))
+                                    .addComponent(lblTienKhachDUa)
+                                    .addComponent(jLabel13))))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -914,15 +911,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnReset, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblIDKM, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton1)
-                                        .addGap(14, 14, 14))))))
+                                .addComponent(btnReset))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
@@ -947,13 +936,18 @@ public class BanHangJPanel extends javax.swing.JPanel {
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblTongTien)
                                             .addComponent(lblNgayTao)
-                                            .addComponent(lblKM, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblThanhToan)
+                                            .addComponent(jLabel12)
                                             .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addComponent(lblMaHD)
                                                 .addGap(80, 80, 80)
-                                                .addComponent(btnTaoHD)))
-                                        .addGap(33, 33, 33))))
+                                                .addComponent(btnTaoHD))
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(27, 27, 27)
+                                                .addComponent(jButton1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jButton2))))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addComponent(btnThanhToan)))
@@ -984,35 +978,34 @@ public class BanHangJPanel extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblTenKH))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(lblMaHD)
-                            .addComponent(btnTaoHD))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(lblNgayTao))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(lblTongTien))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblKM)
-                            .addComponent(jLabel10)
-                            .addComponent(lblIDKM)
-                            .addComponent(jButton1))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblThanhToan)))
-                .addGap(56, 56, 56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblMaHD)
+                    .addComponent(btnTaoHD))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblNgayTao))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblTongTien))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblThanhToan))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(cbHTTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1163,7 +1156,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             hd.setIdNhanVien("1");
             hd.setIdKhachHang(String.valueOf(idKH));
             BHRepo.addHoaDon(hd);
-            PageLast();
+//            PageLast();
             JOptionPane.showMessageDialog(this, "Tạo hóa đơn chờ thành công");
         }
 
@@ -1192,6 +1185,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
             listGH = BHRepo.selectWithPaginationGH(id);
             double giamGia = 0;
             double thanhtoan = 0;
+            
 
 //            if (BHRepo.selectKieuGG(Integer.parseInt(lblIDKM.getText())) == 1) {
 //                String mucGG = BHRepo.selectMucGG(Integer.parseInt(lblIDKM.getText()));
@@ -1307,11 +1301,6 @@ public class BanHangJPanel extends javax.swing.JPanel {
         FindDataSP(0, size);
     }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        KhuyenMaiTrongBanHang km = new KhuyenMaiTrongBanHang(this); // this chính là tham chiếu của BanHangJPanel
-        km.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddKH;
@@ -1334,9 +1323,11 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnXOa;
     private javax.swing.JComboBox<String> cbHTTT;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1354,8 +1345,7 @@ public class BanHangJPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JLabel lblIDKM;
-    private javax.swing.JLabel lblKM;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblMaHD;
     public javax.swing.JLabel lblMaKH;
     private javax.swing.JLabel lblNgayTao;

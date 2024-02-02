@@ -25,20 +25,19 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
     ResultSet rs = null;
     PreparedStatement ps = null;
 
-    String INSERT_KM = "INSERT INTO KhuyenMai ([TenKhuyenMai], [MoTa], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?)";
-    String UPDATE_KM = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
+    String INSERT_KM = "INSERT [dbo].[KhuyenMai] ([TenKhuyenMai], [MoTa], [SoLuong], [KieuGiamGia], [MucGiamGia], [NgayBatDau], [NgayKetThuc]) VALUES (?,?,?,?,?,?,?)";
+    String UPDATE_KM = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, SoLuong = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
     String DELETE_KM = "UPDATE KhuyenMai set TrangThai = 0 where Id = ?";
     String SELECT_ALL_KM = "select * from KhuyenMai where TrangThai = '1'";
     String SELECT_BY_ID_SQL = "select * from KhuyenMai where TenKhuyenMai = ?";
 
-    @Override
     public void insert(KhuyenMai entity) {
-        JdbcHelper.update(INSERT_KM, entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
+        JdbcHelper.update(INSERT_KM, entity.getTenKhuyenMai(), entity.getMoTa(),entity.getSoLuong() ,entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc());
     }
 
     @Override
     public void update(KhuyenMai entity) {
-        JdbcHelper.update(UPDATE_KM, entity.getTenKhuyenMai(), entity.getMoTa(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getTrangThai());
+        JdbcHelper.update(UPDATE_KM, entity.getTenKhuyenMai(), entity.getMoTa(),entity.getSoLuong(), entity.isKieuGiamGia(), entity.getMucGiamGia(), entity.getNgayBatDau(), entity.getNgayKetThuc(), entity.getIDKhuyenMai());
     }
 
     @Override
@@ -70,11 +69,12 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
                 km.setIDKhuyenMai(rs.getInt(1));
                 km.setTenKhuyenMai(rs.getString(2));
                 km.setMoTa(rs.getString(3));
-                km.setKieuGiamGia(rs.getBoolean(4));
-                km.setMucGiamGia(rs.getDouble(5));
-                km.setNgayBatDau(rs.getDate(6));
-                km.setNgayKetThuc(rs.getDate(7));
-//                km.setTrangThai(rs.getInt(8));
+                km.setSoLuong(rs.getInt(4));
+                km.setKieuGiamGia(rs.getBoolean(5));
+                km.setMucGiamGia(rs.getDouble(6));
+                km.setNgayBatDau(rs.getDate(7));
+                km.setNgayKetThuc(rs.getDate(8));
+                km.setTrangThai(rs.getInt(9));
                 list.add(km);
             }
             return list;
@@ -87,41 +87,9 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
         JdbcHelper.update(DELETE_KM, entity);
     }
 
-    public String addKM(KhuyenMai km) {
-        String sql = "Insert into khuyenmai(TenKhuyenMai, Mota, kieuGiamGia, MucGiamGia, NgayBatdau, NgayKetThuc)\n"
-                + "					values (?,?,?,?,?,?)";
-        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, km.getTenKhuyenMai());
-            ps.setObject(2, km.getMoTa());
-            ps.setObject(3, km.isKieuGiamGia());
-            ps.setObject(4, km.getMucGiamGia());
-            ps.setObject(5, km.getNgayBatDau());
-            ps.setObject(6, km.getNgayKetThuc());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String updateKM(KhuyenMai km, int ma) {
-        String sql = "UPDATE KhuyenMai set TenKhuyenMai = ?, MoTa = ?, KieuGiamGia = ?, MucGiamGia = ?, NgayBatDau = ?, NgayKetThuc = ? Where Id = ?";
-        try (Connection con = JdbcHelper.openDbConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setObject(1, km.getTenKhuyenMai());
-            ps.setObject(2, km.getMoTa());
-            ps.setObject(3, km.isKieuGiamGia());
-            ps.setObject(4, km.getMucGiamGia());
-            ps.setObject(5, km.getNgayBatDau());
-            ps.setObject(6, km.getNgayKetThuc());
-            ps.setObject(7, ma);
-
-        } catch (Exception e) {
-        }
-        return null;
-    }
 
     public List<KhuyenMai> selectWithPagination(int offset, int fetchSize) {
-        String sql = "SELECT KhuyenMai.Id, KhuyenMai.TenKhuyenMai, KhuyenMai.MoTa, KhuyenMai.KieuGiamGia, KhuyenMai.MucGiamGia, KhuyenMai.NgayBatDau, KhuyenMai.NgayKetThuc, KhuyenMai.TrangThai FROM KhuyenMai\n"
+            String sql = "SELECT KhuyenMai.Id, KhuyenMai.TenKhuyenMai, KhuyenMai.MoTa,KhuyenMai.SoLuong, KhuyenMai.KieuGiamGia, KhuyenMai.MucGiamGia, KhuyenMai.NgayBatDau, KhuyenMai.NgayKetThuc, KhuyenMai.TrangThai FROM KhuyenMai\n"
                 + "WHERE TrangThai = 1\n"
                 + "ORDER BY KhuyenMai.Id\n"
                 + "OFFSET ? ROWS\n"
@@ -134,11 +102,12 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
                 km.setIDKhuyenMai(rs.getInt(1));
                 km.setTenKhuyenMai(rs.getString(2));
                 km.setMoTa(rs.getString(3));
-                km.setKieuGiamGia(rs.getBoolean(4));
-                km.setMucGiamGia(rs.getDouble(5));
-                km.setNgayBatDau(rs.getDate(6));
-                km.setNgayKetThuc(rs.getDate(7));
-                km.setTrangThai(rs.getInt(8));
+                km.setSoLuong(rs.getInt(4));
+                km.setKieuGiamGia(rs.getBoolean(5));
+                km.setMucGiamGia(rs.getDouble(6));
+                km.setNgayBatDau(rs.getDate(7));
+                km.setNgayKetThuc(rs.getDate(8));
+                km.setTrangThai(rs.getInt(9));
                 list.add(km);   
             }
         } catch (SQLException e) {
@@ -148,7 +117,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
     }
     
     public List<KhuyenMai> selectWithPaginationNoActive(int offset, int fetchSize) {
-        String sql = "SELECT KhuyenMai.Id, KhuyenMai.TenKhuyenMai, KhuyenMai.MoTa, KhuyenMai.KieuGiamGia, KhuyenMai.MucGiamGia, KhuyenMai.NgayBatDau, KhuyenMai.NgayKetThuc, KhuyenMai.TrangThai FROM KhuyenMai\n"
+        String sql = "SELECT KhuyenMai.Id, KhuyenMai.TenKhuyenMai, KhuyenMai.MoTa,KhuyenMai.SoLuong, KhuyenMai.KieuGiamGia, KhuyenMai.MucGiamGia, KhuyenMai.NgayBatDau, KhuyenMai.NgayKetThuc, KhuyenMai.TrangThai FROM KhuyenMai\n"
                 + "WHERE TrangThai = 0\n"
                 + "ORDER BY KhuyenMai.Id\n"
                 + "OFFSET ? ROWS\n"
@@ -161,11 +130,12 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
                 km.setIDKhuyenMai(rs.getInt(1));
                 km.setTenKhuyenMai(rs.getString(2));
                 km.setMoTa(rs.getString(3));
-                km.setKieuGiamGia(rs.getBoolean(4));
-                km.setMucGiamGia(rs.getDouble(5));
-                km.setNgayBatDau(rs.getDate(6));
-                km.setNgayKetThuc(rs.getDate(7));
-                km.setTrangThai(rs.getInt(8));
+                km.setSoLuong(rs.getInt(4));
+                km.setKieuGiamGia(rs.getBoolean(5));
+                km.setMucGiamGia(rs.getDouble(6));
+                km.setNgayBatDau(rs.getDate(7));
+                km.setNgayKetThuc(rs.getDate(8));
+                km.setTrangThai(rs.getInt(9));
                 list.add(km);   
             }
         } catch (SQLException e) {
@@ -212,30 +182,7 @@ public class KhuyenMaiRepository extends G7Repository<KhuyenMai, Integer> {
         return totalItems;
     }
     
-    public List<KhuyenMai> Search(String ten){
-        String sql = "SELECT * FROM KhuyenMai WHERE TenKhuyenMai Like ? AND TrangThai = 1";
-        List<KhuyenMai> listSearch = new ArrayList<>();
-        try {
-            conn = new JdbcHelper().openDbConnection();
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, "%" + ten + "%");
-            rs = ps.executeQuery();
-             while (rs.next()) {                
-                KhuyenMai km = new KhuyenMai();
-                km.setIDKhuyenMai(rs.getInt(1));
-                km.setTenKhuyenMai(rs.getString(2));
-                km.setMoTa(rs.getString(3));
-                km.setKieuGiamGia(rs.getBoolean(4));
-                km.setMucGiamGia(rs.getDouble(5));
-                km.setNgayBatDau(rs.getDate(6));
-                km.setNgayKetThuc(rs.getDate(7));
-                km.setTrangThai(8);
-               listSearch.add(km);
-            }
-        } catch (Exception e) {
-        }
-        return listSearch;
-    }
+    
     
     
 

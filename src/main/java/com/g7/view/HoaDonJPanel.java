@@ -120,10 +120,14 @@ public class HoaDonJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "ID Hoá Đơn", "ID Sản Phẩm", "Số Lượng ", "Đơn Giá", "Trạng Thái"
+                "ID", "ID HD", "ID Sản Phẩm", "Số Lượng ", "Đơn Giá", "Trạng Thái"
             }
         ));
         jScrollPane1.setViewportView(tblhoaDonChiTiet);
+        if (tblhoaDonChiTiet.getColumnModel().getColumnCount() > 0) {
+            tblhoaDonChiTiet.getColumnModel().getColumn(0).setMaxWidth(30);
+            tblhoaDonChiTiet.getColumnModel().getColumn(1).setMaxWidth(50);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
