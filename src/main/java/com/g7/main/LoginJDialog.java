@@ -31,7 +31,12 @@ public class LoginJDialog extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel4.setText("Login");
 
-        txtEmail.setText("zedckry.jgtjdxsnqd@akolfnwrg.sijnxx.net");
+        txtEmail.setText("abc123");
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         txtMatKhau.setText("123456");
         txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +148,10 @@ public class LoginJDialog extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
     public static void main(String args[]) {
         new LoginJDialog().setVisible(true);
     }
