@@ -48,5 +48,4 @@ public class HoaDon {
             return "Trạng thái không xác định";
     }
 }
-    
 }
